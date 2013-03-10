@@ -1,0 +1,34 @@
+---
+layout: post
+title: "Set irssi under debian to use freenode server"
+date: 2012-02-15T20:25:00+01:00
+categories:
+ - linux
+---
+
+<div class='post'>
+<span style="font-family: 'Courier New', Courier, monospace;">Very short manual on how to set up irssi to work with freenode servers.</span><br />
+<span style="font-family: 'Courier New', Courier, monospace;">Fist, install irssi:</span>
+<br />
+<pre class="brush:bash;gutter:false">sudo apt-get install irssi</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">Run:</span>
+<br />
+<pre class="brush:bash;gutter:false">irssi</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">For freenode write:</span>
+<br />
+<pre class="brush:plain;gutter:false">/connect holmes.freenode.net</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">Send register command for youe {nickname} and add information about your {e-mail}:</span><br />
+<pre class="brush:plain;gutter:false">/msg nickserv register {nickname} {e-mail}</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">Copy and paste line, which you get from freenode registration server to your mailbox, to irssi. After that add freenode network:</span><br />
+<pre class="brush:plain;gutter:false">/network add freenode</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">Add what should be automaticali send to server after connecting, remeber to correctly write your {nickname} and {password}, password will be stored in plain text:</span><br />
+<pre class="brush:plain;gutter:false">/network add -autosendcmd '^nick {nickname};/msg nickserv identify {password}' freenode</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">Auto-connect everytime when irssi will be run:</span><br />
+<pre class="brush:plain;gutter:false">/server ADD -auto -network freenode holmes.freenode.net 6667</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">Channel autologin:</span><br />
+<pre class="brush:plain;gutter:false">/channel ADD -auto #debian freenode</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">After all we should save settings:</span><br />
+<pre class="brush:plain;gutter:false">/save</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">That's all,&nbsp;enjoy!</span><br />
+<div>
+<br /></div></div>

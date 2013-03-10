@@ -1,0 +1,49 @@
+---
+layout: post
+title: "Mutt tutorial part 1 - setup IMAP account"
+date: 2012-05-13T11:43:00+02:00
+categories:
+ - linux
+---
+
+<div class='post'>
+<span style="font-family: 'Courier New', Courier, monospace;">Mutt is one of those programs that make people call you a linux geek, nerd or a snob. This is because using TUI or command line tools in world of fancy GUI for most people is wierd. What's so great about mutt? I probably still have not found much of its advantages, but at first glance we can notice a few things. First, it keeps Unix convention of small programs for specific task <a href="http://www.faqs.org/docs/artu/ch01s06.html">"Make each program to one thing well"</a> or <a href="http://en.wikipedia.org/wiki/KISS_principle">KISS</a>. This means that mutt is only <a href="http://en.wikipedia.org/wiki/Mail_user_agent">MUA</a>, which is used to retrieve e-mails and for other tasks you need to use another application. However, due to the philosophy most applications are well suited to each other and usually everything works good. So you can easily combine it with Vim as the mail editor, abook as a address book, urlview as a browser launcher for html and graphics elements and so on. Third, it has support for IMAP which gives very nice usage model for most of e-mail account providers. Fourth, is used by such notables as Greg Kroah-Hartman and as <a href="http://www.mjmwired.net/kernel/Documentation/email-clients.txt">kernel documentation suggest</a> by other kernel developers. So lets start to discover mutt. Below I will discuss some basic features that until now (few days of using mutt) I found useful.</span>
+<br />
+<ol>
+<li>Big kudos to Shinobu for <a href="http://zuttobenkyou.wordpress.com/2010/11/05/mutt-multiple-gmail-imap-setup/">this</a> post it helps me a lot. So first of all we need support for multiple accounts. In my case I have 4 accounts. Three of them got working IMAP access. 4th provider screw up something and access to IMAP server doesn't work so I need to workaround this with one of the Gmail features. At the beginning we create $HOME/.muttrc file:
+<pre class="brush:bash;gutter:false">vim $HOME/.muttrc</pre>
+IMAP account configuration for looks like that:
+<pre class="brush:bash;gutter:false"># unset important variables
+account-hook . "unset imap_user; unset imap_pass"
+account-hook        "imaps://&lt;account_name&gt;@&lt;imap_server_address&gt;/" "\
+    set imap_user   = &lt;e-mail_address&gt; \
+        imap_pass   = &lt;e-mail_password&gt;"
+
+# Setup for &lt;e-mail_address&gt;:
+set folder          = imaps://&lt;account_name&gt;@&lt;imap_server_address&gt;/
+# setup needed folders
+mailboxes           = +INBOX =&lt;folder_name&gt;
+set spoolfile       = +INBOX
+folder-hook         imaps://&lt;account_name&gt;@&lt;imap_server_address&gt;/ "\ 
+    set folder      = imaps://&lt;account_name&gt;@&lt;imap_server_address&gt;/ \
+        spoolfile   = +INBOX \
+        postponed   = +[Gmail]/Drafts \
+        record      = +[Gmail]/'Sent Mail' \
+        from        = '&lt;your_name&gt; &lt;e-mail_address&gt; ' \
+        realname    = '&lt;real_name&gt;' \
+        smtp_url    = smtps://&lt;account_name&gt;@&lt;smpt_server_address&gt; \
+        smtp_pass   = &lt;e-mail_password&gt;"
+</pre>
+<span style="color: #666666">&lt;account_name&gt;</span> - for foo.bar@gmail.com it will be foo.bar
+<span style="color: #666666">&lt;imap_server_address&gt;</span> - this information you can get from your e-mail provider help pages or from the settings of web e-mail client, for Gmail it is imap.gmail.com<br />
+<span style="color: #666666">&lt;e-mail_address&gt;</span> - your e-mail address<br />
+<span style="color: #666666">&lt;e-mail_password&gt;</span> - your e-mail password, later we will discuss how to store this more secure than plain text :)</br>
+<span style="color: #666666">&lt;folder_name&gt</span> - any folder (for gmail account also filters) you have on you IMAP account, so for gmail account it could be Drafts, Starred, Important or others.</br>
+<span style="color: #666666">&lt;your_name&gt</span> - your real name or nick anything you want to show in from field</br>
+<span style="color: #666666">&lt;real_name&gt</span> - could be the same as <span style="color: #666666">&lt;your_name&gt</span></br>
+<span style="color: #666666">&lt;smpt_server_address&gt;</span> - your SMTP server address, for gmail users it will be smtp.gmail.com</br>
+</li>
+<li>
+If your e-mail provider have only pop3 access and you have gmail account you can use one of gmail account features to make your pop3 account visible as a IMAP folder. To do this got to Settings -> Accounts and Import and in the section "Check mail from other accounts" add your POP3 account. After that make sure to label your mails from POP3 account. Try to not use '@' in the label name because this cause problems during mutt configuration. If you set label for your POP3 account check if your label in Label tab have "Show in IMAP" marked, if yes everything was set correctly. To use this label in mutt simply add another &ltfolder_name&gt to mailboxes line.
+</li>
+</ol></div>
