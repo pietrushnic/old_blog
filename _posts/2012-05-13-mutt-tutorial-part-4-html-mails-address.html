@@ -1,0 +1,33 @@
+---
+layout: post
+title: "Mutt tutorial part 4 - html mails, address book and other useful features"
+date: 2012-05-13T17:21:00+02:00
+categories:
+ - linux
+---
+
+<div class='post'>
+<span style="font-family: 'Courier New', Courier, monospace;">How mutt can handle mails in html format ? Takling about html mail handling is talking about handling any type of <a href="http://en.wikipedia.org/wiki/MIME">Multipurpose Internet Mail Extensions</a>. Mutt supports handling for all MIME types in one place for all programs. This place is .mailcap file. Googling a little bit I found below mailcap file configuration (kudos to <a href="http://trembits.blogspot.com/2011/12/viewing-html-in-mutt.html">Bart Nagel</a>)</span>.
+<pre class="brush:plain;gutter:false">
+text/html; pandoc -f html -t markdown; copiousoutput; description=HTML Text; test=type pandoc >/dev/null
+text/html; lynx -stdin -dump -force_html -width 70; copiousoutput; description=HTML Text; test=type lynx >/dev/null
+text/html; w3m -dump -T text/html -cols 70; copiousoutput; description=HTML Text; test=type w3m >/dev/null
+text/html; html2text -width 70; copiousoutput; description=HTML Text; test=type html2text >/dev/null
+</pre>
+Of course we need to install all applications to make mailcap work correct:
+<pre class="brush:bash;gutter:false">sudo apt-get install pandoc lynx w3m html2text</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">To bring address book functionality to mutt we need abook application:</span>
+<pre class="brush:bash;gutter:false">sudo apt-get install abook</pre>
+Also few new line in $HOME/.muttrc will be needed:
+<pre class="brush:bash;gutter:false">
+# add alias file for addresses
+set alias_file=~/.mutt/alias
+source ~/.mutt/alias
+# configure addressbook
+set query_command= "abook --mutt-query '%s'"
+macro index,pager A "&ltpipe-message&gtabook --add-email-quiet&ltreturn&gt" "add the sender address to abook"
+</pre>
+Adding new address simply create entry in alias file. During adding new alias abook asks about alias name, e-mail address, personal name and confirmation for given data. Some this fields could be filled automatically by interaction between abook and mutt. Of course file $HOME/.mutt/alias have to exist before running mutt:
+<pre class="brush:bash;gutter:false">touch $HOME/.mutt/alias</pre> 
+To access saved aliases simply click &ltTab&gt button in cc, to or bcc filed.<br />
+<span style="font-family: 'Courier New', Courier, monospace;">There is few more options that I found useful. To find it please go to my <a href="https://github.com/pietrushnic/workspace">workspace</a> scripts at github. Also if you have any issues with the configuration or comments please let me know by commenting below the post.</span></div>

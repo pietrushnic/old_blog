@@ -1,0 +1,71 @@
+---
+layout: post
+title: "Debugging coreboot in qemu environment - part 2"
+date: 2012-04-18T22:41:00+02:00
+categories:
+ - coreboot
+---
+
+<div class='post'>
+<br />
+<span style="font-family: 'Courier New', Courier, monospace;">In <a href="http://pietrushnic.blogspot.com/2012/03/debugging-coreboot-in-qemu-enviroment.html">previous post</a> coreboot was configured and installed. Here we try to establish good debugging environment for it. To create a good emulated environment to debug, research and learn coreboot few tricks are required. First of all we need to know how to run our emulated enviroment (qemu). What I mean by that ?
+</span><br />
+<ul type=square>
+<li><span style="font-family: 'Courier New', Courier, monospace;">load coreboot image (-bios option),</span></li>
+<span style="font-family: 'Courier New', Courier, monospace;">
+<li>freeze CPU at startup (-S),</li>
+<li>get appropriate feedback about virtual machine state (-d in_asm,cpu),</li>
+<li>set up remote gdb server to run qemu step by step (-s).</li>
+</span></ul>
+<span style="font-family: 'Courier New', Courier, monospace;">
+So finally we get:</span>
+<br />
+<pre class="brush:bash;gutter:false">qemu -bios src/coreboot/build/coreboot.rom -s -S -d in_asm,cpu -nographic</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">We don't need graphics so it also could be disable (-nographic). Run above command and prepare debugging environment as described below.
+</span>
+<br />
+<ol>
+<li>Set up gdb:
+<ol type="a">
+<li>load bootblock file in gdb:
+<pre class="brush:plain;gutter:false">file path/to/coreboot/build/bootblock.elf</pre>
+</li>
+<li>use objdump to find out at what address .text, .bss and .data sections are:
+<pre class="brush:bash;gutter:false">objdump -h src/coreboot/build/coreboot_ram|grep -E "text|bss|\.data"</pre>
+my output looks like that:
+<pre class="brush:plain;gutter:false">0 .text         00010810  00100000  00100000  00001000  2**2
+3 .data         000004d8  001174e8  001174e8  000184e8  2**2
+4 .bss          0000080c  001179c0  001179c0  000189c0  2**3</pre>
+</li>
+<li>use above addresses to load symbols from coreboot_ram file in gdb:
+<pre class="brush:plain;gutter:false">add-symbol-file src/coreboot/build/coreboot_ram 0x00100000 -s .data \
+0x001174e8 -s .bss 0x001179c0</pre>
+</li>
+</ol>
+</li>
+<li>In another terminal or screen window
+<pre class="brush:bash;gutter:false">vim /tmp/qemu.log</pre>
+(use :e to reload qemu.log file after every instruction), in this file we will get information about all registers of virtual machine</li>
+<li<connect <pre="" by="" class="brush:plain;gutter:false" gdb="" qemu:="" server="" setting="" to="">target remote :1234
+<li>Run next instruction (ni command in gdb) and refresh qemu.log, if you get something like:
+<pre class="brush:plain;gutter:false">EAX=00000000 EBX=00000000 ECX=00000000 EDX=00000633 
+ESI=00000000 EDI=00000000 EBP=00000000 ESP=00000000
+EIP=0000fff0 EFL=00000002 [-------] CPL=0 II=0 A20=1 SMM=0 HLT=0
+ES =0000 00000000 0000ffff 00009300
+CS =f000 ffff0000 0000ffff 00009b00
+SS =0000 00000000 0000ffff 00009300 
+DS =0000 00000000 0000ffff 00009300
+FS =0000 00000000 0000ffff 00009300
+GS =0000 00000000 0000ffff 00009300
+LDT=0000 00000000 0000ffff 00008200
+TR =0000 00000000 0000ffff 00008b00
+GDT=     00000000 0000ffff
+IDT=     00000000 0000ffff
+CR0=60000010 CR2=00000000 CR3=00000000 CR4=00000000
+DR0=00000000 DR1=00000000 DR2=00000000 DR3=00000000
+DR6=ffff0ff0 DR7=00000400
+</pre>
+</li>
+it means that your debugging enviroment was set correctly.
+</li<connect></ol>
+</div>

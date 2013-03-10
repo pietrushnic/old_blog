@@ -1,0 +1,41 @@
+---
+layout: post
+title: "Vim as a Blogger editor"
+date: 2012-04-21T12:55:00+02:00
+categories:
+ - productivity
+---
+
+<div class='post'>
+<a href="https://github.com/ujihisa/blogger.vim">Blogger.vim</a> is a vim plugin for interfacing with Google's Blogger. Below I will use my workspace git <a href="https://github.com/pietrushnic/workspace">repository</a>. To use this plugin we need pretty new ruby &gt;= 1.9.2 and gems nokogiri and net-https-wrapper. Let's install latest possible ruby for Debian, before that make sure you have latest updates:
+<br />
+<pre class="brush:bash;gutter:false">sudo apt-get update
+sudo apt-get upgrade 
+sudo apt-get dist-upgrade</pre>
+And ruby:
+<br />
+<pre class="brush:bash;gutter:false">sudo apt-get install ruby1.9.3</pre>
+Before we install gems , we need to resolve some dependencies:
+<br />
+<pre class="brush:bash;gutter:false">sudo apt-get install libxml2-dev libxslt1-dev</pre>
+Latest nokogiri 1.5.2 have some issues, so we need to use 1.5.0 which is stable:
+<br />
+<pre class="brush:bash;gutter:false">sudo gem install nokogiri --version 1.5.0</pre>
+And the wrapper for https:
+<br />
+<pre class="brush:bash;gutter:false">sudo gem install net-https-wrapper</pre>
+Finally also pandoc will be neded to display web pages in vim:
+<br />
+<pre class="brush:bash;gutter:false">sudo apt-get install pandoc</pre>
+Right now we are able to run vim with blogger support. First we need to configure vim, add below lines to your $HOME/.vimrc file:
+<br />
+<pre class="brush:plain;gutter:false">let g:blogger_blogid = 'your_blogid_here'
+let g:blogger_email = 'your_email_here' 
+let g:blogger_pass = 'your_blogger_password_here'</pre>
+Run vim and try to list your blogger posts by typing:
+<br />
+<pre class="brush:plain;gutter:false">:e blogger:list</pre>
+If list of you see all your posts than it seems that plugin works good. Finally check writing feature. Create file with some text and type:
+<br />
+<pre class="brush:plain;gutter:false">:w blogger:create</pre>
+Few things doesn't work as it should. Meybe I will find enough time to fix it. This article was created by using blogger.vim script.</div>

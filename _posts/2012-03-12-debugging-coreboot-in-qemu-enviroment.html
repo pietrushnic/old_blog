@@ -1,0 +1,50 @@
+---
+layout: post
+title: "Debugging coreboot in qemu environment - part 1"
+date: 2012-03-12T21:30:00+01:00
+categories:
+ - coreboot
+---
+
+<div class='post'>
+<span style="font-family: 'Courier New', Courier, monospace;">First of all I use testing version of Debian - wheezy. Clone coreboot repository:</span>
+<br />
+<pre class="brush:bash;gutter:false">git clone http://review.coreboot.org/p/coreboot</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">Conifigure:</span>
+<br />
+<pre class="brush:bash;gutter:false">cd coreboot; make menuconfig</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">Set:</span>
+<br />
+<pre class="brush:plain;gutter:false">Payload &nbsp;---&gt;&nbsp;Add a payload ---&gt; FILO
+Payload &nbsp;---&gt;&nbsp;FILO version ---&gt; HEAD
+Debugging &nbsp;---&gt;&nbsp;Check PIRQ table consistency
+Debugging &nbsp;---&gt;&nbsp;Output verbose malloc debug messages
+Debugging &nbsp;---&gt;&nbsp;Output verbose ACPI debug messages
+Debugging &nbsp;---&gt;&nbsp;Enable debug messages for option ROM execution
+Debugging &nbsp;---&gt;&nbsp;Built-in low-level shell
+Debugging &nbsp;---&gt;&nbsp;Trace function calls
+</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">Try to build:</span>
+<br />
+<pre class="brush:bash;gutter:false">make</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">If everything builds correctly you can process. Sometimes there is need to use cross&nbsp;compiler. To build one:</span>
+<br />
+<pre class="brush:bash;gutter:false">cd util/crossgcc</pre>
+<pre class="brush:bash;gutter:false">./buildgcc</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">To explore coreboot code&nbsp;effectively&nbsp;I suggest to create tags and cscope database for coreboot. In my personal workspace I've got process that I go through before I start work (if you use my workspace configuration which is&nbsp;available&nbsp;<a href="https://github.com/pietrushnic/workspace">@github</a>&nbsp;you can&nbsp;follow&nbsp;below steps directly, if not adjust to your enviroment):</span><br />
+<ol>
+<li><span style="font-family: 'Courier New', Courier, monospace;">run vim ;)</span></li>
+<li><span style="font-family: 'Courier New', Courier, monospace;">:cd /path/to/code</span></li>
+<li><span style="font-family: 'Courier New', Courier, monospace;">s&lt;Tab&gt; (fuzzyfinder -&gt; bookmark dir)</span></li>
+<li><span style="font-family: 'Courier New', Courier, monospace;">si (fuzzyfinder -&gt; change dir)</span></li>
+<li><span style="font-family: 'Courier New', Courier, monospace;">sr (run ctags to generate tags and cscope to build symbol database -&nbsp;ctags -R;cscope -R -q -b -v)</span></li>
+</ol>
+<span style="font-family: 'Courier New', Courier, monospace;">After steps above we can start work with code.&nbsp;</span><span style="font-family: 'Courier New', Courier, monospace;">Run vim in coreboot dirctory. Type:</span><br />
+<span style="font-family: 'Courier New', Courier, monospace;">:e src/cpu/x86/16bit/reset16.inc</span><br />
+<span style="font-family: 'Courier New', Courier, monospace;">Put cursor over protected_start and press Ctrl-]. If everything goes ok you should jump to</span>
+<span style="font-family: 'Courier New', Courier, monospace;">build/mainboard/emulation/qemu-x86/bootblock.s line 537.</span><br />
+<span style="font-family: 'Courier New', Courier, monospace;"><br /></span><br />
+<span style="font-family: 'Courier New', Courier, monospace;">In second article we dive into first phase of coreboot execution in emulated&nbsp;environment. &nbsp;</span><br />
+<div>
+<span style="font-family: 'Courier New', Courier, monospace;"><br /></span></div>
+</div>

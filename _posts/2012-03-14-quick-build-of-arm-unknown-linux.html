@@ -1,0 +1,107 @@
+---
+layout: post
+title: "Quick build of arm-unknown-linux-gnueabi with crosstool-ng"
+date: 2012-03-14T23:42:00+01:00
+categories:
+ - embedded
+---
+
+<div class='post'>
+<span style="font-family: 'Courier New', Courier, monospace;">You might be surprised at how much you have to make to correctly build arm-unknown-linux-gnueabi config based toolchain with crosstool-ng. As you can see examples of many open source projects, the man's work is a rare resource. The result of this economic fact is that the attempt to build configuration arm-unknown-linux-gnueabi is not a simple task and during an operation you can come across many problems. Although I am not afraid of problems and effectively try to fight them and of course sharing the results of my work. My build system parameters:</span>
+<span style="font-family: 'Courier New', Courier, monospace;"><br />Debian GNU/Linux wheezy/sid&nbsp;3.2.0-2-amd64</span>
+<br />
+<ol>
+<li><span style="font-family: 'Courier New', Courier, monospace;">Clone crosstools-ng (you need mercurial)</span>
+<pre class="brush:bash;gutter:false">hg clone http://crosstool-ng.org/hg/crosstool-ng</pre>
+</li>
+<li><span style="font-family: 'Courier New', Courier, monospace;">Create temporary directory and run</span>
+<pre class="brush:bash;gutter:false">ct-ng arm-unknown-linux-eabi</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">choose latest kernel (for me it was 3.2.9)</span></li>
+<li><span style="font-family: 'Courier New', Courier, monospace;">We probably want to change directory to which all stuff will be build (default is $HOME/x-tools):</span></li>
+<li><pre class="brush:bash;gutter:false" style="font-family: 'Courier New', Courier, monospace;">ct-ng menuconfig</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">And go to:</span>
+<pre class="brush:bash;gutter:false">Paths and misc options  ---&gt; (${HOME}/x-tools/${CT_TARGET}) Prefix directory</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">Change it according to your needs. Exit end save configuration.</span>
+</li>
+<li><span style="font-family: 'Courier New', Courier, monospace;">Build (number depend on how many command we want to run simultaneously):</span>
+<pre class="brush:bash;gutter:false">ct-ng build.4</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">It can take a lot of time. On my machine with 5k BogoMips it takes over 1h.</span></li>
+</ol>
+<span style="font-family: 'Courier New', Courier, monospace;">Problems that you can encounter:</span>
+<br />
+<ol>
+<li><span style="font-family: 'Courier New', Courier, monospace;">gcj - latest changeset 2916:6f758ed4c0b9 have trouble finding gcj binary,
+which it show using  following message:</span>
+<pre class="brush:plain;gutter:false">[ERROR]  Missing: 'x86_64-unknown-linux-gnu-gcj' or 
+'x86_64-unknown-linux-gnu-gcj' or 'gcj' : either needed!</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">To workaround this install gcj and link binary like this:</span>
+<pre class="brush:bash;gutter:false">sudo ln -s /usr/bin/gcj-4.6 /usr/bin/gcj</pre>
+</li>
+<li><span style="font-family: 'Courier New', Courier, monospace;">duma - mentioned changeset also has problem with url to D.U.M.A library, apply below changes to workaround problems:</span>
+<pre class="brush:patch;gutter:false">--- a/scripts/build/debug/200-duma.sh   Mon Mar 12 21:19:26 2012 +0100
++++ b/scripts/build/debug/200-duma.sh   Wed Mar 14 20:02:22 2012 +0100
+@@ -4,7 +4,7 @@
+     # Downloading an non-existing file from sourceforge will give you an
+     # HTML file containing an error message, instead of returning a 404.
+     # Sigh...
+-    CT_GetFile "duma_${CT_DUMA_VERSION}" .tar.gz http://kent.dl.sourceforge.net/sourceforge/duma/
++    CT_GetFile "duma_${CT_DUMA_VERSION}" .tar.gz http://downloads.sourceforge.net/project/duma/duma/2.5.15
+     # Downloading from sourceforge may leave garbage, cleanup
+     CT_DoExecLog ALL rm -f "${CT_TARBALLS_DIR}/showfiles.php"*
+ }
+</pre>
+</li>
+<li><span style="font-family: 'Courier New', Courier, monospace;">mawk - if mawk return syntax error like this:</span>
+<pre class="brush:plain;gutter:false">mawk: scripts/gen-sorted.awk: line 19: regular expression compile failed (bad 
+class -- [], [^] or [)</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">It could be fixed in two ways. First is to change line 19 in /path/to/tmp/dir/.build/src/glibc-2.9/scripts/gen-sorted.awk Is:</span>
+<pre class="brush:bash;gutter:false">sub(/\/[^/]+$/, "", subdir);</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">Should be:</span>
+<pre class="brush:bash;gutter:false">sub(/\/[^\/]+$/, "", subdir);</pre>
+<span style="font-family: 'Courier New', Courier, monospace;">Or simply by installing gawk, reconfigure and recompile crosstools-ng.</span>
+</li>
+</ol>
+<span style="font-family: 'Courier New', Courier, monospace;">This was my first post related to linux embedded enviroment. Hope it will be more. Enjoy!</span></div>
+<h2>Comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Jagan</div>
+<div class='content'>
+Does croostool-ng is specific to linux versions?<br /><br />when I use crosstool-ng-1.9.3 it uses the linux-2.6.33.7, how<br />can i modify to use the crosstool-ng to specific kernel version which is<br />not available to menuconfig?<br /><br />Thanks, ./J</div>
+</div>
+<div class='comment'>
+<div class='author'>Piotr Król</div>
+<div class='content'>
+Próbowałem wybudować najnowsze źródła crosstool&#39;a (changeset:3033:9ddca166bb27) na Debianie 3.2.0-3-amd64. Niestety nie udało mi się, wywalił się na &#39;Installing final compiler&#39; (.config: http://pastebin.com/P2izrvMH). Artykuł, który widzisz powyżej był pisany 5 miesięcy temu nie pamiętam dokładnie wszystkich ustawień a tym bardziej nie posiadam logów i configów.</div>
+</div>
+<div class='comment'>
+<div class='author'>Mateusz Maciaszek</div>
+<div class='content'>
+Inaczej - byłbyś w stanie podrzucić pliczek .config ct-ng?</div>
+</div>
+<div class='comment'>
+<div class='author'>Mateusz Maciaszek</div>
+<div class='content'>
+Downgrade do wersji 1.11.1 pomógł, przy czym, oczywiscie, nie obyło się pozniej bez mniejszych problemow, jak - przykladowo - zbyt stara wersja make (zejscie z 3.82 do 3.81).<br />Teraz się męczę z instalacją glibc... Mógłbyś mi powiedzieć z jakich wersji gcc i glibc korzystałeś (w menuconfig ct-ng) oraz make?</div>
+</div>
+<div class='comment'>
+<div class='author'>Piotr Król</div>
+<div class='content'>
+Z tego co widzę w Twoim build logu:<br />/usr/share/aclocal-1.12/protos.m4:12: AM_C_PROTOTYPES is expanded from...<br />Googlając można znaleźć coś takiego w release notach automake 1.12:<br />&quot;Support for automatic de-ANSI-fication has been removed.&quot;<br />Spróbuj przerzucić się na automake 1.11 i daj znać czy to coś pomogło.</div>
+</div>
+<div class='comment'>
+<div class='author'>Mateusz</div>
+<div class='content'>
+Podsylam screena + loga z pracy [ http://www.sendspace.pl/file/828578c39b349c935485e31 ]. <br />Jest to próba konfiguracji cross-compilatora [arm-unknown-linux-gnueabi-] pod Archem x86_64 (kernel 3.6.0-rc1), croostool-ng 1.16. <br /><br /><br />[autoconf, wersja 2.69]<br />Jeśli chodzi o autom4te -- korzystając z przykładowego źródla http://git.savannah.gnu.org/gitweb/?p=autoconf-archive.git;a=blob_plain;f=m4/ax_absolute_header.m4 i zapisując całość pod postacią a.m4 a następnie wykonując polecenie &#39;autom4te a.m4 -o test&#39;, całość przeszła pomyślnie. Niestety nie wiem czy jest to ostatecznie dobry i wiarygodny test poprawności działania programu. Jeśli masz lepszy pomysł, proszę, podziel się z nim. <br /><br />[autoconf, wersja 2.68, kompilacja ze źródeł]<br />Niestety, błąd jest ten sam (czyt. żadnej poprawy). </div>
+</div>
+<div class='comment'>
+<div class='author'>Piotr Król</div>
+<div class='content'>
+Niestety nie. Próbowałeś to zmienić ? Sprawdzałeś czy autom4te działa poprawnie ? Gdybyś podesłał mi szczegóły buildu spróbowałbym to odtworzyć i może do czegoś się dokopać.</div>
+</div>
+<div class='comment'>
+<div class='author'>Mateusz</div>
+<div class='content'>
+Witam. <br />Czy spotkałeś się może kiedykolwiek z podobnym problemem podczas buildowania toolchaina przy pomocy crosstool-ng?<br /><br />[INFO ]  Extracting and patching toolchain components<br />[ERROR]    configure.in:294: error: automatic de-ANSI-fication support has been removed<br />[ERROR]    aclocal: error: /usr/bin/autom4te failed with exit status: 1</div>
+</div>
+</div>

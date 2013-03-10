@@ -1,0 +1,38 @@
+---
+layout: post
+title: "Mutt tutorial part 3 - sidebar, URLs in e-mails"
+date: 2012-05-13T15:43:00+02:00
+categories:
+ - linux
+---
+
+<div class='post'>
+<span style="font-family: 'Courier New', Courier, monospace;">Information in this post came from <a href="http://www.lunar-linux.org/mutt-sidebar/">lunar linux page</a>. Kudos to its author. In this post I want to discuss two topics: sidebar and how to open urls form inside mutt.</span>
+<span style="font-family: 'Courier New', Courier, monospace;">Sidebar is mutt feature delivered in mutt-patched package in Debian. It cause to split standard mutt window in two parts. In first we can find list of folders defined in the $HOME/.muttrc file, second window is a known old window with the list of posts. Mutt window with sidebar looks like on the picture below:</span><br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://lunar-linux.org/~tchan/mutt/mutt-screenshot.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="248" src="http://lunar-linux.org/~tchan/mutt/mutt-screenshot.png" width="400" /></a></div>
+<span style="font-family: 'Courier New', Courier, monospace;">To use side bar we need to install mutt-patched packed in Debian:</span>
+<pre class="brush:bash;gutter:false">sudo apt-get install mutt-patched</pre>
+To make side bar more accessible I use default settings from lunar linux page. Add below lines to $HOME/.muttrc:
+<pre class="brush:bash;gutter:false">
+set sidebar_width       = 30
+set sidebar_visible     = yes
+color sidebar_new yellow default
+bind index CP sidebar-prev
+bind index CN sidebar-next
+bind index CO sidebar-open
+bind pager CP sidebar-prev
+bind pager CN sidebar-next
+bind pager CO sidebar-open
+</pre>
+First line sets width of side bar it depends on how long are your folder names. Second line makes sidebar by default visible. Third makes folders with new messages yellow. Other lines create shortcuts for navigating sidebar. Note that C is not Ctrl but uppercase 'c' key.
+<span style="font-family: 'Courier New', Courier, monospace;">Second topic I want to discuss is how to open urls from inside e-mails. To do this we can use tip from <a href="http://www.mutt.org/doc/manual/manual-4.html#ss4.13">mutt site</a>. As it said we need urlview application:</span>
+<pre class="brush:bash;gutter:false">sudo apt-get install urlview</pre>
+To correctly configure this tool you need to create $HOME/.urlview file. So:
+<pre class="brush:bash;gutter:false">vim $HOME/.urlview</pre>
+In this file we define two things. First will be regular expression which match urls and second will be command line to run when regexp was matched. File looks like below:
+<pre class="brush:plain;gutter:false">
+REGEXP (((https?|ftp|gopher)://|(mailto|file|news):)[^’ <>"]+|(www|web|w3).[-a-z0-9.]+)[^’ .,;<>":]
+COMMAND chromium %s
+</pre>
+Chromuim is my browser of choice but you can use firefox, lynx or anything you want.</div>
