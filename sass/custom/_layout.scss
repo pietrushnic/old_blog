@@ -4,6 +4,7 @@
 //$header-font-size: 1em;
 //$header-padding-top: 1.5em;
 //$header-padding-bottom: 1.5em;
+$header-font-family: "Courier", monospace;
 
 //$max-width: 1350px;
 //$indented-lists: true;
@@ -19,3 +20,19 @@
 //$sidebar-pad-medium: 15px;
 //$sidebar-pad-wide: 20px;
 //$sidebar-width-wide: 300px;
+
+body > header[role="banner"] {
+    background-image: url(/images/header_bg2_1200x168.png);
+    background-repeat: no-repeat;
+}
+
+body > header h2 {
+    position:relative;
+    padding-left:6.6em;
+}
+
+body > header h1 {
+    font-weight:bold;
+    position:relative;
+    padding-left:3em;
+}
