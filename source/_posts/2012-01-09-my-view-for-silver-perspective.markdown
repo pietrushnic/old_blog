@@ -1,4 +1,10 @@
---- layout: post title: "My view for silver perspective" date: 2012-01-09T22:31:00+01:00 categories: - commodity ---
+---
+layout: post
+title: "My view for silver perspective"
+date: 2012-01-09T22:31:00+01:00
+comments: true
+categories: commodity
+---
 
 In the morning when reading RSS feeds (I should think about placing its list somewhere on the blog) from several sources the information came to me that silver is highly underrated recent times. I try to carefully analyze such information, despite the fact that I use more of niche sources of information and what is in them is served rather carefully selected. Although I looked at this subject a little closer.  
     

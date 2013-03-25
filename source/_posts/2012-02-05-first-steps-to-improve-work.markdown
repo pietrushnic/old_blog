@@ -1,4 +1,10 @@
---- layout: post title: "First steps to improve work productivity in Linux environment" date: 2012-02-05T03:08:00+01:00 categories: - productivity ---
+---
+layout: post
+title: "First steps to improve work productivity in Linux environment"
+date: 2012-02-05T03:08:00+01:00
+comments: true
+categories: productivity
+---
 
 The problem encountered on several occasions over several months. Now it is time to deal with it. How did this happen? As always, resources were not sufficient, and if we can not increase the amount of resources we must strive to optimize their use.In this case, it was about time.  
     

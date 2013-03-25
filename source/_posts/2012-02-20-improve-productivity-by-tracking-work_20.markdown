@@ -1,4 +1,10 @@
---- layout: post title: "Improve productivity by tracking work environment with git - vim" date: 2012-02-20T21:43:00+01:00 categories: - productivity - linux ---
+---
+layout: post
+title: "Improve productivity by tracking work environment with git - vim"
+date: 2012-02-20T21:43:00+01:00
+comments: true
+categories: [productivity, linux]
+---
 
 In this post I try to describe my vim configuration procedure and how it is connected with git. The whole concept is based on keeping all the configuration files in a separate directory. These files are connected using symbolic links in places where system or application requires it (eg $HOME/.vimrc -> /home/jdoe/workspace/dotfiles/vimrc). So first let's create local directory for vim:  
 

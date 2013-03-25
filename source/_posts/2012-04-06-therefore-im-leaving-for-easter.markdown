@@ -1,4 +1,10 @@
---- layout: post title: "How to download videos from videos.linux.com" date: 2012-04-06T22:48:00+02:00 categories: - linux ---
+---
+layout: post
+title: "How to download videos from videos.linux.com"
+date: 2012-04-06T22:48:00+02:00
+comments: true
+categories: linux
+---
 
 Therefore, I'm leaving for the Easter holidays I wanted to download some lecture on embedded systems, which was presented at the 2012 Embedded Linux Conference. Although I regret I found that I could not find as good quality copy in the network as on the Linux Foundation page. It is unfortunate that linux.com site does not have the possibility of direct downloading video files. But there is a workaround. Follow below tutorial:  
     

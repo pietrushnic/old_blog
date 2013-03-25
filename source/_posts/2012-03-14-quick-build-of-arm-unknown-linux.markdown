@@ -1,4 +1,10 @@
---- layout: post title: "Quick build of arm-unknown-linux-gnueabi with crosstool-ng" date: 2012-03-14T23:42:00+01:00 categories: - embedded ---
+---
+layout: post
+title: "Quick build of arm-unknown-linux-gnueabi with crosstool-ng"
+date: 2012-03-14T23:42:00+01:00
+comments: true
+categories: embedded
+---
 
 You might be surprised at how much you have to make to correctly build arm-unknown-linux-gnueabi config based toolchain with crosstool-ng. As you can see examples of many open source projects, the man's work is a rare resource. The result of this economic fact is that the attempt to build configuration arm-unknown-linux-gnueabi is not a simple task and during an operation you can come across many problems. Although I am not afraid of problems and effectively try to fight them and of course sharing the results of my work. My build system parameters:  
 Debian GNU/Linux wheezy/sid 3.2.0-2-amd64  

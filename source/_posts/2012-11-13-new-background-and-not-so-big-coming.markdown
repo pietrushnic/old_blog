@@ -1,4 +1,10 @@
---- layout: post title: "New background and not so big \"coming back\"" date: 2012-11-13T00:04:00+01:00 categories: - about this blog ---
+---
+layout: post
+title: "New background and not so big \"coming back\""
+date: 2012-11-13T00:04:00+01:00
+comments: true
+categories: "about this blog"
+---
 
 It's been a long time since I last wrote anything on the blog. Because I hear complains about the background causing my blog hard to read I decide to change it.  
     

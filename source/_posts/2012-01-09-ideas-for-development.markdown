@@ -1,4 +1,10 @@
---- layout: post title: "Ideas for development" date: 2012-01-09T22:24:00+01:00 categories: - about this blog ---
+---
+layout: post
+title: "Ideas for development"
+date: 2012-01-09T22:24:00+01:00
+comments: true
+categories: "about this blog"
+---
 
 All the time come to my mind new ideas about what could be added to the blog and what information to post. I'm interested in so many things that many of the ideas are killed before reaching the plane of the keyboard and has no chance to be introduced even as a draft to the blog. It seems that for myself I should store ideas for development in order to easily return to them when ripe.  
 

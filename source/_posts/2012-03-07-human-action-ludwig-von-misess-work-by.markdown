@@ -1,4 +1,10 @@
---- layout: post title: "\"Human Action\" Ludwig von Mises" date: 2012-03-07T23:37:00+01:00 categories: - books ---
+---
+layout: post
+title: "\"Human Action\" Ludwig von Mises"
+date: 2012-03-07T23:37:00+01:00
+comments: true
+categories: books
+---
 
     
 

@@ -1,4 +1,10 @@
---- layout: post title: "Set irssi under debian to use freenode server" date: 2012-02-15T20:25:00+01:00 categories: - linux ---
+---
+layout: post
+title: "Set irssi under debian to use freenode server"
+date: 2012-02-15T20:25:00+01:00
+comments: true
+categories: linux
+---
 
 Very short manual on how to set up irssi to work with freenode servers.  
 Fist, install irssi:  

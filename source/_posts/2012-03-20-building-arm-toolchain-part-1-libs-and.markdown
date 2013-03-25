@@ -1,4 +1,10 @@
---- layout: post title: "Building ARM toolchain - part 1: libs and binutils" date: 2012-03-20T23:25:00+01:00 categories: - embedded ---
+---
+layout: post
+title: "Building ARM toolchain - part 1: libs and binutils"
+date: 2012-03-20T23:25:00+01:00
+comments: true
+categories: embedded
+---
 
 Searching the internet for information on how to build arm toolchain from scratch I realize that it is very hard to find  information about this matter (and recent one even harder). I will try to fill this lack of information and try to build toolchain. My main goal is to use a component based on the GNU public license, and using them in as the newest version as it is possible.  
     

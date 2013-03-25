@@ -1,4 +1,10 @@
---- layout: post title: "flashrom and Shuttle AV18E2" date: 2012-01-06T14:31:00+01:00 categories: - coreboot ---
+---
+layout: post
+title: "flashrom and Shuttle AV18E2"
+date: 2012-01-06T14:31:00+01:00
+comments: true
+categories: coreboot
+---
 
 During Christmas break I found an old unused motherboard in my home, right away I thought that it maybe useful as learning environment for coreboot. First you need to do with this kind of board is to check if it is possible to flash its BIOS with user space tool called [flashrom](http://www.flashrom.org/) list of supported hardware can be found [here](http://www.flashrom.org/Supported_hardware).  
     
