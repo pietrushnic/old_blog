@@ -1,4 +1,10 @@
---- layout: post title: "Building ARM toolchain - part 2: gcc and eglibc" date: 2012-04-12T23:54:00+02:00 categories: - embedded ---
+---
+layout: post
+title: "Building ARM toolchain - part 2: gcc and eglibc"
+date: 2012-04-12T23:54:00+02:00
+comments: true
+categories: embedded
+---
 
 Unfortunately after few tries of cross compiling eglibc using different source for instructions I alway end with hard to solve issues. Luckily, in the sources of eglibc I noticed instructions for cross-compiling written long time ago by Jim Blandy(I know i should start [here](http://www.eglibc.org/cgi-bin/viewvc.cgi/trunk/libc/EGLIBC.cross-building?revision=2037&view=markup)). Lot of thanks to him for it. Below I describe my expierence which I gained during eglibc cross cpomliation for arm-unknown-linux-gnueabi and procedure that I used. Commands below contain some constants that I used in previous works. See [this post.](http://pietrushnic.blogspot.com/2012/03/building-arm-toolchain-part-1-libs-and.html) Eglibc library and the compiler itself is built with many various parameters this post is not the place to explain their meaning, please RTFM.
 1. Checkout eglibc from svn (as alwyas I try to use a latest sources possible). Version used r17815:

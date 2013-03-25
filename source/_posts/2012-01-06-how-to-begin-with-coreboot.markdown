@@ -1,4 +1,10 @@
---- layout: post title: "How to begin with coreboot" date: 2012-01-06T14:23:00+01:00 categories: - coreboot ---
+---
+layout: post
+title: "How to begin with coreboot"
+date: 2012-01-06T14:23:00+01:00
+comments: true
+categories: coreboot
+---
 
 About a month ago I started my adventure with coreboot. As [coreboot home](http://www.coreboot.org/) page says "coreboot is a Free Software project aimed at replacing the proprietary BIOS (firmware) found in most computers". Although I read the majority of materials from mentioned page I still suffered from a lack of basic information that would help me to arrange everything in my head. Therefore, I decided to write a series of posts described my actions associated with this interesting project.  
     

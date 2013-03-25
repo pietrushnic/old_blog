@@ -1,4 +1,10 @@
---- layout: post title: "Debugging coreboot in qemu environment - part 1" date: 2012-03-12T21:30:00+01:00 categories: - coreboot ---
+---
+layout: post
+title: "Debugging coreboot in qemu environment - part 1"
+date: 2012-03-12T21:30:00+01:00
+comments: true
+categories: coreboot
+---
 
 First of all I use testing version of Debian - wheezy. Clone coreboot repository:  
 

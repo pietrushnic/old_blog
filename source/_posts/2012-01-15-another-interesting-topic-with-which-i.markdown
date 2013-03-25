@@ -1,4 +1,10 @@
---- layout: post title: "UEFI from Linux enthusiast perspective" date: 2012-01-15T23:04:00+01:00 categories: - uefi ---
+---
+layout: post
+title: "UEFI from Linux enthusiast perspective"
+date: 2012-01-15T23:04:00+01:00
+comments: true
+categories: uefi
+---
 
 Another interesting topic with which I am dealing with recently is the [UEFI](http://www.uefi.org/home/). As we read on wikipedia: "The Unified Extensible Firmware Interface (UEFI) is a specification that defines a software interface between an operating system and platform firmware.". The purpose of this specification is to create something what in the future fully replace the BIOS.  
     
