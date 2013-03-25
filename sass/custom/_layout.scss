@@ -36,3 +36,9 @@ body > header h1 {
     position:relative;
     padding-left:3em;
 }
+
+article {
+  ol, ul {
+    padding-left: 3em;
+  }
+}
