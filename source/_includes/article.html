@@ -22,6 +22,12 @@
     <footer>
       <a rel="full-article" href="{{ root_url }}{{ post.url }}">{{ site.excerpt_link }}</a>
     </footer>
+  {% else %}
+    <footer>
+    {% unless page.sharing == false %}
+      {% include post/sharing.html %}
+    {% endunless %}
+    </footer>
   {% endif %}
 {% else %}
 <div class="entry-content">{{ content }}</div>
