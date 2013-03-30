@@ -56,7 +56,7 @@ apply below changes to workaround problems:
  # HTML file containing an error message, instead of returning a 404.
  # Sigh... 
 - CT_GetFile "duma_${CT_DUMA_VERSION}" .tar.gz http://kent.dl.sourceforge.net/sourceforge/duma/ 
-+ CT_GetFile "duma\_${CT_DUMA_VERSION}" .tar.gz http://downloads.sourceforge.net/project/duma/duma/2.5.15
++ CT_GetFile "duma_${CT_DUMA_VERSION}" .tar.gz http://downloads.sourceforge.net/project/duma/duma/2.5.15
  # Downloading from sourceforge may leave garbage, cleanup
  CT_DoExecLog ALL rm -f "${CT_TARBALLS_DIR}/showfiles.php"\* }
 ```
