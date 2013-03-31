@@ -5,7 +5,7 @@ date: 2012-03-20T21:16:00+01:00
 categories: books
 published: false
 keywords: politics,Hoppe,libertarianism,thoughts,freedom
-description: Some thoughts about Hoppe's book "Democracy: The God That Failed"
+description: Some thoughts about Hoppe's book Democracy - The God That Failed
 ---
 
 I began this article last year. Until now I wonder if anyone could be interested 
