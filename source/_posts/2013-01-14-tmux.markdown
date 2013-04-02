@@ -1,61 +1,153 @@
 ---
 layout: post
-title: "tmux"
+title: "Tmux as screen replacement adn productivity accelerator"
 date: 2013-01-14T16:59:00+01:00
 categories: [productivity,linux]
 published: false
-keywords:
-description:
+keywords: tmux,productivity,termianl multiplexer
+description: Basic tips and tricks about tmux
 ---
 
+As I wrote in [previous post](/blog/2013/03/19/debian-switching-to-unstable) I 
+switched from GNU screen to [tmux](http://tmux.sourceforge.net). I use it for a 
+few moths and have to said that I'm really impressed by simplicity, performance
+and community support in this project. In this post I want to discuss my 
+configuration and useful additions for it like tmuxinator, session logging, 
+colors or status bar configuration.
 
-tmux - terminal multiplexer, manages sessions, each session contain one or more 
-window, each windows can be split to panes  
+### Basics ###
 
-commands:tmux attach -reattach to existing sessiontmux new-session or tmux - 
-starts new sessionKEY BINDINGS (IMHO useful) - full list is 
-[here](http://www.openbsd.org/cgi-bin/man.cgi?query=tmux&sektion=1#KEY+BINDINGS)  
+Debian contain `tmux` package but for stable and testing release it is pretty 
+old version. Personally I use `unstable` version and `tmux` was delivered in 
+`1.7~svn2819-1` version.
+```
+sudo apt-get install tmux
+```
+to start session simply type `tmux`. Tmux uses `C-b`/ `Ctrl-b` as a prefix for 
+commands. If you switch from GNU screen then at the beginning you can experience 
+some annoying situations but after few days everything should back to normal.
 
-C-b (Ctrl + b) - prefix key  
+Most used keybiddings:
+* `C-b c` - create new window
+* `C-b ,` - rename current window
+* `C-b n` - next window
+* `C-b p` - previous window
+* `C-b l` - last window
+* `C-b d` - disconnect
+* `C-b k` - kill current window
+* `C-b K` - kill tmux server
+* `C-b [` - enter copy mode
+* `C-b ]` - paste last copied buffer
+* `C-b :` - tmux command line
+* `C-b w` - windows list
+* `C-b ?` - help
 
-?           List all key bindings.  
+Full list can be found [here](http://www.openbsd.org/cgi-bin/man.cgi?query=tmux&sektion=1#KEY+BINDINGS).
 
-sessions:
-$           Rename the current session.  
+### Configuration ###
+Tmux keeps its configuration in `$HOME/.tmux.conf`. My configuration mixes 
+some tmux examples with code that I found in the net. This file can be found on 
+my github repository [here](https://github.com/pietrushnic/workspace/blob/master/dotfiles/tmux.conf). First section contain some general configuration:
+```
+# confirm before killing a window or the server
+bind-key k confirm kill-window
+bind-key K confirm kill-server
 
-windows:
+# toggle statusbar
+bind-key b set-option status
 
+# ctrl+left/right cycles thru windows
+bind-key -n C-right next
+bind-key -n C-left prev
 
-c Create a new window.
-l Move to the previously selected window.
-n Change to the next window.
-p Change to the previous window.
-,           Rename the current window.
-0 to 9      Select windows 0 to 9.
-w Choose the current window interactively.
+# open a man page in new window
+bind / command-prompt "split-window 'exec man %%'"
 
-panes:
-q Briefly display pane indexes.
-o Select the next pane in the current window. %           Split the current pane into two, left and right.  
-"           Split the current pane into two, top and bottom.  
-;           Move to the previously active pane.  
+# quick view of processes
+bind '~' split-window "exec htop"
 
-x Kill the current pane.
+# scrollback buffer n lines
+set -g history-limit 10000
 
+# listen for activity on all windows
+set -g bell-action any
 
+# on-screen time for display-panes in ms
+set -g display-panes-time 2000
 
+# start window indexing at one instead of zero
+set -g base-index 1
 
-[ Enter copy mode to copy text or view the history. ] Paste the most recently copied buffer of text.
-: Command line mode
+# enable wm window titles
+set -g set-titles on
 
-Commands:
-source-file reload configuration file
-Issues:  
-1. Use own .bashrc  
-[http://stackoverflow.com/questions/9652126/bashrc-profile-is-not-loaded-on-new-tmux-session-or-window-why](http://stackoverflow.com/questions/9652126/bashrc-profile-is-not-loaded-on-new-tmux-session-or-window-why)  
-    
-2. Color refresh  
-[http://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux-mode](http://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux-mode)  
-    
-3. Bind reload configuration  
-[http://stackoverflow.com/questions/9628435/tmux-status-bar-configuration](http://stackoverflow.com/questions/9628435/tmux-status-bar-configuration)
+# wm window title string (uses statusbar variables)
+set -g set-titles-string "tmux.#I.#W"
+
+# statusbar 
+set -g display-time 2000
+```
+After that I have implemented [solarized](http://ethanschoonover.com/solarized) colors:
+```
+### COLOUR (Solarized dark)
+
+# default statusbar colors
+set-option -g status-bg black #base02
+set-option -g status-fg yellow #yellow
+set-option -g status-attr default
+
+# default window title colors
+set-window-option -g window-status-fg brightblue #base0
+set-window-option -g window-status-bg default
+#set-window-option -g window-status-attr dim
+
+# active window title colors
+set-window-option -g window-status-current-fg brightred #orange
+set-window-option -g window-status-current-bg default
+#set-window-option -g window-status-current-attr bright
+
+# use vi-like keys
+setw -g mode-keys vi
+
+# pane border
+set-option -g pane-border-fg black #base02
+set-option -g pane-active-border-fg brightgreen #base01
+
+# message text
+set-option -g message-bg black #base02
+set-option -g message-fg brightred #orange
+
+# pane number display
+set-option -g display-panes-active-colour blue #blue
+set-option -g display-panes-colour brightred #orange
+```
+To make solarized colors work on my setup was quite challenging, because there 
+are many things to set (vim, treminal, putty etc.). If you need any advice I can 
+write something about this. Right now it is beyond the scope.
+
+At the end of my tmux configuration I've some fancy status bar:
+```
+# clock
+set-window-option -g clock-mode-colour green #green
+
+# center align the window list
+set -g status-justify centre
+
+# show some useful stats but only when tmux is started 
+# outside of Xorg, otherwise dwm statusbar shows these already
+set -g status-right ""
+set -g status-left ""
+if '[ -z "$DISPLAY" ]' 'set -g status-left "[#[fg=green] #H ][#[default]]"'
+if '[ -z "$DISPLAY" ]' 'set -g status-right "[ #[fg=magenta]#(cat /proc/loadavg | cut -d \" \" -f 1,2,3)#[default] ][ #[fg=cyan,bright]%a %Y-%m-%d %H:%M #[default]]"'
+if '[ -z "$DISPLAY" ]' 'set -g status-right-length 50'
+```
+I think that mostly this is self explanatory. This how it look in work:
+{% img images/tmux-screen.png %}
+
+### tmuxinator ###
+I spend some time to realize what is the best way of managing windows and panes 
+in tmux. Especially I was interested in setting some windows at tmux startup. 
+Finally I found [tmuxinator](https://github.com/aziz/tmuxinator) small bu useful 
+project delivered by `gem` system. Follow tmuxinator page to set it up 
+correctly. If you want to seem my primitive configuration it is also availabl on 
+my github in [werkspace project]().
