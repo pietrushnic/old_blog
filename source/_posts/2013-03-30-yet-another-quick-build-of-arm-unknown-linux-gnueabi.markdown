@@ -9,13 +9,12 @@ keywords:
 description:
 ---
 
-So I decide check what is going on with crosstool-ng and refresh my old post 
-about building arm-unknown-linux-gnueabi toolchain. Last post was pretty 
+So I decide to check what is going on with 
+[crosstool-ng](http://crosstool-ng.org) and refresh my [old post](/blog/2012/03/14/quick-build-of-arm-unknown-linux)
+about building `arm-unknown-linux-gnueabi` toolchain. Last post was pretty 
 popular, so definitely this is direction I should follow :). I will not repeat 
-myself, so if you encounter any problems please check 
-[this](/blog/2012/03/14/quick-build-of-arm-unknown-linux) and of course 
-`more /path/to/ct-ng/src/crosstool-ng/docs/B\ -\ Known\ issues.txt`. Let's 
-begin:
+myself, so if you encounter any problems please check last post, section with 
+know problems or RTFM. Let's begin:
 
 ### Get the latest crosstool-ng ###
 
@@ -44,24 +43,83 @@ You will probably want to add `$HOME/ct-ng` to your `PATH`
 ```
 export PATH="$HOME/ct-ng/bin:${PATH}"
 ```
-An bash completion as it is advised at the end of compilation process. My `.bashrc`
+Add bash completion as it is advised in message at the end of compilation process. My `.bashrc`
 automatically sources `$HOME/.bash_completion` so ther is a place for local 
-completion code.
+code completion.
 ```
 cat ct-ng.comp >> $HOME/.bash_completion
 ```
 
+
 ### Build sample toolchain ###
 
-There is a long list of predefined sample toolchain which you can get. 
-I completion was correctly added, than you can explore it by `<Tab>` or simply 
+There is a long list of predefined samples toolchains which you can get. 
+If ct-ng bash completion was correctly added, than you can explore it by `<Tab>` or simply 
 `ct-ng list-samples`. Let's try to build `arm-unknown-linux-gnueabi`:
 ```
 mkdir -p $HOME/embedded/arm-unknown-linux-gnueabi
 cd $HOME/embedded/arm-unknown-linux-gnueabi
-ct-ng arm-linux-unknown-gnueabi
+ct-ng arm-unknown-linux-gnueabi
+```
+Before you start build consider some debugging options to make build process 
+easier to continue when problems encountered.
+
+### Additional debugging options ###
+
+crosstool-ng contain interesting mechanism of saving finished phases of 
+toolchain. This helps when for some reason our build process failed. To enable
+this feature simply enter menuconfig:
+```
+ct-ng menuconfig
+```
+Mark option `Paths and mix options -> Debug crosstool-NG -> Save intermediate steps`
+as enabled. If something goes wrong you can check what last state was by:
+```
+ls -lt .build/arm-unknown-linux-gnueabi/state
+```
+Directory on top with the latest modification date is now your first state where we 
+should start after fail. To restart build in given point:
+```
+ct-ng <state>+ #assuming that <state> is where we fail last time
+```
+Ordered list of possible states can be retrieved by `ct-ng list-steps`.
+
+### Start build ###
+
+```
+ct-ng build.4
+```
+`4` is the number of concurrent jobs and depends on your setup performance.
+Building process takes a while so make coffee or anything else to drink :).
+
+### Known problems ###
+
+I encounter few different problems than when building [previous time](/blog/2012/03/14/quick-build-of-arm-unknown-linux).
+
+#### Missing expat library ####
+
+Signature looks like that:
+```
+[ERROR]    configure: error: expat is missing or unusable
+[ERROR]    make[3]: *** [configure-gdb] Error 1
+[ERROR]    make[2]: *** [all] Error 2
+```
+Simply install `libexpat`:
+```
+sudo apt-get install libexpat1-dev
 ```
 
-Take a break/write blog post/play game anything - this will take a while.
+#### gcj internal error ####
+
+Few times I encountered something like this:
+```
+[ERROR]    gcj: internal compiler error: Killed (program jc1)
+[ERROR]    make[5]: *** [ecjx] Error 4
+[ERROR]    make[4]: *** [all-recursive] Error 1
+[ERROR]    make[3]: *** [all-target-libjava] Error 2
+[ERROR]    make[2]: *** [all] Error 2
+```
+Really don't know what the reason was (lack of memory, r/w problem with block 
+device), but simply running build process from known last step work for me.
 
 
