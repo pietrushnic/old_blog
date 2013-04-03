@@ -134,7 +134,7 @@ $TARGET/arm-x-tools/arm-unknown-linux-gnueabi/bin/*
 arm-unknown-linux-gnueabi-strip --strip-debug $TARGET/lib/* $TARGET/usr/lib/*
 ```
 16. At the end simple test to find out if basic functionality works:
-```C
+```c
 cat > hello.c << EOF 
 > #include <stdio.h>
 > int
@@ -149,7 +149,7 @@ Try to cross compile C file:
 ```
 $TARGET/arm-x-tools/bin/arm-unknown-linux-gnueabi-gcc -Wall hello.c -o hello
 ```
-```C++
+```cpp
 cat > c++-hello.cc <<EOF 
 > #include <iostream> 
 > int 
