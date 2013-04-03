@@ -1,12 +1,12 @@
 ---
 layout: post
 title: "Yet another quick build of arm-unknown-linux-gnueabi"
-date: 2013-03-30 05:10
+date: 2013-04-03 19:00
 comments: true
-categories: 
+categories: [embedded, linux]
 published: false
-keywords:
-description:
+keywords: arm-unknown-linux-gnueabi,linux,arm,toolchain,crosstool-ng
+description: How to build sample corsstool-ng toolchain
 ---
 
 So I decide to check what is going on with 
@@ -14,23 +14,23 @@ So I decide to check what is going on with
 about building `arm-unknown-linux-gnueabi` toolchain. Last post was pretty 
 popular, so definitely this is direction I should follow :). I will not repeat 
 myself, so if you encounter any problems please check last post, section with 
-know problems or RTFM. Let's begin:
+known problems in crosstool-ng `doc/` directory or RTFM. Let's begin:
 
 ### Get the latest crosstool-ng ###
 
-As usual I'm trying to use latest version possible. Following the page:
+As usual I'm trying to use latest version possible. Following the crosstool-ng page:
 ```
 hg clone http://crosstool-ng.org/hg/crosstool-ng
 cd crosstool-ng
 ./bootstrap
 ```
-At the time of writing this article my changeset was 3200:0fc56e62cecf 16 Mar 
+At the time of writing this article my changeset was `3200:0fc56e62cecf` 16 Mar 
 2013, two weeks old.
 
 ### Installation ###
 
-I prefer to use local directory for ct-ng in case it will change in feature I 
-will not need to mess with `/usr` subsystem. Tryin' to keep it clean when I can.
+I prefer to use local directory for `ct-ng` in case it will change in feature I 
+will not need to mess with `/usr` subsystem. Simply tryin' to keep it clean when I can.
 
 ```
 mkdir $HOME/ct-ng
@@ -44,17 +44,16 @@ You will probably want to add `$HOME/ct-ng` to your `PATH`
 export PATH="$HOME/ct-ng/bin:${PATH}"
 ```
 Add bash completion as it is advised in message at the end of compilation process. My `.bashrc`
-automatically sources `$HOME/.bash_completion` so ther is a place for local 
+automatically sources `$HOME/.bash_completion` so there is a place for local 
 code completion.
 ```
 cat ct-ng.comp >> $HOME/.bash_completion
 ```
 
-
 ### Build sample toolchain ###
 
-There is a long list of predefined samples toolchains which you can get. 
-If ct-ng bash completion was correctly added, than you can explore it by `<Tab>` or simply 
+There is a long list of predefined samples toolchains which you can get build. 
+If `ct-ng` bash completion was correctly added, than you can explore it by `<Tab>` or simply 
 `ct-ng list-samples`. Let's try to build `arm-unknown-linux-gnueabi`:
 ```
 mkdir -p $HOME/embedded/arm-unknown-linux-gnueabi
@@ -77,8 +76,8 @@ as enabled. If something goes wrong you can check what last state was by:
 ```
 ls -lt .build/arm-unknown-linux-gnueabi/state
 ```
-Directory on top with the latest modification date is now your first state where we 
-should start after fail. To restart build in given point:
+Directory on top with the latest modification date is now your first state where you 
+should restart after fail. To restart build in given point:
 ```
 ct-ng <state>+ #assuming that <state> is where we fail last time
 ```
@@ -94,7 +93,7 @@ Building process takes a while so make coffee or anything else to drink :).
 
 ### Known problems ###
 
-I encounter few different problems than when building [previous time](/blog/2012/03/14/quick-build-of-arm-unknown-linux).
+I encounter few different problems than during [previous building](/blog/2012/03/14/quick-build-of-arm-unknown-linux).
 
 #### Missing expat library ####
 
@@ -119,7 +118,12 @@ Few times I encountered something like this:
 [ERROR]    make[3]: *** [all-target-libjava] Error 2
 [ERROR]    make[2]: *** [all] Error 2
 ```
-Really don't know what the reason was (lack of memory, r/w problem with block 
-device), but simply running build process from known last step work for me.
+The reason is that `oom_kiler` takes care about `gcj`. It means that you run out 
+of memory during compilation Java related code. I experience that when trying to 
+build toolchain with 512MB of RAM :)
 
-
+So this was short reminder. I work on new post about creating virtual 
+embedded development environment based on [qemu](http://wiki.qemu.org/Main_Page).
+I was inspired by [this article](http://www.elinux.org/Virtual_Development_Board).
+Hope this article was useful. If you have any comments or difficulties please 
+comment below. If think this post was useful - share.
