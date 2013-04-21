@@ -1,1 +1,922 @@
-My Octopress Page is coming soon &hellip;
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>pietrushnic's world</title>
+  <meta name="author" content="pietrushnic">
+
+  
+  <meta name="description" content="As I wrote in previous post I
+switched from GNU screen to tmux. I use it for a
+few moths and have to said that I&#8217;m really impressed by &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://pietrushnic.github.io">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="pietrushnic's world" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39420295-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">pietrushnic's world</a></h1>
+  
+    <h2>|| 933k' dr34M2 0F Phr33D0m</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:pietrushnic.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About Me</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/06/tmux/">Tmux as screen replacement and productivity accelerator</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-06T05:29:00+02:00" pubdate data-updated="true">Apr 6<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>As I wrote in <a href="/blog/2013/03/19/debian-switching-to-unstable">previous post</a> I
+switched from GNU screen to <a href="http://tmux.sourceforge.net">tmux</a>. I use it for a
+few moths and have to said that I&#8217;m really impressed by simplicity, performance
+and community support in this project. In this post I want to discuss my
+configuration and useful additions for it like tmuxinator, session logging,
+colors or status bar configuration.</p>
+
+<h3>Basics</h3>
+
+<p>Debian contain <code>tmux</code> package but for stable and testing release it is pretty
+old version. Personally I use <code>unstable</code> version where <code>tmux</code> was delivered in
+<code>1.7~svn2819-1</code> version.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install tmux</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To start session simply type <code>tmux</code>. Tmux uses <code>C-b</code>/ <code>Ctrl-b</code> as a prefix for
+commands. If you switch from GNU screen then at the beginning you can experience
+some annoying situations but after few days everything should back to normal.</p>
+
+<p>Most used keybiddings:</p>
+
+<ul>
+<li><code>C-b c</code> - create new window</li>
+<li><code>C-b ,</code> - rename current window</li>
+<li><code>C-b n</code> - next window</li>
+<li><code>C-b p</code> - previous window</li>
+<li><code>C-b l</code> - last window</li>
+<li><code>C-b d</code> - disconnect</li>
+<li><code>C-b k</code> - kill current window</li>
+<li><code>C-b K</code> - kill tmux server</li>
+<li><code>C-b [</code> - enter copy mode</li>
+<li><code>C-b ]</code> - paste last copied buffer</li>
+<li><code>C-b :</code> - tmux command line</li>
+<li><code>C-b w</code> - windows list</li>
+<li><code>C-b ?</code> - help</li>
+</ul>
+
+
+<p>Full list can be found <a href="http://www.openbsd.org/cgi-bin/man.cgi?query=tmux&amp;sektion=1#KEY+BINDINGS">here</a>.</p>
+
+<h3>Configuration</h3>
+
+<p>Tmux keeps its configuration in <code>$HOME/.tmux.conf</code>. My configuration mixes
+some tmux examples with code that I found in the net. This file can be found on
+my github repository <a href="https://github.com/pietrushnic/workspace/blob/master/dotfiles/tmux.conf">here</a>. First section contain some general configuration:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># confirm before killing a window or the server
+</span><span class='line'>bind-key k confirm kill-window
+</span><span class='line'>bind-key K confirm kill-server
+</span><span class='line'>
+</span><span class='line'># toggle statusbar
+</span><span class='line'>bind-key b set-option status
+</span><span class='line'>
+</span><span class='line'># ctrl+left/right cycles thru windows
+</span><span class='line'>bind-key -n C-right next
+</span><span class='line'>bind-key -n C-left prev
+</span><span class='line'>
+</span><span class='line'># scrollback buffer n lines
+</span><span class='line'>set -g history-limit 10000
+</span><span class='line'>
+</span><span class='line'># listen for activity on all windows
+</span><span class='line'>set -g bell-action any
+</span><span class='line'>
+</span><span class='line'># on-screen time for display-panes in ms
+</span><span class='line'>set -g display-panes-time 2000
+</span><span class='line'>
+</span><span class='line'># start window indexing at one instead of zero
+</span><span class='line'>set -g base-index 1
+</span><span class='line'>
+</span><span class='line'># enable wm window titles
+</span><span class='line'>set -g set-titles on
+</span><span class='line'>
+</span><span class='line'># wm window title string (uses statusbar variables)
+</span><span class='line'>set -g set-titles-string "tmux.#I.#W"
+</span><span class='line'>
+</span><span class='line'># statusbar 
+</span><span class='line'>set -g display-time 2000</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After that I have implemented <a href="http://ethanschoonover.com/solarized">solarized</a> colors (dark theme):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>### COLOUR (Solarized dark)
+</span><span class='line'>
+</span><span class='line'># default statusbar colors
+</span><span class='line'>set-option -g status-bg black #base02
+</span><span class='line'>set-option -g status-fg yellow #yellow
+</span><span class='line'>set-option -g status-attr default
+</span><span class='line'>
+</span><span class='line'># default window title colors
+</span><span class='line'>set-window-option -g window-status-fg brightblue #base0
+</span><span class='line'>set-window-option -g window-status-bg default
+</span><span class='line'>#set-window-option -g window-status-attr dim
+</span><span class='line'>
+</span><span class='line'># active window title colors
+</span><span class='line'>set-window-option -g window-status-current-fg brightred #orange
+</span><span class='line'>set-window-option -g window-status-current-bg default
+</span><span class='line'>#set-window-option -g window-status-current-attr bright
+</span><span class='line'>
+</span><span class='line'># use vi-like keys
+</span><span class='line'>setw -g mode-keys vi
+</span><span class='line'>
+</span><span class='line'># pane border
+</span><span class='line'>set-option -g pane-border-fg black #base02
+</span><span class='line'>set-option -g pane-active-border-fg brightgreen #base01
+</span><span class='line'>
+</span><span class='line'># message text
+</span><span class='line'>set-option -g message-bg black #base02
+</span><span class='line'>set-option -g message-fg brightred #orange
+</span><span class='line'>
+</span><span class='line'># pane number display
+</span><span class='line'>set-option -g display-panes-active-colour blue #blue
+</span><span class='line'>set-option -g display-panes-colour brightred #orange</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To make solarized colors work on my setup was quite challenging, because there
+are many things to set (vim, terminal, putty etc.). If you need any advice I can
+write something about this. Right now it is beyond the scope of this post.</p>
+
+<p>At the end of my tmux configuration I&#8217;ve some fancy status bar:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># clock
+</span><span class='line'>set-window-option -g clock-mode-colour green #green
+</span><span class='line'>
+</span><span class='line'># center align the window list
+</span><span class='line'>set -g status-justify centre
+</span><span class='line'>
+</span><span class='line'># show some useful stats but only when tmux is started 
+</span><span class='line'># outside of Xorg, otherwise dwm statusbar shows these already
+</span><span class='line'>set -g status-right ""
+</span><span class='line'>set -g status-left ""
+</span><span class='line'>if '[ -z "$DISPLAY" ]' 'set -g status-left "[#[fg=green] #H ][#[default]]"'
+</span><span class='line'>if '[ -z "$DISPLAY" ]' 'set -g status-right "[ #[fg=magenta]#(cat /proc/loadavg | cut -d \" \" -f 1,2,3)#[default] ][ #[fg=cyan,bright]%a %Y-%m-%d %H:%M #[default]]"'
+</span><span class='line'>if '[ -z "$DISPLAY" ]' 'set -g status-right-length 50'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I think that mostly this is self explanatory. This how it look in work:
+<a href="/assets/images/tmux-screen.png"><img class="center" src="/assets/images/tmux-screen.png" width="300" height="400"></a></p>
+
+<h3>tmuxinator</h3>
+
+<p>I spend some time to realize what is the best way of managing windows and panes
+in tmux. Especially I was interested in setting some windows at tmux startup.
+Finally I found <a href="https://github.com/aziz/tmuxinator">tmuxinator</a> small but useful
+project delivered through <code>gem</code> system. Follow tmuxinator page to set it up
+correctly. If you want to see my primitive configuration it is also available on
+my github in <a href="https://github.com/pietrushnic/workspace/blob/master/dotfiles/tmux.conf">werkspace project</a>.</p>
+
+<h3>Window logging</h3>
+
+<p>Last hint I found on this
+<a href="http://0xfeedface.org/blog/lattera/2012-03-19/using-tmux-screencasting-tool">blog</a>.
+How to log your work in console for example to write a blog post :) ? There is a
+universal method for piping all console output to our program of choice. For
+example run command like this (command mode available under <code>C-b :</code>):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pipe-pane -o 'cat &gt;&gt; ~/tmuxcast.#h.#T'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will give you file with logged session output (all curses windows, editor
+windows and so on). Curses output can be unreadable because of control escape
+sequences. Use <code>cat</code> it will interpret escape sequences in terminal.</p>
+
+<p>As always I hope hints were useful. Please share this content if think its
+valuable. Comment if you think id needs improvements. Thank you for reading.</p>
+
+<p>P.S. I should probably create a footer with last paragraph :)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi/">Yet another quick build of arm-unknown-linux-gnueabi</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-03T19:00:00+02:00" pubdate data-updated="true">Apr 3<span>rd</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I decide to check what is going on with
+<a href="http://crosstool-ng.org">crosstool-ng</a> and refresh my <a href="/blog/2012/03/14/quick-build-of-arm-unknown-linux">old post</a>
+about building <code>arm-unknown-linux-gnueabi</code> toolchain. Last post was pretty
+popular, so definitely this is direction I should follow :). I will not repeat
+myself, so if you encounter any problems please check last post, section with
+known problems in crosstool-ng <code>doc/</code> directory or RTFM. Let&#8217;s begin:</p>
+
+<h3>Get the latest crosstool-ng</h3>
+
+<p>As usual I&#8217;m trying to use latest version possible. Following the crosstool-ng page:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>hg clone http://crosstool-ng.org/hg/crosstool-ng
+</span><span class='line'>cd crosstool-ng
+</span><span class='line'>./bootstrap</span></code></pre></td></tr></table></div></figure>
+
+
+<p>At the time of writing this article my changeset was <code>3200:0fc56e62cecf</code> 16 Mar
+2013, two weeks old.</p>
+
+<h3>Installation</h3>
+
+<p>I prefer to use local directory for <code>ct-ng</code> in case it will change in feature I
+will not need to mess with <code>/usr</code> subsystem. Simply tryin&#8217; to keep it clean when I can.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir $HOME/ct-ng
+</span><span class='line'>./configure --prefix=$HOME/ct-ng
+</span><span class='line'>make
+</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>No problems on my up to date Debian wheezy.
+You will probably want to add <code>$HOME/ct-ng</code> to your <code>PATH</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>export PATH="$HOME/ct-ng/bin:${PATH}"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Add bash completion as it is advised in message at the end of compilation process. My <code>.bashrc</code>
+automatically sources <code>$HOME/.bash_completion</code> so there is a place for local
+code completion.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cat ct-ng.comp &gt;&gt; $HOME/.bash_completion</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Build sample toolchain</h3>
+
+<p>There is a long list of predefined samples toolchains which you can get build.
+If <code>ct-ng</code> bash completion was correctly added, than you can explore it by <code>&lt;Tab&gt;</code> or simply
+<code>ct-ng list-samples</code>. Let&#8217;s try to build <code>arm-unknown-linux-gnueabi</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir -p $HOME/embedded/arm-unknown-linux-gnueabi
+</span><span class='line'>cd $HOME/embedded/arm-unknown-linux-gnueabi
+</span><span class='line'>ct-ng arm-unknown-linux-gnueabi</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Before you start build consider some debugging options to make build process
+easier to continue when problems encountered.</p>
+
+<h3>Additional debugging options</h3>
+
+<p>crosstool-ng contain interesting mechanism of saving finished phases of
+toolchain. This helps when for some reason our build process failed. To enable
+this feature simply enter menuconfig:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ct-ng menuconfig</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Mark option <code>Paths and mix options -&gt; Debug crosstool-NG -&gt; Save intermediate steps</code>
+as enabled. If something goes wrong you can check what last state was by:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ls -lt .build/arm-unknown-linux-gnueabi/state</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Directory on top with the latest modification date is now your first state where you
+should restart after fail. To restart build in given point:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ct-ng &lt;state&gt;+ #assuming that &lt;state&gt; is where we fail last time</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ordered list of possible states can be retrieved by <code>ct-ng list-steps</code>.</p>
+
+<h3>Start build</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ct-ng build.4</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>4</code> is the number of concurrent jobs and depends on your setup performance.
+Building process takes a while so make coffee or anything else to drink :).</p>
+
+<h3>Known problems</h3>
+
+<p>I encounter few different problems than during <a href="/blog/2012/03/14/quick-build-of-arm-unknown-linux">previous building</a>.</p>
+
+<h4>Missing expat library</h4>
+
+<p>Signature looks like that:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[ERROR]    configure: error: expat is missing or unusable
+</span><span class='line'>[ERROR]    make[3]: *** [configure-gdb] Error 1
+</span><span class='line'>[ERROR]    make[2]: *** [all] Error 2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Simply install <code>libexpat</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install libexpat1-dev</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>gcj internal error</h4>
+
+<p>Few times I encountered something like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[ERROR]    gcj: internal compiler error: Killed (program jc1)
+</span><span class='line'>[ERROR]    make[5]: *** [ecjx] Error 4
+</span><span class='line'>[ERROR]    make[4]: *** [all-recursive] Error 1
+</span><span class='line'>[ERROR]    make[3]: *** [all-target-libjava] Error 2
+</span><span class='line'>[ERROR]    make[2]: *** [all] Error 2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The reason is that <code>oom_kiler</code> takes care about <code>gcj</code>. It means that you run out
+of memory during compilation Java related code. I experience that when trying to
+build toolchain with 512MB of RAM :)</p>
+
+<p>So this was short reminder. I work on new post about creating virtual
+embedded development environment based on <a href="http://wiki.qemu.org/Main_Page">qemu</a>.
+I was inspired by <a href="http://www.elinux.org/Virtual_Development_Board">this article</a>.
+Hope this article was useful. If you have any comments or difficulties please
+comment below. If think this post was useful - share.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/01/-democracy-the-god-that-failed-hans-hermann-hoppe/">&#8220;Democracy: The God That Failed&#8221; Hans-Hermann Hoppe</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-01T07:50:00+02:00" pubdate data-updated="true">Apr 1<span>st</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="left" src="http://www.hanshoppe.com/wp-content/uploads/images/hoppe_demo-polish-cover-big.jpg" width="200" height="100">
+I began this article last year. Until now I wonder if anyone could be interested
+in reading about book that I read. I saw great interesting in linux/embedded
+stuff but what about different things that we met every day. What about
+politics/economics and religion ? Don&#8217;t know if I should start this but I will
+give it a try.</p>
+
+<p>I&#8217;m argue a lot about politics/economics and religion. I&#8217;m trying to fight with
+mainstream knowledge based on unconsidered news heard in mass-media. I don&#8217;t
+have degree in this matter but study by myself a little bit. So maybe this is
+good place for sharing ideas.</p>
+
+<p>So about a year ago I read a book <a href="http://www.amazon.com/Democracy-Economics-Politics-Monarchy-Natural/dp/0765808684">&#8220;Democracy: The God That Failed&#8221;</a>.
+I talk a lot about this book with my colleagues and have to said that some ideas in it
+are very controversial. One thing is that Hoppe assume some economic facts that
+are not clear for most people - I agree with most of them, because it is
+<a href="http://en.wikipedia.org/wiki/Libertarianism">libertarian</a> point of view and I&#8217;m supporter
+of this political philosophy.</p>
+
+<p>Hoppe shows that people democracy have to fail because every time leads to socialism.
+Increasing number of privileges and promoting average citizen to politics cause
+system inefficient. So most of this things in my environment are well known and
+discussion goes into detailed arguments.</p>
+
+<p>Probably the most shocking for me was concept of totally private security
+system. My mind and probably mind of average Polish citizen is not prepared for
+so revolutionary changes. So Hoppe argue that everyone can have guns, missiles,
+tanks or any other fight equipment he want. Hoppe is an anarcho-capitalist so he
+doesn&#8217;t like state and it&#8217;s monopoly on high end weapon. After rethinking twice
+this concept could be good but IMO through natural evolution we will get
+companies that would take care about security - of course I think about free
+market companies not corrupted-government-related public companies. Also today
+we can find some trends in this, many Polish citizen with high wages go to
+closed residential housing with security, protecting themselves against poor,
+beggars and drunk junkies.</p>
+
+<p>Second thing that heated debate was that state kills more than anarchy or not
+organized society. Discussion goes to question: When more people were killed
+during the Middle Ages, which took quite a long time, or in a few wars started
+by democratically ruled countries ?</p>
+
+<p>So if we look at wiki <a href="http://en.wikipedia.org/wiki/List_of_wars_and_disasters_by_death_toll">article</a>
+what we can see ? Biggest killers in history are Chinese and they did this in
+medieval. So not Europe with its Christian crusade and small contention between
+the principalities ? I will not count Mongolian and Tatar invasion because it
+took 200 years, so this was not a simple war it was series of wars simply
+concatenated in one point. Surprising data from China, they were able to kill
+5-15% of world population
+three times during medieval. They didn&#8217;t have atomic bomb, Ebola, chemical
+poisons
+and they did this. If you ever read something about China history you know that
+it is one of the best organized society in the world (take a look at great
+wall).  First administration exams, wheel base (width of road), language was
+standardized over 2k years ago. Very good organization of the state. So biggest
+wars and most killed battles came from well organized strong state. Take a look
+at Hitrler&#8217;s and Stalin&#8217;s government. If you want peace you don&#8217;t need &#8220;New
+World Order&#8221; or &#8220;World Government&#8221; you need weak state with power distributed to
+locally living people. Let them decide if they want conflict with town or
+village near them. Or maybe better live in peace, trade freely and make world
+better. Centralized systems are slow, inefficient and cost a lot. Distributed
+systems are those in which life of one man is important.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/30/music-for-programming/">Music for programming</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-30T03:27:00+01:00" pubdate data-updated="true">Mar 30<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Of course this is strongly associated with personal taste but I will write my
+experience.</p>
+
+<ol>
+<li><a href="www.pandora.com">www.pandora.com</a> - really great radio station, choose your
+genre or artist and it will lead you through all variety of this type.
+unfortunately if you are fan of Iron Maiden, Blind Guardian, prog rock or
+irish folk you will be bored after 2 hours or less. Sadly not available in
+Poland :( - maybe some proxy will work but I wasn&#8217;t able to find one.</li>
+<li><a href="http://www.kohina.com/">kohina/demo scene</a> - very good radio for long night
+coding sessions. I&#8217;m not big fan of demo scene but I appreciate what guys do
+and did. And somtimes you will hit Super Mario or Contra theme.</li>
+<li><a href="http://www.progarchives.com/subgenre.asp?style=32">post rock/math rock</a> - if you like any variety of prog rock you probably
+know <a href="http://www.progarchives.com/">ProgArchives</a>. It is really hard to find
+good prog rock radio where classics are well mixed with newcomers. I really
+like to listen guys like <a href="http://www.progarchives.com/subgenre.asp?style=32">God Is An Astronaut</a>,
+<a href="http://www.explosionsinthesky.com/">Explosions In The Sky</a>, <a href="http://twdy.tumblr.com/">This Will Destroy You</a>,
+<a href="http://www.65daysofstatic.com/">65daysofstatic</a>, <a href="http://www.redsparowes.com/News.aspx">Red Sparowes</a> or even
+<a href="http://mogwai.sandbag.uk.com/lesrevenants/">Mogwai</a> or <a href="http://www.sigur-ros.co.uk/">Sigur Ros</a>.
+Very good for programming if you drink cofee/tea :)</li>
+<li>movie soundtracks - This one I use when really need to concentrate
+especially when working daylight hours. What&#8217;s best here most of people will
+agree that <a href="http://www.enniomorricone.it/uk/news.php">Ennio Moricone</a>, <a href="http://elsew.com/">Vangelis</a> and <a href="http://www.hans-zimmer.com/">Hans Zimmer</a>
+are famous one and most recognizable for my generation.</li>
+<li><a href="http://nsbradio.co.uk/content/">breakbeat</a> - this one reminds me some stories about mythical cyberpunk
+hackers, its usually noisy and help me isolate from environment and
+concentrate on my work. I will said that if you like freaked electronics than
+you can try this.</li>
+<li><a href="http://www.shoutcast.com/Internet-Radio/drum%20and%20base">dnb</a> - if
+breakbeat is to hard for you try this :). This music tune me in channel of
+rhythmical work.</li>
+<li>When googling this topic I found <a href="http://musicforprogramming.net/">this site</a>
+it was worth to check. Some links are broken. Most of those playlists have too
+low tempo for me.</li>
+</ol>
+
+
+<p>I can also suggest some Irish Folk influenced stuff if don&#8217;t have &#8220;The End is
+near&#8221; wallpaper on your desktop :) There was a time when I was listen a lot of
+psybient, but it is really hard to find good psychodelic ambient radio and this
+music is for me more like movie soundtracks I cannot listen it at night.
+Hope it will give some kind of direction. Let me know what you listen when coding.
+Maybe I will discover new universe.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/19/debian-switching-to-unstable/">tmux multiplexer and vi-like keys in copy-mode</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-19T16:30:00+01:00" pubdate data-updated="true">Mar 19<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I tried to write second post for my new blog but to effectively work using
+terminal I need terminal multiplexer. I switched to tmux from screen
+because I reach point that I can&#8217;t do some things in it in easy way and
+performance was poor. Also activity of tmux developers is better than for gnu
+screen. I also experienced annoy buffer crashing especially after come back from
+lock mode or cmatrix much but after reading few articles about alternative for
+screen I switched to tmux.</p>
+
+<p>It seems that in wheezy(testing) version of tmux is outdated (1.6.2). Last tag
+on tmux <a href="http://sourceforge.net/p/tmux/tmux-code/?source=navbar">sourceforge repo</a>
+is 1.7 and there is almost 300 additional commits on top of the master branch.
+Debian unstable contain version 1.7.2 it is pretty new.</p>
+
+<p>Awesome thing in tmux is emacs/vi keybiding for copy-mode. It really helps with
+writing technical articles about linux stuff with this console outputs and logs
+excerpts.</p>
+
+<p>To enable copy-mode in vi like way put to <code>$HOME/.tmux.conf</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># use vi-like keys</span>
+</span><span class='line'>setw -g mode-keys vi
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I&#8217;m a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
+  </p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/04/06/tmux/">Tmux as screen replacement and productivity accelerator</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi/">Yet another quick build of arm-unknown-linux-gnueabi</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/01/-democracy-the-god-that-failed-hans-hermann-hoppe/">&#8220;Democracy: The God That Failed&#8221; Hans-Hermann Hoppe</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/30/music-for-programming/">Music for programming</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/19/debian-switching-to-unstable/">tmux multiplexer and vi-like keys in copy-mode</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/pietrushnic">@pietrushnic</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'pietrushnic',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/pietrushnic@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - pietrushnic -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'pietrushnicsworld';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

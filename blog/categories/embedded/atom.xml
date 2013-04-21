@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: embedded | pietrushnic's world]]></title>
+  <link href="http://pietrushnic.github.io/blog/categories/embedded/atom.xml" rel="self"/>
+  <link href="http://pietrushnic.github.io/"/>
+  <updated>2013-04-21T07:17:14+02:00</updated>
+  <id>http://pietrushnic.github.io/</id>
+  <author>
+    <name><![CDATA[pietrushnic]]></name>
+    <email><![CDATA[pierushnic@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Yet another quick build of arm-unknown-linux-gnueabi]]></title>
+    <link href="http://pietrushnic.github.io/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi/"/>
+    <updated>2013-04-03T19:00:00+02:00</updated>
+    <id>http://pietrushnic.github.io/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi</id>
+    <content type="html"><![CDATA[<p>So I decide to check what is going on with
+<a href="http://crosstool-ng.org">crosstool-ng</a> and refresh my <a href="/blog/2012/03/14/quick-build-of-arm-unknown-linux">old post</a>
+about building <code>arm-unknown-linux-gnueabi</code> toolchain. Last post was pretty
+popular, so definitely this is direction I should follow :). I will not repeat
+myself, so if you encounter any problems please check last post, section with
+known problems in crosstool-ng <code>doc/</code> directory or RTFM. Let's begin:</p>
+
+<h3>Get the latest crosstool-ng</h3>
+
+<p>As usual I'm trying to use latest version possible. Following the crosstool-ng page:
+<code>
+hg clone http://crosstool-ng.org/hg/crosstool-ng
+cd crosstool-ng
+./bootstrap
+</code>
+At the time of writing this article my changeset was <code>3200:0fc56e62cecf</code> 16 Mar
+2013, two weeks old.</p>
+
+<h3>Installation</h3>
+
+<p>I prefer to use local directory for <code>ct-ng</code> in case it will change in feature I
+will not need to mess with <code>/usr</code> subsystem. Simply tryin' to keep it clean when I can.</p>
+
+<p><code>
+mkdir $HOME/ct-ng
+./configure --prefix=$HOME/ct-ng
+make
+make install
+</code>
+No problems on my up to date Debian wheezy.
+You will probably want to add <code>$HOME/ct-ng</code> to your <code>PATH</code>
+<code>
+export PATH="$HOME/ct-ng/bin:${PATH}"
+</code>
+Add bash completion as it is advised in message at the end of compilation process. My <code>.bashrc</code>
+automatically sources <code>$HOME/.bash_completion</code> so there is a place for local
+code completion.
+<code>
+cat ct-ng.comp &gt;&gt; $HOME/.bash_completion
+</code></p>
+
+<h3>Build sample toolchain</h3>
+
+<p>There is a long list of predefined samples toolchains which you can get build.
+If <code>ct-ng</code> bash completion was correctly added, than you can explore it by <code>&lt;Tab&gt;</code> or simply
+<code>ct-ng list-samples</code>. Let's try to build <code>arm-unknown-linux-gnueabi</code>:
+<code>
+mkdir -p $HOME/embedded/arm-unknown-linux-gnueabi
+cd $HOME/embedded/arm-unknown-linux-gnueabi
+ct-ng arm-unknown-linux-gnueabi
+</code>
+Before you start build consider some debugging options to make build process
+easier to continue when problems encountered.</p>
+
+<h3>Additional debugging options</h3>
+
+<p>crosstool-ng contain interesting mechanism of saving finished phases of
+toolchain. This helps when for some reason our build process failed. To enable
+this feature simply enter menuconfig:
+<code>
+ct-ng menuconfig
+</code>
+Mark option <code>Paths and mix options -&gt; Debug crosstool-NG -&gt; Save intermediate steps</code>
+as enabled. If something goes wrong you can check what last state was by:
+<code>
+ls -lt .build/arm-unknown-linux-gnueabi/state
+</code>
+Directory on top with the latest modification date is now your first state where you
+should restart after fail. To restart build in given point:
+<code>
+ct-ng &lt;state&gt;+ #assuming that &lt;state&gt; is where we fail last time
+</code>
+Ordered list of possible states can be retrieved by <code>ct-ng list-steps</code>.</p>
+
+<h3>Start build</h3>
+
+<p><code>
+ct-ng build.4
+</code>
+<code>4</code> is the number of concurrent jobs and depends on your setup performance.
+Building process takes a while so make coffee or anything else to drink :).</p>
+
+<h3>Known problems</h3>
+
+<p>I encounter few different problems than during <a href="/blog/2012/03/14/quick-build-of-arm-unknown-linux">previous building</a>.</p>
+
+<h4>Missing expat library</h4>
+
+<p>Signature looks like that:
+<code>
+[ERROR]    configure: error: expat is missing or unusable
+[ERROR]    make[3]: *** [configure-gdb] Error 1
+[ERROR]    make[2]: *** [all] Error 2
+</code>
+Simply install <code>libexpat</code>:
+<code>
+sudo apt-get install libexpat1-dev
+</code></p>
+
+<h4>gcj internal error</h4>
+
+<p>Few times I encountered something like this:
+<code>
+[ERROR]    gcj: internal compiler error: Killed (program jc1)
+[ERROR]    make[5]: *** [ecjx] Error 4
+[ERROR]    make[4]: *** [all-recursive] Error 1
+[ERROR]    make[3]: *** [all-target-libjava] Error 2
+[ERROR]    make[2]: *** [all] Error 2
+</code>
+The reason is that <code>oom_kiler</code> takes care about <code>gcj</code>. It means that you run out
+of memory during compilation Java related code. I experience that when trying to
+build toolchain with 512MB of RAM :)</p>
+
+<p>So this was short reminder. I work on new post about creating virtual
+embedded development environment based on <a href="http://wiki.qemu.org/Main_Page">qemu</a>.
+I was inspired by <a href="http://www.elinux.org/Virtual_Development_Board">this article</a>.
+Hope this article was useful. If you have any comments or difficulties please
+comment below. If think this post was useful - share.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Building ARM toolchain - part 2: gcc and eglibc]]></title>
+    <link href="http://pietrushnic.github.io/blog/2012/04/12/building-arm-toolchain-part-2-gcc-and/"/>
+    <updated>2012-04-12T23:54:00+02:00</updated>
+    <id>http://pietrushnic.github.io/blog/2012/04/12/building-arm-toolchain-part-2-gcc-and</id>
+    <content type="html"><![CDATA[<p>Unfortunately after few tries of cross compiling eglibc using different source
+for instructions I alway end with hard to solve issues. Luckily, in the sources
+of eglibc I noticed instructions for cross-compiling written long time ago by
+Jim Blandy(I know i should start <a href="http://www.eglibc.org/cgi-bin/viewvc.cgi/trunk/libc/EGLIBC.cross-building?revision=2037&amp;view=markup">here</a>).
+Lot of thanks to him for it. Below I describe my experience which I gained
+during eglibc cross compilation for <code>arm-unknown-linux-gnueabi</code> and procedure that
+I used. Commands below contain some constants that I used in previous works. See
+<a href="/blog/2012/03/20/building-arm-toolchain-part-1-libs-and">this post.</a>
+Eglibc library and the compiler itself is built with many various parameters
+this post is not the place to explain their meaning, please RTFM.</p>
+
+<ol>
+<li>Checkout eglibc from svn (as alwyas I try to use a latest sources possible).
+Version used r17815:
+<code>
+svn co http://www.eglibc.org/svn/trunk eglibc
+</code></li>
+<li>Link working ports to GNU/Linux on some machine architectures. They are not
+maintained in the official glibc source tree so we need to add it in this way:
+<code>
+ln -s ../ports eglibc/libc/ports/
+</code></li>
+<li>Create eglibc-headers directory:
+<code>
+mkdir eglib-headers; cd eglib-headers
+</code></li>
+<li>Configure eglibc and preliminary objects:
+<code>
+BUILD_CC=gcc CC=arm-unknown-linux-gnueabi-gcc CXX=arm-unknown-linux-gnueabi-cpp \
+AR=arm-unknown-linux-gnueabi-ar RANLIB=arm-unknown-linux-gnueabi-ranlib \
+../eglibc/libc/configure --prefix=/usr --with-headers=$TARGET/usr/include \
+--build=x86_64-pc-linux-gnu --host=arm-unknown-linux-gnueabi --disable-profile \
+--without-gd --without-cvs --enable-add-ons
+</code></li>
+<li>Install eglibc headers:
+<code>
+make install-headers install_root=$TARGET install-bootstrap-headers=yes
+</code></li>
+<li>We need few object file to link shared libraries, which will be built and installed by hand:
+<code>
+mkdir -p $TARGET/usr/lib make csu/subdir_lib cp csu/crt1.o csu/crti.o csu/crtn.o $TARGET/usr/lib
+</code></li>
+<li>To produce libgcc_s.so we need libc.so, but only need its dummy version because
+we'll never use it. It doesn't matter what we will point as a libc.so we use /dev/null as C file.
+<code>
+arm-unknown-linux-gnueabi-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o \
+$TARGET/usr/lib/libc.so
+</code></li>
+<li>Get latest gcc sources using git repository mirror. Latest commit while writing
+this post was 5b9a8c3:
+<code>
+cd .. git clone git://repo.or.cz/official-gcc.git
+</code></li>
+<li>Now, we can build gcc which can compile eglibc.
+<code>
+mkdir eglibc-gcc; cd eglibc-gcc ../official-gcc/configure --target=arm-unknown-linux-gnueabi \
+--prefix=$TARGET/arm-x-tools --with-sysroot=$TARGET --disable-libssp \
+--disable-libgomp --disable-libmudflap --enable-languages=c \
+--with-gmp=$TARGET/arm-x-tools --with-mpfr=$TARGET/arm-x-tools \
+--with-mpc=$TARGET/arm-x-tools --disable-libquadmath --build=$MACHTYPE \
+--host=$MACHTYPE --with-local-prefix=$TARGET/arm-x-tools --disable-multilib \
+--with-float=soft --with-pkgversion="pietrushnic" --enable-threads=no \
+--enable-target-optspace --disable-nls --enable-c99 --enable-long-long
+make -j4
+make install
+</code></li>
+<li>Confugure and compile final version of eglibc.
+<code>
+mkdir eglibc-final
+cd eglibc-final/ BUILD_CC=gcc CC=arm-unknown-linux-gnueabi-gcc CXX=arm-unknown-linux-gnueabi-cpp \
+AR=arm-unknown-linux-gnueabi-ar RANLIB=arm-unknown-linux-gnueabi-ranlib \
+../eglibc/libc/configure --prefix=/usr --with-headers=$TARGET/usr/include \
+--build=x86_64-pc-linux-gnu --host=arm-unknown-linux-gnueabi --disable-profile \
+--without-gd --without-cvs --enable-add-ons
+make
+make install install_root=$TARGET
+</code></li>
+<li>Install libelf library
+<code>
+wget http://www.mr511.de/software/libelf-0.8.13.tar.gz
+tar zxvf libelf-0.8.13.tar.gz
+cd libelf-0.8.13/
+./configure --prefix=$TARGET/arm-x-tools --disable-shared --enable-static
+make;make install
+</code></li>
+<li>Prepare final version of gcc.
+<code>
+cd ..
+mkdir final-gcc
+cd final-gcc
+../official-gcc/configure --target=arm-unknown-linux-gnueabi \
+--prefix=$TARGET/arm-x-tools --with-sysroot=$TARGET --disable-libssp \
+--disable-libgomp --disable-libmudflap --enable-languages=c,c++ --with-gmp=$TARGET/arm-x-tools \
+--with-mpfr=$TARGET/arm-x-tools --with-mpc=$TARGET/arm-x-tools --disable-libquadmath \
+--build=$MACHTYPE --host=$MACHTYPE --with-local-prefix=$TARGET/arm-x-tools --disable-multilib \
+--with-float=soft --with-pkgversion="pietrushnic" --enable-threads=posix \
+--enable-target-optspace --disable-nls --enable-c99 --enable-long-long \
+--enable-__cxa_atexit --enable-symvers=gnu --with-libelf=$TARGET/arm-x-tools \
+--enable-lto
+make
+make install
+</code></li>
+<li>Few libraries should be copied manualy
+<code>
+cp -d $TARGET/arm-x-tools/arm-unknown-linux-gnueabi/lib/libgcc\_s.so\* $TARGET/lib
+cp -d $TARGET/arm-x-tools/arm-unknown-linux-gnueabi/lib/libstdc++.so\* $TARGET/lib
+</code></li>
+<li>Compile and install chrpath - this is useful tool to remove the rpath or runpath setting from binary.
+<code>
+cd ..
+sudo apt-get install libc6-i386 gcc-multilib
+apt-get source chrpath
+cd chrpath-0.13/ CFLAGS=-m32
+./configure --prefix=$TARGET/arm-x-tools \
+--program-prefix=arm-unknown-linux-gnueabi-
+make
+make install
+</code></li>
+<li>Strip debug symbols
+<code>
+strip --strip-debug $TARGET/arm-x-tools/lib/* \
+$TARGET/arm-x-tools/arm-unknown-linux-gnueabi/lib/* $TARGET/arm-x-tools/libexec/*
+strip --strip-unneeded $TARGET/arm-x-tools/bin/* \
+$TARGET/arm-x-tools/arm-unknown-linux-gnueabi/bin/*
+arm-unknown-linux-gnueabi-strip --strip-debug $TARGET/lib/* $TARGET/usr/lib/*
+</code></li>
+<li>At the end simple test to find out if basic functionality works:
+```c
+cat > hello.c &lt;&lt; EOF
+
+<blockquote><h1>include &lt;stdio.h></h1>
+
+<p>int
+main (int argc, char **argv)
+{
+puts ("Hello, world!");
+return 0;
+}
+EOF
+<code>
+Try to cross compile C file:
+</code>
+$TARGET/arm-x-tools/bin/arm-unknown-linux-gnueabi-gcc -Wall hello.c -o hello
+<code>
+</code>cpp
+cat > c++-hello.cc &lt;&lt;EOF</p>
+
+<h1>include <iostream></h1>
+
+<p>int
+main (int argc, char **argv)
+{
+std::cout return 0;
+}
+EOF
+Try to cross compile C++ file:
+<code>
+$TARGET/arm-x-tools/bin/arm-unknown-linux-gnueabi-g++ -Wall c++-hello.cc -o \
+c++-hello
+</code>
+Displays the information contained in the ELF header and in the file's segment headers:
+<code>
+$TARGET/arm-x-tools/bin/arm-unknown-linux-gnueabi-readelf -hl hello
+$TARGET/arm-x-tools/bin/arm-unknown-linux-gnueabi-readelf -hl c++-hello
+</code>
+Result should look like that:
+<code>
+ELF Header:
+Magic: 7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
+Class: ELF32
+Data: 2's complement, little endian
+Version: 1 (current)
+OS/ABI: UNIX - System V ABI
+Version: 0
+Type: EXEC (Executable file)
+Machine: ARM
+(...)
+Flags: 0x5000002, has entry point, Version5 EABI
+(...)
+Program Headers:
+(...)
+INTERP 0x000134 0x00008134 0x00008134 0x00013 0x00013 R 0x1
+  [Requesting program interpreter: /lib/ld-linux.so.3]
+LOAD 0x000000 0x00008000 0x00008000 0x004b8 0x004b8 R E 0x8000
+(...)
+</code>
+<code>
+$TARGET/arm-x-tools/bin/arm-unknown-linux-gnueabi-readelf -d \
+$TARGET/lib/libgcc_s.so.1
+</code>
+Result should look like that:
+<code>
+(...)
+Tag          Type           Name/Value
+0x00000001 (NEEDED) Shared library: [libc.so.6]
+0x0000000e (SONAME) Library soname: [libgcc_s.so.1]
+0x0000000c (INIT) 0xcc2c (...)
+</code></p></blockquote></li>
+</ol>
+
+
+<p>I hope you find above manual useful. If you need more detailed descriptions it
+can be found <a href="http://www.eglibc.org/cgi-bin/viewvc.cgi/trunk/libc/EGLIBC.cross-building?view=markup">here</a>.
+Also don't bother to ask me by comment below.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Building ARM toolchain - part 1: libs and binutils]]></title>
+    <link href="http://pietrushnic.github.io/blog/2012/03/20/building-arm-toolchain-part-1-libs-and/"/>
+    <updated>2012-03-20T23:25:00+01:00</updated>
+    <id>http://pietrushnic.github.io/blog/2012/03/20/building-arm-toolchain-part-1-libs-and</id>
+    <content type="html"><![CDATA[<p>Searching the Internet for information on how to build arm toolchain from
+scratch I realize that it is very hard to find  information about this matter
+(and recent one even harder). I will try to fill this lack of information and
+try to build toolchain. My main goal is to use a component based on the GNU
+public license, and using them in as the newest version as it is possible.</p>
+
+<p>What is toolchain ? (according to wikipedia):</p>
+
+<blockquote><p>In software, a toolchain is the set of programming tools that are used to create a product (typically another computer program or system of programs). The tools may be used in a chain, so that the output of each tool becomes the input for the next, but the term is used widely to refer to any set of linked development tools.</p></blockquote>
+
+<h3>Requirements</h3>
+
+<ul>
+<li>Cross compiler, I create one using corsstool-ng and describe this process in 
+<a href="/blog/2012/03/14/quick-build-of-arm-unknown-linux">previous post</a>.
+I will use <code>arm-unknown-linux-gnueabi</code> as entry point compiler.</li>
+<li>$TARGET is defined as my destination directory:
+<code>
+export TARGET=/home/pietrushnic/sandbox/toolchain  
+</code></li>
+</ul>
+
+
+<h3>Procedure</h3>
+
+<h4>Kernel header files</h4>
+
+<ol>
+<li>clone linux git repository
+<code>
+git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+</code></li>
+<li>install headers $TARGET is home of our toolchain
+<code>
+make ARCH=arm INSTALL_HDR_PATH=$TARGET/usr headers_install
+</code></li>
+</ol>
+
+
+<h4>Libraries (gmp, mpfr, mpc)</h4>
+
+<ol>
+<li>GMP (<em>GNU Multiple Precision Arithmetic Library</em>) - changeset used: 14765:0acae62fa162</li>
+<li>As I said before. I use "latest greatest" ;P version, and for gmp we can reach it using:
+<code>
+hg clone http://gmplib.org:8000/gmp
+</code>
+
+<ul>
+<li> create configuration files
+<code>    
+./.bootstrap
+</code></li>
+</ul>
+</li>
+<li>configure
+<code>
+./configure --prefix=$TARGET/arm-x-tools --enable-shared=n --enable-static
+</code></li>
+<li><p>compile
+<code>
+make &amp;&amp; make check &amp;&amp; make install
+</code></p>
+
+<ol>
+<li>MPFR (<em>GNU Multiple Precision Floating-Point Reliably</em>) - version: r8103</li>
+<li>get latest version
+<code>
+svn checkout svn://scm.gforge.inria.fr/svn/mpfr/trunk mpfr
+</code></li>
+</ol>
+</li>
+<li>create configuration file
+<code>
+autoreconf -i
+</code></li>
+<li>configure
+<code>
+./configure --prefix=$TARGET/arm-x-tools --enable-thread-safe \ --with-gmp=$TARGET/arm-x-tools --disable-shared --enable-static
+</code></li>
+<li><p>compile
+<code>
+make &amp;&amp; make install
+</code></p>
+
+<ol>
+<li>MPC (<em>Multiple Precision Complex</em>)- version: r1146</li>
+<li>checkout svn
+<code>
+svn checkout svn://scm.gforge.inria.fr/svnroot/mpc/trunk mpc
+</code></li>
+</ol>
+</li>
+<li>create configuration file
+<code>
+autoreconf -i
+</code></li>
+<li>configure
+<code>
+./configure --prefix=$TARGET/arm-x-tools \ --with-gmp=$TARGET/arm-x-tools --with-mpfr=$TARGET/arm-x-tools \ --disable-shared --enable-static
+</code></li>
+<li><p>compile
+<code>
+make &amp;&amp; make install
+</code></p></li>
+<li><p>Binutils - collection of a GNU binary tools:</p></li>
+<li>checkout version from anonymous cvs
+<code>
+cvs -z 9 -d :pserver:anoncvs@sourceware.org:/cvs/src
+</code></li>
+<li>login create directory for checkout
+<code>
+mkdir binutils
+</code>
+checkout sources
+<code>
+cvs -z 9 -d :pserver:anoncvs@sourceware.org:/cvs/src co binutils
+</code></li>
+<li>configure
+<code>
+LDFLAGS="-Wl,-rpath -Wl,$TARGET/arm-x-tools/lib" ./configure \
+--build=x86_64-pc-linux-gnu --host=x86_64-pc-linux-gnu \
+--target=arm-unknown-linux-gnueabi --prefix=$TARGET/arm-x-tools \
+--disable-nls --disable-multilib --disable-werror --with-float=soft \
+--with-gmp=$TARGET/arm-x-tools --with-mpfr=$TARGET/arm-x-tools \
+--with-mpc=$TARGET/arm-x-tools --with-sysroot=$TARGET
+</code></li>
+<li>compile
+<code>
+make configure-host make make install
+</code></li>
+<li>to check if everything was made correctly
+<code>
+ldd $TARGET/arm-x-tools/bin/arm-unknown-linux-gnueabi-ldd
+</code>
+it should show that it use library compiled previously by us:
+<code>
+libz.so.1 =&gt; /home/pietrushnic/sandbox/toolchain/arm-x-tools/lib/libz.so.1 \ (0x00007f0086cc5000)
+</code></li>
+</ol>
+
+
+<p>This set gives us a solid base to build the compiler. However, it will be in the <a href="/blog/2012/04/12/building-arm-toolchain-part-2-gcc-and">next section</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Quick build of arm-unknown-linux-gnueabi with crosstool-ng]]></title>
+    <link href="http://pietrushnic.github.io/blog/2012/03/14/quick-build-of-arm-unknown-linux/"/>
+    <updated>2012-03-14T23:42:00+01:00</updated>
+    <id>http://pietrushnic.github.io/blog/2012/03/14/quick-build-of-arm-unknown-linux</id>
+    <content type="html"><![CDATA[<p>You might be surprised at how much you have to make to correctly build
+<code>arm-unknown-linux-gnueabi</code> config based toolchain with <a href="http://crosstool-ng.org/">crosstool-ng</a>. As you can
+see examples of many open source projects, the man's work is a rare resource.
+The result of this economic fact is that the attempt to build configuration
+<code>arm-unknown-linux-gnueabi</code> is not a simple task and during an operation you can
+come across many problems. Although I am not afraid of problems and effectively
+try to fight them and of course sharing the results of my work. My build system
+parameters:  <code>Debian GNU/Linux wheezy/sid 3.2.0-2-amd64</code></p>
+
+<ul>
+<li>Clone crosstools-ng (you need mercurial)
+<code>bash
+hg clone http://crosstool-ng.org/hg/crosstool-ng
+</code></li>
+<li>Create temporary directory and run
+<code>bash
+ct-ng arm-unknown-linux-eabi #choose latest kernel (for me it was 3.2.9)
+</code></li>
+<li>We probably want to change directory to which all stuff will be build (default is <code>$HOME/x-tools</code>):
+<code>bash
+ct-ng menuconfig
+</code>
+And go to:
+<code>Paths and misc options ---&gt; (${HOME}/x-tools/${CT_TARGET}) Prefix directory</code>
+Change it according to your needs. Exit end save configuration.</li>
+<li>Build (number after dot depend on how many command we want to run simultaneously):
+<code>ct-ng build.4</code>
+It can take a lot of time. On my machine with 5k BogoMips it takes over 1h.</li>
+</ul>
+
+
+<h3>Problems that you can encounter:</h3>
+
+<ul>
+<li><code>gcj</code> - latest changeset <code>2916:6f758ed4c0b9</code> have trouble finding <code>gcj</code> binary,
+which it show using following message:
+<code>
+[ERROR] Missing: 'x86_64-unknown-linux-gnu-gcj' or 'x86_64-unknown-linux-gnu-gcj' or 'gcj' : either needed!
+</code>
+To workaround this install <code>gcj</code> and link binary like this:
+<code>
+sudo ln -s /usr/bin/gcj-4.6 /usr/bin/gcj
+</code></li>
+<li><code>duma</code> - mentioned changeset also has problem with url to D.U.M.A library,
+apply below changes to workaround problems:
+```diff
+--- a/scripts/build/debug/200-duma.sh Mon Mar 12 21:19:26 2012 +0100
++++ b/scripts/build/debug/200-duma.sh Wed Mar 14 20:02:22 2012 +0100
+@@ -4,7 +4,7 @@ # Downloading an non-existing file from sourceforge will give you an
+
+<h1>HTML file containing an error message, instead of returning a 404.</h1>
+
+<h1>Sigh...</h1></li>
+<li>CT_GetFile "duma_${CT_DUMA_VERSION}" .tar.gz http://kent.dl.sourceforge.net/sourceforge/duma/</li>
+<li>CT_GetFile "duma_${CT_DUMA_VERSION}" .tar.gz http://downloads.sourceforge.net/project/duma/duma/2.5.15
+
+<h1>Downloading from sourceforge may leave garbage, cleanup</h1>
+
+<p>CT_DoExecLog ALL rm -f "${CT_TARBALLS_DIR}/showfiles.php"* }
+```</p></li>
+<li><code>mawk</code> - if mawk return syntax error like this:
+<code>
+mawk: scripts/gen-sorted.awk: line 19: regular expression compile failed (bad
+class -- [], [^] or [)
+</code>
+It could be fixed in two ways. First is to change <code>line 19</code> in <code>/path/to/tmp/dir/.build/src/glibc-2.9/scripts/gen-sorted.awk</code>
+Is:
+<code>
+sub(/\/[^/]+$/, "", subdir);
+</code>
+Should be:
+<code>
+sub(/\/[^\/]+$/, "", subdir);
+</code>
+Or simply by installing gawk, reconfigure and recompile <code>crosstools-ng</code>.</li>
+</ul>
+
+
+<p>This was my first post related to linux embedded enviroment. Hope it will be more. Enjoy!</p>
+]]></content>
+  </entry>
+  
+</feed>

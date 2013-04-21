@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: productivity | pietrushnic's world]]></title>
+  <link href="http://pietrushnic.github.io/blog/categories/productivity/atom.xml" rel="self"/>
+  <link href="http://pietrushnic.github.io/"/>
+  <updated>2013-04-21T07:17:14+02:00</updated>
+  <id>http://pietrushnic.github.io/</id>
+  <author>
+    <name><![CDATA[pietrushnic]]></name>
+    <email><![CDATA[pierushnic@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tmux as screen replacement and productivity accelerator]]></title>
+    <link href="http://pietrushnic.github.io/blog/2013/04/06/tmux/"/>
+    <updated>2013-04-06T05:29:00+02:00</updated>
+    <id>http://pietrushnic.github.io/blog/2013/04/06/tmux</id>
+    <content type="html"><![CDATA[<p>As I wrote in <a href="/blog/2013/03/19/debian-switching-to-unstable">previous post</a> I
+switched from GNU screen to <a href="http://tmux.sourceforge.net">tmux</a>. I use it for a
+few moths and have to said that I'm really impressed by simplicity, performance
+and community support in this project. In this post I want to discuss my
+configuration and useful additions for it like tmuxinator, session logging,
+colors or status bar configuration.</p>
+
+<h3>Basics</h3>
+
+<p>Debian contain <code>tmux</code> package but for stable and testing release it is pretty
+old version. Personally I use <code>unstable</code> version where <code>tmux</code> was delivered in
+<code>1.7~svn2819-1</code> version.
+<code>
+sudo apt-get install tmux
+</code>
+To start session simply type <code>tmux</code>. Tmux uses <code>C-b</code>/ <code>Ctrl-b</code> as a prefix for
+commands. If you switch from GNU screen then at the beginning you can experience
+some annoying situations but after few days everything should back to normal.</p>
+
+<p>Most used keybiddings:</p>
+
+<ul>
+<li><code>C-b c</code> - create new window</li>
+<li><code>C-b ,</code> - rename current window</li>
+<li><code>C-b n</code> - next window</li>
+<li><code>C-b p</code> - previous window</li>
+<li><code>C-b l</code> - last window</li>
+<li><code>C-b d</code> - disconnect</li>
+<li><code>C-b k</code> - kill current window</li>
+<li><code>C-b K</code> - kill tmux server</li>
+<li><code>C-b [</code> - enter copy mode</li>
+<li><code>C-b ]</code> - paste last copied buffer</li>
+<li><code>C-b :</code> - tmux command line</li>
+<li><code>C-b w</code> - windows list</li>
+<li><code>C-b ?</code> - help</li>
+</ul>
+
+
+<p>Full list can be found <a href="http://www.openbsd.org/cgi-bin/man.cgi?query=tmux&amp;sektion=1#KEY+BINDINGS">here</a>.</p>
+
+<h3>Configuration</h3>
+
+<p>Tmux keeps its configuration in <code>$HOME/.tmux.conf</code>. My configuration mixes
+some tmux examples with code that I found in the net. This file can be found on
+my github repository <a href="https://github.com/pietrushnic/workspace/blob/master/dotfiles/tmux.conf">here</a>. First section contain some general configuration:
+```</p>
+
+<h1>confirm before killing a window or the server</h1>
+
+<p>bind-key k confirm kill-window
+bind-key K confirm kill-server</p>
+
+<h1>toggle statusbar</h1>
+
+<p>bind-key b set-option status</p>
+
+<h1>ctrl+left/right cycles thru windows</h1>
+
+<p>bind-key -n C-right next
+bind-key -n C-left prev</p>
+
+<h1>scrollback buffer n lines</h1>
+
+<p>set -g history-limit 10000</p>
+
+<h1>listen for activity on all windows</h1>
+
+<p>set -g bell-action any</p>
+
+<h1>on-screen time for display-panes in ms</h1>
+
+<p>set -g display-panes-time 2000</p>
+
+<h1>start window indexing at one instead of zero</h1>
+
+<p>set -g base-index 1</p>
+
+<h1>enable wm window titles</h1>
+
+<p>set -g set-titles on</p>
+
+<h1>wm window title string (uses statusbar variables)</h1>
+
+<p>set -g set-titles-string "tmux.#I.#W"</p>
+
+<h1>statusbar</h1>
+
+<p>set -g display-time 2000
+<code>
+After that I have implemented [solarized](http://ethanschoonover.com/solarized) colors (dark theme):
+</code></p>
+
+<h3>COLOUR (Solarized dark)</h3>
+
+<h1>default statusbar colors</h1>
+
+<p>set-option -g status-bg black #base02
+set-option -g status-fg yellow #yellow
+set-option -g status-attr default</p>
+
+<h1>default window title colors</h1>
+
+<p>set-window-option -g window-status-fg brightblue #base0
+set-window-option -g window-status-bg default</p>
+
+<h1>set-window-option -g window-status-attr dim</h1>
+
+<h1>active window title colors</h1>
+
+<p>set-window-option -g window-status-current-fg brightred #orange
+set-window-option -g window-status-current-bg default</p>
+
+<h1>set-window-option -g window-status-current-attr bright</h1>
+
+<h1>use vi-like keys</h1>
+
+<p>setw -g mode-keys vi</p>
+
+<h1>pane border</h1>
+
+<p>set-option -g pane-border-fg black #base02
+set-option -g pane-active-border-fg brightgreen #base01</p>
+
+<h1>message text</h1>
+
+<p>set-option -g message-bg black #base02
+set-option -g message-fg brightred #orange</p>
+
+<h1>pane number display</h1>
+
+<p>set-option -g display-panes-active-colour blue #blue
+set-option -g display-panes-colour brightred #orange
+```
+To make solarized colors work on my setup was quite challenging, because there
+are many things to set (vim, terminal, putty etc.). If you need any advice I can
+write something about this. Right now it is beyond the scope of this post.</p>
+
+<p>At the end of my tmux configuration I've some fancy status bar:
+```</p>
+
+<h1>clock</h1>
+
+<p>set-window-option -g clock-mode-colour green #green</p>
+
+<h1>center align the window list</h1>
+
+<p>set -g status-justify centre</p>
+
+<h1>show some useful stats but only when tmux is started</h1>
+
+<h1>outside of Xorg, otherwise dwm statusbar shows these already</h1>
+
+<p>set -g status-right ""
+set -g status-left ""
+if '[ -z "$DISPLAY" ]' 'set -g status-left "[#[fg=green] #H ][#[default]]"'
+if '[ -z "$DISPLAY" ]' 'set -g status-right "[ #[fg=magenta]#(cat /proc/loadavg | cut -d \" \" -f 1,2,3)#[default] ][ #[fg=cyan,bright]%a %Y-%m-%d %H:%M #[default]]"'
+if '[ -z "$DISPLAY" ]' 'set -g status-right-length 50'
+```
+I think that mostly this is self explanatory. This how it look in work:
+<a href="/assets/images/tmux-screen.png"><img class="center" src="/assets/images/tmux-screen.png" width="300" height="400"></a></p>
+
+<h3>tmuxinator</h3>
+
+<p>I spend some time to realize what is the best way of managing windows and panes
+in tmux. Especially I was interested in setting some windows at tmux startup.
+Finally I found <a href="https://github.com/aziz/tmuxinator">tmuxinator</a> small but useful
+project delivered through <code>gem</code> system. Follow tmuxinator page to set it up
+correctly. If you want to see my primitive configuration it is also available on
+my github in <a href="https://github.com/pietrushnic/workspace/blob/master/dotfiles/tmux.conf">werkspace project</a>.</p>
+
+<h3>Window logging</h3>
+
+<p>Last hint I found on this
+<a href="http://0xfeedface.org/blog/lattera/2012-03-19/using-tmux-screencasting-tool">blog</a>.
+How to log your work in console for example to write a blog post :) ? There is a
+universal method for piping all console output to our program of choice. For
+example run command like this (command mode available under <code>C-b :</code>):
+<code>
+pipe-pane -o 'cat &gt;&gt; ~/tmuxcast.#h.#T'
+</code>
+This will give you file with logged session output (all curses windows, editor
+windows and so on). Curses output can be unreadable because of control escape
+sequences. Use <code>cat</code> it will interpret escape sequences in terminal.</p>
+
+<p>As always I hope hints were useful. Please share this content if think its
+valuable. Comment if you think id needs improvements. Thank you for reading.</p>
+
+<p>P.S. I should probably create a footer with last paragraph :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Music for programming]]></title>
+    <link href="http://pietrushnic.github.io/blog/2013/03/30/music-for-programming/"/>
+    <updated>2013-03-30T03:27:00+01:00</updated>
+    <id>http://pietrushnic.github.io/blog/2013/03/30/music-for-programming</id>
+    <content type="html"><![CDATA[<p>Of course this is strongly associated with personal taste but I will write my
+experience.</p>
+
+<ol>
+<li><a href="www.pandora.com">www.pandora.com</a> - really great radio station, choose your
+genre or artist and it will lead you through all variety of this type.
+unfortunately if you are fan of Iron Maiden, Blind Guardian, prog rock or
+irish folk you will be bored after 2 hours or less. Sadly not available in
+Poland :( - maybe some proxy will work but I wasn't able to find one.</li>
+<li><a href="http://www.kohina.com/">kohina/demo scene</a> - very good radio for long night
+coding sessions. I'm not big fan of demo scene but I appreciate what guys do
+and did. And somtimes you will hit Super Mario or Contra theme.</li>
+<li><a href="http://www.progarchives.com/subgenre.asp?style=32">post rock/math rock</a> - if you like any variety of prog rock you probably
+know <a href="http://www.progarchives.com/">ProgArchives</a>. It is really hard to find
+good prog rock radio where classics are well mixed with newcomers. I really
+like to listen guys like <a href="http://www.progarchives.com/subgenre.asp?style=32">God Is An Astronaut</a>,
+<a href="http://www.explosionsinthesky.com/">Explosions In The Sky</a>, <a href="http://twdy.tumblr.com/">This Will Destroy You</a>,
+<a href="http://www.65daysofstatic.com/">65daysofstatic</a>, <a href="http://www.redsparowes.com/News.aspx">Red Sparowes</a> or even
+<a href="http://mogwai.sandbag.uk.com/lesrevenants/">Mogwai</a> or <a href="http://www.sigur-ros.co.uk/">Sigur Ros</a>.
+Very good for programming if you drink cofee/tea :)</li>
+<li>movie soundtracks - This one I use when really need to concentrate
+especially when working daylight hours. What's best here most of people will
+agree that <a href="http://www.enniomorricone.it/uk/news.php">Ennio Moricone</a>, <a href="http://elsew.com/">Vangelis</a> and <a href="http://www.hans-zimmer.com/">Hans Zimmer</a>
+are famous one and most recognizable for my generation.</li>
+<li><a href="http://nsbradio.co.uk/content/">breakbeat</a> - this one reminds me some stories about mythical cyberpunk
+hackers, its usually noisy and help me isolate from environment and
+concentrate on my work. I will said that if you like freaked electronics than
+you can try this.</li>
+<li><a href="http://www.shoutcast.com/Internet-Radio/drum%20and%20base">dnb</a> - if
+breakbeat is to hard for you try this :). This music tune me in channel of
+rhythmical work.</li>
+<li>When googling this topic I found <a href="http://musicforprogramming.net/">this site</a>
+it was worth to check. Some links are broken. Most of those playlists have too
+low tempo for me.</li>
+</ol>
+
+
+<p>I can also suggest some Irish Folk influenced stuff if don't have "The End is
+near" wallpaper on your desktop :) There was a time when I was listen a lot of
+psybient, but it is really hard to find good psychodelic ambient radio and this
+music is for me more like movie soundtracks I cannot listen it at night.
+Hope it will give some kind of direction. Let me know what you listen when coding.
+Maybe I will discover new universe.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Short hint for all those who use vim and pathogen]]></title>
+    <link href="http://pietrushnic.github.io/blog/2013/01/15/short-hint-for-all-those-who-use-vim/"/>
+    <updated>2013-01-15T11:51:00+01:00</updated>
+    <id>http://pietrushnic.github.io/blog/2013/01/15/short-hint-for-all-those-who-use-vim</id>
+    <content type="html"><![CDATA[<p>Today, after updating my wokspace to latest version I encounter below error during vim running:
+<code>
+Error detected while processing function pathogen#runtime_append_all_bundles:
+line 1:
+E121: Undefined variable: source_path
+E116: Invalid arguments for function string(source_path).') to pathogen#incubate('.string(source_path.'/{}').')')
+E116: Invalid arguments for function 4_warn
+Press ENTER or type command to continue
+</code>
+Quick look on pathogen runtime_append_all_bundles function and I found:
+<code>bash
+call s:warn('Change pathogen#runtime_append_all_bundles('.string(a:1).') to pathogen#incubate('.string(a:1.'/{}').')')
+</code>
+So simply replacing:
+<code>bash
+call pathogen#runtime_append_all_bundles()
+</code>
+with:
+<code>bash
+call pathogen#incubate() in $HOME/.vimrc fix the problem.
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vim as a Blogger editor]]></title>
+    <link href="http://pietrushnic.github.io/blog/2012/04/21/vim-as-blogger-editor_21/"/>
+    <updated>2012-04-21T12:55:00+02:00</updated>
+    <id>http://pietrushnic.github.io/blog/2012/04/21/vim-as-blogger-editor_21</id>
+    <content type="html"><![CDATA[<p>  <a href="https://github.com/ujihisa/blogger.vim">Blogger.vim</a> is a vim plugin for interfacing with Google's Blogger. Below I will use my workspace git <a href="https://github.com/pietrushnic/workspace">repository</a>. To use this plugin we need pretty new ruby >= 1.9.2 and gems nokogiri and net-https-wrapper. Let's install latest possible ruby for Debian, before that make sure you have latest updates:</p>
+
+<p>sudo apt-get update sudo apt-get upgrade sudo apt-get dist-upgrade And ruby:</p>
+
+<p>sudo apt-get install ruby1.9.3 Before we install gems , we need to resolve some dependencies:</p>
+
+<p>sudo apt-get install libxml2-dev libxslt1-dev Latest nokogiri 1.5.2 have some issues, so we need to use 1.5.0 which is stable:</p>
+
+<p>sudo gem install nokogiri --version 1.5.0 And the wrapper for https:</p>
+
+<p>sudo gem install net-https-wrapper Finally also pandoc will be neded to display web pages in vim:</p>
+
+<p>sudo apt-get install pandoc Right now we are able to run vim with blogger support. First we need to configure vim, add below lines to your $HOME/.vimrc file:</p>
+
+<p>let g:blogger_blogid = 'your_blogid_here' let g:blogger_email = 'your_email_here' let g:blogger_pass = 'your_blogger_password_here' Run vim and try to list your blogger posts by typing:</p>
+
+<p>:e blogger:list If list of you see all your posts than it seems that plugin works good. Finally check writing feature. Create file with some text and type:</p>
+
+<p>:w blogger:create Few things doesn't work as it should. Meybe I will find enough time to fix it. This article was created by using blogger.vim script.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Splitting my personal repository]]></title>
+    <link href="http://pietrushnic.github.io/blog/2012/03/14/splitting-my-personal-repository/"/>
+    <updated>2012-03-14T23:26:00+01:00</updated>
+    <id>http://pietrushnic.github.io/blog/2012/03/14/splitting-my-personal-repository</id>
+    <content type="html"><![CDATA[<p>After writing a few posts in which my workspace scripts could be useful, I
+realized that I should split blog works from the scripts that can be useful to
+others. From now materials related to the blog I will track in a separate
+repository and I'll add them as submodule into my environment. This implies that
+if we intend to deliver something to a broader audience this should include only
+those things which the recipient is expected and which we say that we provide.
+Any additional items should be removed. We get a lot of unwanted stuff today, at
+every opportunity. From an economic point of view, it is known that very often
+margin value law is used here i.e. by hypermarkets, I will touch on this subject
+on another occasion, related to economics.</p>
+]]></content>
+  </entry>
+  
+</feed>

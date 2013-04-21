@@ -1,0 +1,730 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>pietrushnic's world</title>
+  <meta name="author" content="pietrushnic">
+
+  
+  <meta name="description" content="How mutt can handle mails in html format ? Takling about html mail handling is
+talking about handling any type of Multipurpose Internet Mail &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://pietrushnic.github.io/blog/page/3">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="pietrushnic's world" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39420295-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">pietrushnic's world</a></h1>
+  
+    <h2>|| 933k' dr34M2 0F Phr33D0m</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:pietrushnic.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About Me</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/13/mutt-tutorial-part-4-html-mails-address/">Mutt tutorial part 4 - html mails, address book and other useful features</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-13T17:21:00+02:00" pubdate data-updated="true">May 13<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>How mutt can handle mails in html format ? Takling about html mail handling is
+talking about handling any type of <a href="http://en.wikipedia.org/wiki/MIME">Multipurpose Internet Mail Extensions</a>.
+Mutt supports handling for all MIME types in one place for all programs. This
+place is <code>.mailcap</code> file. Googling a little bit I found below mailcap file
+configuration (kudos to <a href="http://trembits.blogspot.com/2011/12/viewing-html-in-mutt.html">Bart Nagel</a>).</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>text/html; pandoc -f html -t markdown; copiousoutput; description=HTML Text; test=type pandoc &gt;/dev/null
+</span><span class='line'>text/html;lynx -stdin -dump -force\_html -width 70; copiousoutput; description=HTML Text; test=type lynx &gt;/dev/null
+</span><span class='line'>text/html; w3m -dump -T text/html -cols 70; copiousoutput; description=HTML Text; test=type w3m &gt;/dev/null
+</span><span class='line'>text/html; html2text -width 70; copiousoutput; description=HTML Text; test=type html2text &gt;/dev/null</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Of course we need to install all applications to make mailcap work correct:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install pandoc lynx w3m html2text
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To bring address book functionality to mutt we need abook application:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install abook
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Also few new line in <code>$HOME/.muttrc</code> will be needed:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># add alias file for addresses</span>
+</span><span class='line'><span class="nb">set </span><span class="nv">alias_file</span><span class="o">=</span>~/.mutt/alias <span class="nb">source</span> ~/.mutt/alias
+</span><span class='line'><span class="c"># configure addressbook</span>
+</span><span class='line'><span class="nb">set </span><span class="nv">query_command</span><span class="o">=</span> <span class="s2">&quot;abook --mutt-query &#39;%s&#39;&quot;</span>
+</span><span class='line'>macro index,pager A <span class="s2">&quot;&lt;pipe-message&gt;</span>
+</span><span class='line'><span class="s2">abook --add-email-quiet&lt;return&gt;&quot;</span> <span class="s2">&quot;add the sender address to abook&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Adding new address simply create entry in alias file. During adding new alias
+abook asks about alias name, e-mail address, personal name and confirmation for
+given data.  Some this fields could be filled automatically by interaction
+between abook and mutt. Of course file <code>$HOME/.mutt/alias</code> have to exist before
+running mutt:
+touch <code>$HOME/.mutt/alias</code> To access saved aliases simply click <Tab> button in
+cc, to or bcc filed.  There is few more options that I found useful. To find it
+please go to my <a href="https://github.com/pietrushnic/workspace">workspace</a> scripts at
+github. Also if you have any issues with the configuration or comments please
+let me know by commenting below the post.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/13/mutt-tutorial-part-3-sidebar-urls-in-e/">Mutt tutorial part 3 - sidebar, URLs in e-mails</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-13T15:43:00+02:00" pubdate data-updated="true">May 13<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Information in this post came from <a href="http://www.lunar-linux.org/mutt-sidebar/">lunar linux page</a>. Kudos to its author. In this
+post I want to discuss two topics: sidebar and how to open urls form inside
+mutt. Sidebar is mutt feature delivered in mutt-patched package in Debian. It
+cause to split standard mutt window in two parts. In first we can find list of
+folders defined in the <code>$HOME/.muttrc</code> file, second window is a known old window
+with the list of posts. Mutt window with sidebar looks like on the picture
+below:</p>
+
+<p>  <img src="http://lunar-linux.org/~tchan/mutt/mutt-screenshot.png" alt="" /></p>
+
+<p>To use side bar we need to install mutt-patched packed in Debian:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install mutt-patched
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To make side bar more accessible I use default settings from lunar linux page.
+Add below lines to <code>$HOME/.muttrc</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">set </span><span class="nv">sidebar_width</span> <span class="o">=</span> 30
+</span><span class='line'><span class="nb">set </span><span class="nv">sidebar_visible</span> <span class="o">=</span> yes
+</span><span class='line'>color sidebar_new yellow default
+</span><span class='line'><span class="nb">bind </span>index CP sidebar-prev
+</span><span class='line'><span class="nb">bind </span>index CN sidebar-next
+</span><span class='line'><span class="nb">bind </span>index CO sidebar-open
+</span><span class='line'><span class="nb">bind </span>pager CP sidebar-prev
+</span><span class='line'><span class="nb">bind </span>pager CN sidebar-next
+</span><span class='line'><span class="nb">bind </span>pager CO sidebar-open
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>First line sets width of side bar it depends on how long are your folder names.
+Second line makes sidebar by default visible. Third makes folders with new
+messages yellow. Other lines create shortcuts for navigating sidebar. Note that
+C is not Ctrl but uppercase &#8216;c&#8217; key. Second topic I want to discuss is how to
+open urls from inside e-mails. To do this we can use tip from <a href="http://www.mutt.org/doc/manual/manual-4.html#ss4.13">mutt site</a>. As it said we need
+urlview application:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install urlview
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To correctly configure this tool you need to create <code>$HOME/.urlview</code> file. So:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vim <span class="nv">$HOME</span>/.urlview
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In this file we define two things. First will be regular expression which match
+urls and second will be command line to run when regexp was matched. File looks like below:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>REGEXP <span class="o">(((</span>https?|ftp|gopher<span class="o">)</span>://|<span class="o">(</span>mailto|file|news<span class="o">)</span>:<span class="o">)[</span>^’ <span class="s2">&quot;]+|(www|web|w3).[-a-z0-9.]+)[^’ .,;&quot;</span>:<span class="o">]</span> COMMAND chromium %s
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Chromuim is my browser of choice but you can use firefox, lynx or anything you want.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/13/mutt-tutorial-part-2-secure-login/">Mutt tutorial part 2 - secure login</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-13T14:13:00+02:00" pubdate data-updated="true">May 13<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is second post of mutt tutorial series. As in the <a href="/blog/2012/05/13/mutt-tutorial-part-1-setup-imap-account">previous post</a>
+for below information I need to thank Kousik for posts about <a href="http://nixtricks.wordpress.com/2009/10/04/introduction-to-encryption-of-files-using-gpg/">gpg</a>
+and <a href="http://nixtricks.wordpress.com/2010/05/05/mutt-configure-mutt-to-receive-email-via-imap-and-send-via-smtp/">using it with mutt</a>.
+But probably the most important to simplify this method was Fau comment <a href="http://nixtricks.wordpress.com/2010/05/20/mutt-multiple-email-accounts-using-hooks/#comment-162">here</a>.
+So going to the point of secure login for mutt we need gpg. First of all we need
+to install it by simply:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install gpg
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After that we generate our keys by:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>gpg --gen-key
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I choose all default answers. So first is key type: <code>'RSA and RSA'</code>.
+Second - <code>keysize: 2048</code>. Third - time for key expiration: <code>'0 = key does not expire'</code>.
+After that you need to identify your key with some data. This data will be used
+to find your key so IMHO it should be short and simple but meaningful. At the end
+of this process you will be asked about pass phrase, which will be used to decrypt
+files encrypted with generated key. When you end with key generation you can
+encrypt file with passwords. Best way to do this is to write some script that will
+be sourced by mutt after decryption. For storing passwords I create directory in my <code>$HOME</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir <span class="nv">$HOME</span>/.passwd
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Inside this directory I create text file with the script, which look like below:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vim <span class="nv">$HOME</span>/.passwd/mutt.txt
+</span><span class='line'><span class="nb">set </span><span class="nv">my_isp1</span> <span class="o">=</span> <span class="s2">&quot;password1&quot;</span>
+</span><span class='line'><span class="nb">set </span><span class="nv">my_isp2</span> <span class="o">=</span> <span class="s2">&quot;password2&quot;</span>
+</span><span class='line'><span class="nb">set </span><span class="nv">my_isp3</span> <span class="o">=</span> <span class="s2">&quot;password3&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This script of course mean to set value of variable name <code>my_isp{1,2,3}</code> to some
+password string. Remember to use <code>my\_</code> prefix because this is the way that user
+variables should be defined in mutt scripts. After writing this file we need to
+encrypt it.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>gpg -e -o mutt.gpg mutt.txt
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we should delete txt file. To use our newly created encrypted password script
+we need to add some lines to <code>$HOME/.muttrc</code>. So <code>vim $HOME/.muttrc</code>. Line that
+we need before sourcing encrypted scripts is declaration of variables in the script:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">set </span><span class="nv">my_isp1</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'><span class="nb">set </span><span class="nv">my_isp2</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'><span class="nb">set </span><span class="nv">my_isp3</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After this line we can source and decrypt out file with the passwords:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">source</span> <span class="s2">&quot;gpg --textmode -d ~/.passwd/mutt.gpg |&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>At the end wee need to replace all out plain text passwords (<code>smtp_pass</code> and
+<code>imap_pass</code> variables) with variables defined in out encrypted file. This
+settings will cause that mutt during start will run gpg to ask about password
+to decrypt password script file. In the <a href="/blog/2012/05/13/mutt-tutorial-part-3-sidebar-urls-in-e/">next post</a>
+I will discuss mutt with sidebar and how to open html files from inside mutt.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/13/mutt-tutorial-part-1-setup-imap-account/">Mutt tutorial part 1 - setup IMAP account</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-13T11:43:00+02:00" pubdate data-updated="true">May 13<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Mutt is one of those programs that make people call you a linux geek, nerd or a
+snob. This is because using TUI or command line tools in world of fancy GUI for
+most people is wierd. What&#8217;s so great about mutt? I probably still have not
+found much of its advantages, but at first glance we can notice a few things.
+First, it keeps Unix convention of small programs for specific task <a href="http://www.faqs.org/docs/artu/ch01s06.html">&#8220;Make each program to one thing well&#8221;</a> or
+<a href="http://en.wikipedia.org/wiki/KISS_principle">KISS</a>. This means that mutt is
+only <a href="http://en.wikipedia.org/wiki/Mail_user_agent">MUA</a>, which is used to
+retrieve e-mails and for other tasks you need to use another application.
+However, due to the philosophy most applications are well suited to each other
+and usually everything works good. So you can easily combine it with Vim as the
+mail editor, abook as a address book, urlview as a browser launcher for html and
+graphics elements and so on. Third, it has support for IMAP which gives very
+nice usage model for most of e-mail account providers. Fourth, is used by such
+notables as Greg Kroah-Hartman and as <a href="http://www.mjmwired.net/kernel/Documentation/email-clients.txt">kernel documentation suggest</a> by
+other kernel developers. So lets start to discover mutt. Below I will discuss
+some basic features that until now (few days of using mutt) I found useful.</p>
+
+<ol>
+<li>Big kudos to Shinobu for <a href="http://zuttobenkyou.wordpress.com/2010/11/05/mutt-multiple-gmail-imap-setup/">this</a>
+post it helps me a lot. So first of all we need support for multiple
+accounts. In my case I have 4 accounts. Three of them got working IMAP
+access. 4th provider screw up something and access to IMAP server doesn&#8217;t
+work so I need to workaround this with one of the Gmail features. At the
+beginning we create <code>$HOME/.muttrc</code> file:</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vim <span class="nv">$HOME</span>/.muttrc
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>IMAP account configuration for looks like that:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># unset important variables</span>
+</span><span class='line'>account-hook . <span class="s2">&quot;unset imap_user; unset imap_pass&quot;</span>
+</span><span class='line'>account-hook <span class="s2">&quot;imaps://&lt;account_name&gt;@&lt;imap_server_address&gt;/&quot;</span> <span class="s2">&quot;\</span>
+</span><span class='line'><span class="s2">    set imap_user = &lt;e-mail_address&gt;</span>
+</span><span class='line'><span class="s2">        imap_pass = &lt;e-mail_password&gt;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Setup for &lt;e-mail_address&gt;:</span>
+</span><span class='line'><span class="nb">set </span><span class="nv">folder</span> <span class="o">=</span> imaps://&lt;account_name&gt;@&lt;imap_server_address&gt;/
+</span><span class='line'><span class="c"># setup needed folders</span>
+</span><span class='line'><span class="nv">mailboxes</span> <span class="o">=</span> +INBOX <span class="o">=</span>&lt;folder_name&gt;
+</span><span class='line'><span class="nb">set </span><span class="nv">spoolfile</span> <span class="o">=</span> +INBOX
+</span><span class='line'>folder-hook imaps://&lt;account_name&gt;@&lt;imap_server_address&gt;/ <span class="err">&quot;</span><span class="se">\</span>
+</span><span class='line'>   <span class="nb">set </span><span class="nv">folder</span> <span class="o">=</span> imaps://&lt;account_name&gt;@&lt;imap_server_address&gt;/
+</span><span class='line'>   <span class="nv">spoolfile</span> <span class="o">=</span> +INBOX
+</span><span class='line'>   <span class="nv">postponed</span> <span class="o">=</span> +<span class="o">[</span>Gmail<span class="o">]</span>/Drafts
+</span><span class='line'>   <span class="nv">record</span> <span class="o">=</span> +<span class="o">[</span>Gmail<span class="o">]</span>/<span class="s1">&#39;Sent Mail&#39;</span>
+</span><span class='line'>   <span class="nv">from</span> <span class="o">=</span> <span class="s1">&#39;&lt;your_name&gt; &lt;e-mail_address&gt; &#39;</span>
+</span><span class='line'>   <span class="nv">realname</span> <span class="o">=</span> <span class="s1">&#39;&lt;real_name&gt;&#39;</span>
+</span><span class='line'>   <span class="nv">smtp_url</span> <span class="o">=</span> smtps://&lt;account_name&gt;@&lt;smpt_server_address&gt;
+</span><span class='line'>   <span class="nv">smtp_pass</span> <span class="o">=</span>  <span class="nb">unset </span>important variables
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>&lt;account_name&gt;</code> - for foo.bar@gmail.com it will be foo.bar
+<code>&lt;imap_server_address&gt;</code> - this information you can get from your e-mail provider
+help pages or from the settings of web e-mail client, for Gmail it is
+imap.gmail.com
+<code>&lt;e-mail_address&gt;</code> - your e-mail address
+<code>&lt;e-mail_password&gt;</code> - your e-mail password, later we will discuss how to store this more secure than
+plain text :)
+<code>&lt;folder_name&gt;</code> - any folder (for gmail account also filters) you
+have on you IMAP account, so for gmail account it could be Drafts, Starred,
+Important or others.
+<code>&lt;your_name&gt;</code> - your real name or nick anything you want
+to show in from field
+<code>&lt;real_name&gt;</code> - could be the same as <code>&lt;your_name&gt;</code>
+<code>&lt;smpt_server_address&gt;</code> - your SMTP server address, for gmail users it will be
+smtp.gmail.com</p>
+
+<ol>
+<li>If your e-mail provider have only pop3 access and you have gmail account you
+can use one of gmail account features to make your pop3 account visible as a
+IMAP folder. To do this got to Settings -> Accounts and Import and in the
+section &#8220;Check mail from other accounts&#8221; add your POP3 account. After that
+make sure to label your mails from POP3 account. Try to not use &#8216;@&#8217; in the
+label name because this cause problems during mutt configuration. If you set
+label for your POP3 account check if your label in Label tab have &#8220;Show in
+IMAP&#8221; marked, if yes everything was set correctly. To use this label in mutt
+simply add another <code>&lt;folder_name&gt;</code> to mailboxes line.</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/21/vim-as-blogger-editor_21/">Vim as a Blogger editor</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-21T12:55:00+02:00" pubdate data-updated="true">Apr 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>  <a href="https://github.com/ujihisa/blogger.vim">Blogger.vim</a> is a vim plugin for interfacing with Google&#8217;s Blogger. Below I will use my workspace git <a href="https://github.com/pietrushnic/workspace">repository</a>. To use this plugin we need pretty new ruby >= 1.9.2 and gems nokogiri and net-https-wrapper. Let&#8217;s install latest possible ruby for Debian, before that make sure you have latest updates:</p>
+
+<p>sudo apt-get update sudo apt-get upgrade sudo apt-get dist-upgrade And ruby:</p>
+
+<p>sudo apt-get install ruby1.9.3 Before we install gems , we need to resolve some dependencies:</p>
+
+<p>sudo apt-get install libxml2-dev libxslt1-dev Latest nokogiri 1.5.2 have some issues, so we need to use 1.5.0 which is stable:</p>
+
+<p>sudo gem install nokogiri &#8211;version 1.5.0 And the wrapper for https:</p>
+
+<p>sudo gem install net-https-wrapper Finally also pandoc will be neded to display web pages in vim:</p>
+
+<p>sudo apt-get install pandoc Right now we are able to run vim with blogger support. First we need to configure vim, add below lines to your $HOME/.vimrc file:</p>
+
+<p>let g:blogger_blogid = &#8216;your_blogid_here&#8217; let g:blogger_email = &#8216;your_email_here&#8217; let g:blogger_pass = &#8216;your_blogger_password_here&#8217; Run vim and try to list your blogger posts by typing:</p>
+
+<p>:e blogger:list If list of you see all your posts than it seems that plugin works good. Finally check writing feature. Create file with some text and type:</p>
+
+<p>:w blogger:create Few things doesn&#8217;t work as it should. Meybe I will find enough time to fix it. This article was created by using blogger.vim script.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/4/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/2/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I&#8217;m a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
+  </p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/04/06/tmux/">Tmux as screen replacement and productivity accelerator</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi/">Yet another quick build of arm-unknown-linux-gnueabi</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/01/-democracy-the-god-that-failed-hans-hermann-hoppe/">&#8220;Democracy: The God That Failed&#8221; Hans-Hermann Hoppe</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/30/music-for-programming/">Music for programming</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/19/debian-switching-to-unstable/">tmux multiplexer and vi-like keys in copy-mode</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/pietrushnic">@pietrushnic</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'pietrushnic',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/pietrushnic@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - pietrushnic -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'pietrushnicsworld';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

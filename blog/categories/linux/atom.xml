@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: linux | pietrushnic's world]]></title>
+  <link href="http://pietrushnic.github.io/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="http://pietrushnic.github.io/"/>
+  <updated>2013-04-21T07:17:14+02:00</updated>
+  <id>http://pietrushnic.github.io/</id>
+  <author>
+    <name><![CDATA[pietrushnic]]></name>
+    <email><![CDATA[pierushnic@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tmux as screen replacement and productivity accelerator]]></title>
+    <link href="http://pietrushnic.github.io/blog/2013/04/06/tmux/"/>
+    <updated>2013-04-06T05:29:00+02:00</updated>
+    <id>http://pietrushnic.github.io/blog/2013/04/06/tmux</id>
+    <content type="html"><![CDATA[<p>As I wrote in <a href="/blog/2013/03/19/debian-switching-to-unstable">previous post</a> I
+switched from GNU screen to <a href="http://tmux.sourceforge.net">tmux</a>. I use it for a
+few moths and have to said that I'm really impressed by simplicity, performance
+and community support in this project. In this post I want to discuss my
+configuration and useful additions for it like tmuxinator, session logging,
+colors or status bar configuration.</p>
+
+<h3>Basics</h3>
+
+<p>Debian contain <code>tmux</code> package but for stable and testing release it is pretty
+old version. Personally I use <code>unstable</code> version where <code>tmux</code> was delivered in
+<code>1.7~svn2819-1</code> version.
+<code>
+sudo apt-get install tmux
+</code>
+To start session simply type <code>tmux</code>. Tmux uses <code>C-b</code>/ <code>Ctrl-b</code> as a prefix for
+commands. If you switch from GNU screen then at the beginning you can experience
+some annoying situations but after few days everything should back to normal.</p>
+
+<p>Most used keybiddings:</p>
+
+<ul>
+<li><code>C-b c</code> - create new window</li>
+<li><code>C-b ,</code> - rename current window</li>
+<li><code>C-b n</code> - next window</li>
+<li><code>C-b p</code> - previous window</li>
+<li><code>C-b l</code> - last window</li>
+<li><code>C-b d</code> - disconnect</li>
+<li><code>C-b k</code> - kill current window</li>
+<li><code>C-b K</code> - kill tmux server</li>
+<li><code>C-b [</code> - enter copy mode</li>
+<li><code>C-b ]</code> - paste last copied buffer</li>
+<li><code>C-b :</code> - tmux command line</li>
+<li><code>C-b w</code> - windows list</li>
+<li><code>C-b ?</code> - help</li>
+</ul>
+
+
+<p>Full list can be found <a href="http://www.openbsd.org/cgi-bin/man.cgi?query=tmux&amp;sektion=1#KEY+BINDINGS">here</a>.</p>
+
+<h3>Configuration</h3>
+
+<p>Tmux keeps its configuration in <code>$HOME/.tmux.conf</code>. My configuration mixes
+some tmux examples with code that I found in the net. This file can be found on
+my github repository <a href="https://github.com/pietrushnic/workspace/blob/master/dotfiles/tmux.conf">here</a>. First section contain some general configuration:
+```</p>
+
+<h1>confirm before killing a window or the server</h1>
+
+<p>bind-key k confirm kill-window
+bind-key K confirm kill-server</p>
+
+<h1>toggle statusbar</h1>
+
+<p>bind-key b set-option status</p>
+
+<h1>ctrl+left/right cycles thru windows</h1>
+
+<p>bind-key -n C-right next
+bind-key -n C-left prev</p>
+
+<h1>scrollback buffer n lines</h1>
+
+<p>set -g history-limit 10000</p>
+
+<h1>listen for activity on all windows</h1>
+
+<p>set -g bell-action any</p>
+
+<h1>on-screen time for display-panes in ms</h1>
+
+<p>set -g display-panes-time 2000</p>
+
+<h1>start window indexing at one instead of zero</h1>
+
+<p>set -g base-index 1</p>
+
+<h1>enable wm window titles</h1>
+
+<p>set -g set-titles on</p>
+
+<h1>wm window title string (uses statusbar variables)</h1>
+
+<p>set -g set-titles-string "tmux.#I.#W"</p>
+
+<h1>statusbar</h1>
+
+<p>set -g display-time 2000
+<code>
+After that I have implemented [solarized](http://ethanschoonover.com/solarized) colors (dark theme):
+</code></p>
+
+<h3>COLOUR (Solarized dark)</h3>
+
+<h1>default statusbar colors</h1>
+
+<p>set-option -g status-bg black #base02
+set-option -g status-fg yellow #yellow
+set-option -g status-attr default</p>
+
+<h1>default window title colors</h1>
+
+<p>set-window-option -g window-status-fg brightblue #base0
+set-window-option -g window-status-bg default</p>
+
+<h1>set-window-option -g window-status-attr dim</h1>
+
+<h1>active window title colors</h1>
+
+<p>set-window-option -g window-status-current-fg brightred #orange
+set-window-option -g window-status-current-bg default</p>
+
+<h1>set-window-option -g window-status-current-attr bright</h1>
+
+<h1>use vi-like keys</h1>
+
+<p>setw -g mode-keys vi</p>
+
+<h1>pane border</h1>
+
+<p>set-option -g pane-border-fg black #base02
+set-option -g pane-active-border-fg brightgreen #base01</p>
+
+<h1>message text</h1>
+
+<p>set-option -g message-bg black #base02
+set-option -g message-fg brightred #orange</p>
+
+<h1>pane number display</h1>
+
+<p>set-option -g display-panes-active-colour blue #blue
+set-option -g display-panes-colour brightred #orange
+```
+To make solarized colors work on my setup was quite challenging, because there
+are many things to set (vim, terminal, putty etc.). If you need any advice I can
+write something about this. Right now it is beyond the scope of this post.</p>
+
+<p>At the end of my tmux configuration I've some fancy status bar:
+```</p>
+
+<h1>clock</h1>
+
+<p>set-window-option -g clock-mode-colour green #green</p>
+
+<h1>center align the window list</h1>
+
+<p>set -g status-justify centre</p>
+
+<h1>show some useful stats but only when tmux is started</h1>
+
+<h1>outside of Xorg, otherwise dwm statusbar shows these already</h1>
+
+<p>set -g status-right ""
+set -g status-left ""
+if '[ -z "$DISPLAY" ]' 'set -g status-left "[#[fg=green] #H ][#[default]]"'
+if '[ -z "$DISPLAY" ]' 'set -g status-right "[ #[fg=magenta]#(cat /proc/loadavg | cut -d \" \" -f 1,2,3)#[default] ][ #[fg=cyan,bright]%a %Y-%m-%d %H:%M #[default]]"'
+if '[ -z "$DISPLAY" ]' 'set -g status-right-length 50'
+```
+I think that mostly this is self explanatory. This how it look in work:
+<a href="/assets/images/tmux-screen.png"><img class="center" src="/assets/images/tmux-screen.png" width="300" height="400"></a></p>
+
+<h3>tmuxinator</h3>
+
+<p>I spend some time to realize what is the best way of managing windows and panes
+in tmux. Especially I was interested in setting some windows at tmux startup.
+Finally I found <a href="https://github.com/aziz/tmuxinator">tmuxinator</a> small but useful
+project delivered through <code>gem</code> system. Follow tmuxinator page to set it up
+correctly. If you want to see my primitive configuration it is also available on
+my github in <a href="https://github.com/pietrushnic/workspace/blob/master/dotfiles/tmux.conf">werkspace project</a>.</p>
+
+<h3>Window logging</h3>
+
+<p>Last hint I found on this
+<a href="http://0xfeedface.org/blog/lattera/2012-03-19/using-tmux-screencasting-tool">blog</a>.
+How to log your work in console for example to write a blog post :) ? There is a
+universal method for piping all console output to our program of choice. For
+example run command like this (command mode available under <code>C-b :</code>):
+<code>
+pipe-pane -o 'cat &gt;&gt; ~/tmuxcast.#h.#T'
+</code>
+This will give you file with logged session output (all curses windows, editor
+windows and so on). Curses output can be unreadable because of control escape
+sequences. Use <code>cat</code> it will interpret escape sequences in terminal.</p>
+
+<p>As always I hope hints were useful. Please share this content if think its
+valuable. Comment if you think id needs improvements. Thank you for reading.</p>
+
+<p>P.S. I should probably create a footer with last paragraph :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Yet another quick build of arm-unknown-linux-gnueabi]]></title>
+    <link href="http://pietrushnic.github.io/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi/"/>
+    <updated>2013-04-03T19:00:00+02:00</updated>
+    <id>http://pietrushnic.github.io/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi</id>
+    <content type="html"><![CDATA[<p>So I decide to check what is going on with
+<a href="http://crosstool-ng.org">crosstool-ng</a> and refresh my <a href="/blog/2012/03/14/quick-build-of-arm-unknown-linux">old post</a>
+about building <code>arm-unknown-linux-gnueabi</code> toolchain. Last post was pretty
+popular, so definitely this is direction I should follow :). I will not repeat
+myself, so if you encounter any problems please check last post, section with
+known problems in crosstool-ng <code>doc/</code> directory or RTFM. Let's begin:</p>
+
+<h3>Get the latest crosstool-ng</h3>
+
+<p>As usual I'm trying to use latest version possible. Following the crosstool-ng page:
+<code>
+hg clone http://crosstool-ng.org/hg/crosstool-ng
+cd crosstool-ng
+./bootstrap
+</code>
+At the time of writing this article my changeset was <code>3200:0fc56e62cecf</code> 16 Mar
+2013, two weeks old.</p>
+
+<h3>Installation</h3>
+
+<p>I prefer to use local directory for <code>ct-ng</code> in case it will change in feature I
+will not need to mess with <code>/usr</code> subsystem. Simply tryin' to keep it clean when I can.</p>
+
+<p><code>
+mkdir $HOME/ct-ng
+./configure --prefix=$HOME/ct-ng
+make
+make install
+</code>
+No problems on my up to date Debian wheezy.
+You will probably want to add <code>$HOME/ct-ng</code> to your <code>PATH</code>
+<code>
+export PATH="$HOME/ct-ng/bin:${PATH}"
+</code>
+Add bash completion as it is advised in message at the end of compilation process. My <code>.bashrc</code>
+automatically sources <code>$HOME/.bash_completion</code> so there is a place for local
+code completion.
+<code>
+cat ct-ng.comp &gt;&gt; $HOME/.bash_completion
+</code></p>
+
+<h3>Build sample toolchain</h3>
+
+<p>There is a long list of predefined samples toolchains which you can get build.
+If <code>ct-ng</code> bash completion was correctly added, than you can explore it by <code>&lt;Tab&gt;</code> or simply
+<code>ct-ng list-samples</code>. Let's try to build <code>arm-unknown-linux-gnueabi</code>:
+<code>
+mkdir -p $HOME/embedded/arm-unknown-linux-gnueabi
+cd $HOME/embedded/arm-unknown-linux-gnueabi
+ct-ng arm-unknown-linux-gnueabi
+</code>
+Before you start build consider some debugging options to make build process
+easier to continue when problems encountered.</p>
+
+<h3>Additional debugging options</h3>
+
+<p>crosstool-ng contain interesting mechanism of saving finished phases of
+toolchain. This helps when for some reason our build process failed. To enable
+this feature simply enter menuconfig:
+<code>
+ct-ng menuconfig
+</code>
+Mark option <code>Paths and mix options -&gt; Debug crosstool-NG -&gt; Save intermediate steps</code>
+as enabled. If something goes wrong you can check what last state was by:
+<code>
+ls -lt .build/arm-unknown-linux-gnueabi/state
+</code>
+Directory on top with the latest modification date is now your first state where you
+should restart after fail. To restart build in given point:
+<code>
+ct-ng &lt;state&gt;+ #assuming that &lt;state&gt; is where we fail last time
+</code>
+Ordered list of possible states can be retrieved by <code>ct-ng list-steps</code>.</p>
+
+<h3>Start build</h3>
+
+<p><code>
+ct-ng build.4
+</code>
+<code>4</code> is the number of concurrent jobs and depends on your setup performance.
+Building process takes a while so make coffee or anything else to drink :).</p>
+
+<h3>Known problems</h3>
+
+<p>I encounter few different problems than during <a href="/blog/2012/03/14/quick-build-of-arm-unknown-linux">previous building</a>.</p>
+
+<h4>Missing expat library</h4>
+
+<p>Signature looks like that:
+<code>
+[ERROR]    configure: error: expat is missing or unusable
+[ERROR]    make[3]: *** [configure-gdb] Error 1
+[ERROR]    make[2]: *** [all] Error 2
+</code>
+Simply install <code>libexpat</code>:
+<code>
+sudo apt-get install libexpat1-dev
+</code></p>
+
+<h4>gcj internal error</h4>
+
+<p>Few times I encountered something like this:
+<code>
+[ERROR]    gcj: internal compiler error: Killed (program jc1)
+[ERROR]    make[5]: *** [ecjx] Error 4
+[ERROR]    make[4]: *** [all-recursive] Error 1
+[ERROR]    make[3]: *** [all-target-libjava] Error 2
+[ERROR]    make[2]: *** [all] Error 2
+</code>
+The reason is that <code>oom_kiler</code> takes care about <code>gcj</code>. It means that you run out
+of memory during compilation Java related code. I experience that when trying to
+build toolchain with 512MB of RAM :)</p>
+
+<p>So this was short reminder. I work on new post about creating virtual
+embedded development environment based on <a href="http://wiki.qemu.org/Main_Page">qemu</a>.
+I was inspired by <a href="http://www.elinux.org/Virtual_Development_Board">this article</a>.
+Hope this article was useful. If you have any comments or difficulties please
+comment below. If think this post was useful - share.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[tmux multiplexer and vi-like keys in copy-mode]]></title>
+    <link href="http://pietrushnic.github.io/blog/2013/03/19/debian-switching-to-unstable/"/>
+    <updated>2013-03-19T16:30:00+01:00</updated>
+    <id>http://pietrushnic.github.io/blog/2013/03/19/debian-switching-to-unstable</id>
+    <content type="html"><![CDATA[<p>So I tried to write second post for my new blog but to effectively work using
+terminal I need terminal multiplexer. I switched to tmux from screen
+because I reach point that I can't do some things in it in easy way and
+performance was poor. Also activity of tmux developers is better than for gnu
+screen. I also experienced annoy buffer crashing especially after come back from
+lock mode or cmatrix much but after reading few articles about alternative for
+screen I switched to tmux.</p>
+
+<p>It seems that in wheezy(testing) version of tmux is outdated (1.6.2). Last tag
+on tmux <a href="http://sourceforge.net/p/tmux/tmux-code/?source=navbar">sourceforge repo</a>
+is 1.7 and there is almost 300 additional commits on top of the master branch.
+Debian unstable contain version 1.7.2 it is pretty new.</p>
+
+<p>Awesome thing in tmux is emacs/vi keybiding for copy-mode. It really helps with
+writing technical articles about linux stuff with this console outputs and logs
+excerpts.</p>
+
+<p>To enable copy-mode in vi like way put to <code>$HOME/.tmux.conf</code>:
+```bash</p>
+
+<h1>use vi-like keys</h1>
+
+<p>setw -g mode-keys vi
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Short hint for all those who use vim and pathogen]]></title>
+    <link href="http://pietrushnic.github.io/blog/2013/01/15/short-hint-for-all-those-who-use-vim/"/>
+    <updated>2013-01-15T11:51:00+01:00</updated>
+    <id>http://pietrushnic.github.io/blog/2013/01/15/short-hint-for-all-those-who-use-vim</id>
+    <content type="html"><![CDATA[<p>Today, after updating my wokspace to latest version I encounter below error during vim running:
+<code>
+Error detected while processing function pathogen#runtime_append_all_bundles:
+line 1:
+E121: Undefined variable: source_path
+E116: Invalid arguments for function string(source_path).') to pathogen#incubate('.string(source_path.'/{}').')')
+E116: Invalid arguments for function 4_warn
+Press ENTER or type command to continue
+</code>
+Quick look on pathogen runtime_append_all_bundles function and I found:
+<code>bash
+call s:warn('Change pathogen#runtime_append_all_bundles('.string(a:1).') to pathogen#incubate('.string(a:1.'/{}').')')
+</code>
+So simply replacing:
+<code>bash
+call pathogen#runtime_append_all_bundles()
+</code>
+with:
+<code>bash
+call pathogen#incubate() in $HOME/.vimrc fix the problem.
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mutt tutorial part 4 - html mails, address book and other useful features]]></title>
+    <link href="http://pietrushnic.github.io/blog/2012/05/13/mutt-tutorial-part-4-html-mails-address/"/>
+    <updated>2012-05-13T17:21:00+02:00</updated>
+    <id>http://pietrushnic.github.io/blog/2012/05/13/mutt-tutorial-part-4-html-mails-address</id>
+    <content type="html"><![CDATA[<p>How mutt can handle mails in html format ? Takling about html mail handling is
+talking about handling any type of <a href="http://en.wikipedia.org/wiki/MIME">Multipurpose Internet Mail Extensions</a>.
+Mutt supports handling for all MIME types in one place for all programs. This
+place is <code>.mailcap</code> file. Googling a little bit I found below mailcap file
+configuration (kudos to <a href="http://trembits.blogspot.com/2011/12/viewing-html-in-mutt.html">Bart Nagel</a>).
+<code>
+text/html; pandoc -f html -t markdown; copiousoutput; description=HTML Text; test=type pandoc &gt;/dev/null
+text/html;lynx -stdin -dump -force\_html -width 70; copiousoutput; description=HTML Text; test=type lynx &gt;/dev/null
+text/html; w3m -dump -T text/html -cols 70; copiousoutput; description=HTML Text; test=type w3m &gt;/dev/null
+text/html; html2text -width 70; copiousoutput; description=HTML Text; test=type html2text &gt;/dev/null
+</code>
+Of course we need to install all applications to make mailcap work correct:
+<code>bash
+sudo apt-get install pandoc lynx w3m html2text
+</code>
+To bring address book functionality to mutt we need abook application:
+<code>bash
+sudo apt-get install abook
+</code>
+Also few new line in <code>$HOME/.muttrc</code> will be needed:
+```bash</p>
+
+<h1>add alias file for addresses</h1>
+
+<p>set alias_file=~/.mutt/alias source ~/.mutt/alias</p>
+
+<h1>configure addressbook</h1>
+
+<p>set query_command= "abook --mutt-query '%s'"
+macro index,pager A "<pipe-message>
+abook --add-email-quiet<return>" "add the sender address to abook"
+<code>``
+Adding new address simply create entry in alias file. During adding new alias
+abook asks about alias name, e-mail address, personal name and confirmation for
+given data.  Some this fields could be filled automatically by interaction
+between abook and mutt. Of course file</code>$HOME/.mutt/alias<code>have to exist before
+running mutt:
+touch</code>$HOME/.mutt/alias` To access saved aliases simply click <Tab> button in
+cc, to or bcc filed.  There is few more options that I found useful. To find it
+please go to my <a href="https://github.com/pietrushnic/workspace">workspace</a> scripts at
+github. Also if you have any issues with the configuration or comments please
+let me know by commenting below the post.</p>
+]]></content>
+  </entry>
+  
+</feed>
