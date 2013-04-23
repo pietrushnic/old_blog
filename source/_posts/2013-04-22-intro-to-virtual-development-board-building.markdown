@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "0x0: Virtual Development Board"
+title: "0x0: Intro to Virtual Development Board building"
 date: 2013-04-22 01:27
 comments: true
 categories: [embedded, linux, vdb]
@@ -10,18 +10,12 @@ description: Intrudction to virtual embedded development board building
 ---
 ## Table of contents ##
 
-1. [-> Intro to Virtual Development Board building <-](/blog/2013/04/22/intro-to-virtual-development-board-building)
-2. [Qemu as environment for embedded board emulation](/blog/2013/04/22/qemu-as-an-environment-for-embedded-board-emulation)
-3. [Toolchain for Virtual Development Board](/blog/2013/04/22/toolchain-for-virtual-development-board)
-4. [Embedded board bootloader](/blog/2013/04/22/embedded-board-bootloader)
-5. [Linux kernel for embedded system](/blog/2013/04/22/linux-kernel-for-embedded-system)
-6. [Qemu network configuration and tftp for Virtual Development Board](/blog/2013/04/22/qemu-network-configuration-and-tftp-for-virtual-development-board)
-7. [Root file system for embedded system](/blog/04/22/root-file-system-for-embedded-system)
-8. [Root file system over NFS]()
-9. [Final booting and ideas for improvements]()
+* [Preface](/blog/2013/04/22/intro-to-virtual-development-board-building/#preface)
+* [First question: How to start ?](/blog/2013/04/22/intro-to-virtual-development-board-building/#first-question)
+* [Virtual Development Board](/blog/2013/04/22/intro-to-virtual-development-board-building/#virtual-development-board)
+* [Kudos](/blog/2013/04/22/intro-to-virtual-development-board-building/#kudos)
 
-## Intro to Virtual Development Board building ##
-
+<a id="preface"></a>
 ### Preface ###
 There are many reasons why ambitious programmers should care about huge rush in 
 embedded market. IMO there is great potential in it. I don't want to go deep into
@@ -33,6 +27,7 @@ developers are really high.
 This environment is very interesting. A lot to learn, a lot to do, so why not get 
 your hands dirty ?
 
+<a id="first-question"></a>
 ### First question: How to start ? ###
 To do real embedded development, to learn the most, you simply buy hardware like
 all this `${animal}board (animal={panda,beagle,hawk})`. This is the best way but 
@@ -48,6 +43,7 @@ for common man (not only for US/West Europe), testing environment based on
 virtualized/emulated solution, to check basic features, speed up testing, development
 and deployment. That's why we see so active development of software like Qemu/KVM.
 
+<a id="virtual-development-board"></a>
 ### Virtual Development Board ###
 I realize that it is achievable and I will learn a lot trying to implement this 
 idea. Finally I was convinced reading [this](http://www.elinux.org/Virtual_Development_Board)
@@ -57,6 +53,7 @@ I decide to divide this article on few parts because IMHO it was to big to read
 it at once. Also people interesting in particular topic won't have to scrolling `>2k`
 words post.
 
+<a id="kudos"></a>
 ### Kudos ###
 
 At the and of this intro I want to give big kudos to all those hackers without 
