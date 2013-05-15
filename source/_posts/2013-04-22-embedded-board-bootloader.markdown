@@ -76,6 +76,7 @@ QEMU shows `versatilepb` as Versatile/PB
 ### Compilation ###
 For `Emdebian` cross-toolchain:
 ```bash
+cd u-boot
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- versatilepb_config
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi-
 ```

@@ -52,7 +52,11 @@ It looks some feature is disabled in `versatile_defconfig`. I mean
 things. The main difference between EABI and ABI is that privileged instructions 
 are allowed in application code. More about EABI 
 [here](http://en.wikipedia.org/wiki/Application_binary_interface#EABI).
-To enable this option go to:
+To enable this option run:
+```
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- menuconfig
+```
+and go to:
 ```
 Kernel Features -> Use the ARM EABI to compile the kernel
 ```

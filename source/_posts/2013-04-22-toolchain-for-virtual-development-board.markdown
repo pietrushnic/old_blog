@@ -53,7 +53,7 @@ EDLK` or `Emdebian`. Second we can create toolchain using special building syste
 or `Bitbake`. I will not deal with preparing toolchain in this series
 because procedure for creating it takes pretty long. So we have two options:
 
-* read my article about [Crosstool-NG arm-unknown-linux-gnueabi](/blog/2013/03/30/yet-another-quick-build-of-arm-unknown-linux-gnueabi)
+* read my article about [Crosstool-NG arm-unknown-linux-gnueabi](/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi)
 * or install toolchain ready to use like [Emdebian](http://www.emdebian.org/)
 
 <a id="emdebian-path"></a>
@@ -90,6 +90,13 @@ something like this in log:
 Error: selected processor does not support ARM mode `ldralt lr,[r1],#4'
 ```
 That means you experience same thing, please use `Emdebian` or `Crosstool-NG` toolchain.
+
+_Note 2_: If you're `Ubuntu` user I have to suggest experiments with toolchain 
+build by your own, because I get really hard times trying to go through this 
+tutorial with Ubuntu/Linaro cross compiler provided in repository. Finally I 
+used [this](/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi)
+to push things forward. U-boot compiled with Ubuntu/Linaro toolchain had problem 
+with `__udivsi3` instruction. This cause loop in initialization process.
 
 <a id="summary"></a>
 ### Summary ###
