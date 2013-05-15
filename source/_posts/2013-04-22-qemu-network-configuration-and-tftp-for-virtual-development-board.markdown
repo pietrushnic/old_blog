@@ -48,9 +48,13 @@ q              # quit tftp
 Check if kernel file is in current directory. If yes than you tftp server is 
 configured correctly, if not then google or ask me a question in comments 
 section.
+_Note_: For Ubuntu follow instructions from 
+[here](http://www.davidsudjiman.info/2006/03/27/installing-and-setting-tftpd-in-ubuntu/).
 
 <a id="qemu-networking"></a>
 ### QEMU networking ###
+_Update_: For Ubuntu users please read [this section](/blog/2013/04/22/qemu-network-configuration-and-tftp-for-virtual-development-board/#ubuntu-issues)
+
 I mixed [this](http://toast.djw.org.uk/qemu.html) BKM and few other resources
 that I found in the net. Setting up network depend a lot on your configuration.
 I will briefly describe my situation. It is quite possible that this won't fit 
@@ -109,12 +113,47 @@ sudo /sbin/brctl addif br0 $1
 sleep 2
 ```
 
+Give executable permissions for this file:
+```
+sudo chmod +x /etc/qemu-ifup
+```
+
 Restart networking services locally:
 ```
 sudo service networking restart
 ```
 
 This should prepare you environment for tftp booting in qemu.
+
+<a id="ubuntu-issues"></a>
+#### Ubuntu issues ####
+I had experienced few problems with my Ubuntu 12.04. 
+
+* First thing was defect that cause looping u-boot during emulation in 
+  qemu-system-arm. I checked latest qemu and version delivered in distro 
+  repository but qemu wasn't issue. I tried debug problem with gdb and qemu
+  `-s -S` switches and find out that u-boot crashes at `__udivsi3` instruction 
+  in `serial_init`. I tried to google this issue but found only one comment 
+  about this on [Balau blog](http://balau82.wordpress.com/2010/04/12/booting-linux-with-u-boot-on-qemu-arm/):
+  {% blockquote [Grant Likely]%}
+  For anyone trying to reproduce this, at least on a recent Ubuntu host, you may need to pass “-cpu all” or “-cpu cortex-a8″ to qemu. The libgcc that gets linked to u-boot appears to be compiled with thumb2 instructions which are not implemented in the Versatile cpu. I don’t get any u-boot console output without this flag, and using gdb I can see that the cpu takes an exception during `__udivsi3()` called from serial_init().
+  {% endblockquote %}
+  Problem is at least 2-years old and still occurs. Unfortunately Grant's tricks 
+  didn't help. I move to toolchain built by my own and problem was fixed. So the 
+  moral of the story is: DO NOT USE TOOLCHAIN PROVIDED BY UBUNTU at least in 
+  12.04.
+
+* Second thing also involve a lot of debugging time and when I found workaround 
+  it was accidentally. I saw that using procedure correct for Debian on Ubuntu I 
+  was unable to obtain any packet inside U-Boot. Network traffic analysis show 
+  that U-Boot correctly send DHCP discovery and server reply with DHCP offer, 
+  but bootloader behaves like no packet was received.  Static configuration also 
+  didn't work. Finally I get to information how to capture traffic from inside 
+  of emulated setup (parameter `-net dump,file=/path/to/file.pcap` do the 
+  thing). Surprisingly for some reason adding dump param fix problem and U-Boot
+  received DHCP Offer and ACK. I will try to narrow down this problem for 
+  further reading please take a look [qemu](http://lists.nongnu.org/archive/html/qemu-discuss/2013-05/msg00013.html) 
+  and [u-boot]() mailing list thread.
 
 <a id="verify-qemu-with-tftp"></a>
 #### Verify all components of Virtual Development Platform ####

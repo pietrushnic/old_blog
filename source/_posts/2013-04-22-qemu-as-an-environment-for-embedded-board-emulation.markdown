@@ -39,6 +39,7 @@ Compile it and install. Right now I will use only `arm-softmmu` target because i
 will emulate whole arm system for me. ARM right now dominated big part of 
 embedded market but we will see if situation won't change in feature.
 ```bash
+cd qemu
 ./configure --target-list=arm-softmmu
 make
 make install
