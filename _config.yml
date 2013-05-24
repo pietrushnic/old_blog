@@ -8,7 +8,7 @@ subtitle: "|| 933k' dr34M2 0F Phr33D0m"
 author: pietrushnic
 simple_search: http://google.com/search
 description: Tips, tricks and hacks on Linux, Vim, git, embedded development and others
-keywords: linux,qemu,vim,arm,git,linux embedded,coreboot,ruby on rails,web development,http,octopress,open source,freedom,economy,austrian economy,libertarian
+keywords: linux,qemu,vim,arm,git,linux embedded,coreboot,ruby on rails,web development,http,octopress,open source,freedom,economy,austrian economy,libertarian,mutt
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
@@ -42,7 +42,7 @@ rdiscount:
     - smart
 pygments: false # default python pygments have been replaced by pygments.rb
 
-paginate: 5           # Posts per page on the blog index
+paginate: 3           # Posts per page on the blog index
 pagination_dir: blog  # Directory base for pagination URLs eg. /blog/page/2/
 recent_posts: 5       # Posts in the sidebar Recent Posts section
 excerpt_link: "Read on &rarr;"  # "Continue reading" link text at the bottom of excerpted articles
