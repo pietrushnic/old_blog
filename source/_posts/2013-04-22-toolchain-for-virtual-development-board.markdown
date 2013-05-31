@@ -58,6 +58,7 @@ because procedure for creating it takes pretty long. So we have two options:
 
 <a id="emdebian-path"></a>
 #### Emdebian path ####
+
 Add below lines to you `/etc/apt/sources.list`:
 ```bash
 deb http://ftp.uk.debian.org/emdebian/toolchains unstable main
@@ -69,6 +70,35 @@ sudo apt-get install emdebian-archive-keyring
 sudo apt-get update
 sudo apt-get install gcc-4.7-arm-linux-gnueabi
 ```
+
+##### Dependency problems during installation #####
+If above attempt to install cross-compiler ends with:
+```
+pietrushnic@eglarest:~/src$ sudo apt-get install gcc-4.7-arm-linux-gnueabi
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+Some packages could not be installed. This may mean that you have
+requested an impossible situation or if you are using the unstable
+distribution that some required packages have not yet been created
+or been moved out of Incoming.
+The following information may help to resolve the situation:
+
+The following packages have unmet dependencies:
+ gcc-4.7-arm-linux-gnueabi : Depends: libgomp1-armel-cross (>= 4.7.2-5) but it 
+ is not going to be installed
+ E: Unable to correct problems, you have held broken packages.
+```
+This means that Debian ustable cross-compiler is not available for you 
+configuration. You can read more about that 
+[here](http://lists.debian.org/debian-embedded/2011/05/msg00029.html).
+To fix that issue simply change emdebian toochain repository to testing in 
+`/etc/apt/source.list`:
+```
+deb http://ftp.uk.debian.org/emdebian/toolchains testing main
+```
+
+##### Emdebian toolchain configuration #####
 Check where `arm-linux-eabi-gcc-4.7` was installed:
 ```bash
 whereis arm-linux-gnueabi-gcc-4.7
