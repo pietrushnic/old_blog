@@ -28,7 +28,7 @@ will perform some basic test of our setup. Let's go.
 ### Setup tftpd ###
 First install:
 ```bash
-sudo apt-get install tftpd
+sudo apt-get install tftpd tftp
 ```
 Make sure that `/srv/tftp` is writable for your user. If directory doesn't exist 
 create it and give needed privileges. If you want to change some server options 
@@ -98,8 +98,8 @@ bridge_maxage 12
 bridge_stp off
 
 # The primary network interface
-# allow-hotplug eth0     # comment this
-# iface eth0 inet dhcp   # and this
+allow-hotplug eth0     # comment this
+iface eth0 inet dhcp   # and this
 ```
 * use `/etc/qemu-ifup` script to bring up your network:
 ```bash
@@ -183,8 +183,8 @@ tftp server. For verification needs we don't want to `autoload` downloaded
 image, so we disable this through environment variable.
 ```bash
 setenv autoload no
-setenv ipaddr 10.0.2.16
-setenv serverip 10.0.2.15
+dhcp
+setenv serverip 192.168.1.2
 setenv bootfile uImage
 tftpboot
 ```

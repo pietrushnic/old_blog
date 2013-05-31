@@ -88,6 +88,7 @@ Of course it means that we need mkimage to create U-Boot image, so:
 ```
 sudo apt-get install uboot-mkimage
 ```
+_Update_: in Debian jessie/sid this package was replaced by `u-boot-tools`.
 
 We have to use uImage special build because load and execute address differes 
 from board to board. If we will use vmlinux image then addresses should be 
