@@ -1,18 +1,18 @@
 ---
 layout: post
 title: "0x1: Qemu as an environment for embedded board emulation"
-date: 2013-04-22 08:27
+date: 2013-06-07 08:27
 comments: true
-categories: [embedded, linux, vdb]
-published: false
-keywords:
-description:
+categories: [embedded, linux, vdb, qemu]
+published: true
+keywords: virtual development board, Qemu, Linux, Emulation
+description: How to compile Qemu and brief embedded Linux history
 ---
 ## Table of contents ##
 
-* [Introduction](/blog/2013/04/22/qemu-as-an-environment-for-embedded-board-emulation/#intro)
-* [Compilation](/blog/2013/04/22/qemu-as-an-environment-for-embedded-board-emulation/#compilation)
-* [Kudos](/blog/2013/04/22/qemu-as-an-environment-for-embedded-board-emulation/#kudos)
+* [Introduction](/blog/2013/06/07/qemu-as-an-environment-for-embedded-board-emulation/#intro)
+* [Compilation](/blog/2013/06/07/qemu-as-an-environment-for-embedded-board-emulation/#compilation)
+* [Kudos](/blog/2013/06/07/qemu-as-an-environment-for-embedded-board-emulation/#kudos)
 
 <a id="intro"></a>
 ### Introduction ###
@@ -54,7 +54,7 @@ make install
 If compilation ends without problem than our first component is ready to use.
 Right now we can emulate our ARM based board with many types of CPUs. List of 
 all available can be retrieved by running command `qemu-system-arm -cpu ?`, list 
-of emulated machines by `-M ?`. Now, let's talk about [toolchains](/blog/2013/04/22/toolchain-for-virtual-development-board).
+of emulated machines by `-M ?`. Now, let's talk about [toolchains](/blog/2013/06/07/toolchain-for-virtual-development-board).
 
 <a id="kudos"></a>
 ### Kudos ###
