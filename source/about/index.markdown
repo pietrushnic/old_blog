@@ -76,7 +76,7 @@ with me just let me know. Your level doesn't matter.
 * writing in Polish I cannot target so big audience as in English
 * English is the language of innovation/computers/technology and this blog is 
 partially about that.
-* I want to improve my English skills, which you as you can see is not so 
+* I want to improve my English skills, which, as you can see, is not so 
   impressive.
 
 #### Blog subtitle seems to be weird for you ? ###
