@@ -1,12 +1,12 @@
 ---
 layout: post
 title: "0x5: Qemu network configuration and tftp for Virtual Development Board"
-date: 2013-04-22 10:36
+date: 2013-06-07 10:36
 comments: true
-categories: [embedded, linux, vdb]
+categories: [embedded, linux, vdb, qemu]
 published: false
-keywords:
-description:
+keywords: qemu, virtual development board, tftp, networking
+description: How to configure Qemu netorking with TFTP ?
 ---
 ## Table of contents ##
 
