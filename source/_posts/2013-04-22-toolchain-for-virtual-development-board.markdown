@@ -1,22 +1,22 @@
 ---
 layout: post
 title: "0x2: Toolchain for Virtual Development Board"
-date: 2013-04-22 08:42
+date: 2013-06-07 08:42
 comments: true
-categories: [embedded, linux, vdb]
-published: false
-keywords:
-description:
+categories: [embedded, linux, vdb, toolchain]
+published: true
+keywords: toolchain, embedded, virtual development board
+description: How to create toolchain for embedded platform
 ---
 ## Table of contents ##
 
-* [Introduction](/blog/2013/04/22/toolchain-for-virtual-development-board/#intro)
-* [What is toolchain ?](/blog/2013/04/22/toolchain-for-virtual-development-board/#what-is-toolchain)
-* [Why we need cross-toolchain ?](/blog/2013/04/22/toolchain-for-virtual-development-board/#why-we-need-cross-toolchain)
-* [How to create toolchain ?](/blog/2013/04/22/toolchain-for-virtual-development-board/#how-to-create-toolchain)
-* [Emdebian path](/blog/2013/04/22/toolchain-for-virtual-development-board/#emdebian-path)
-* [Summary](/blog/2013/04/22/toolchain-for-virtual-development-board/#summary)
-* [Kudos](/blog/2013/04/22/toolchain-for-virtual-development-board/#kudos)
+* [Introduction](/blog/2013/06/07/toolchain-for-virtual-development-board/#intro)
+* [What is toolchain ?](/blog/2013/06/07/toolchain-for-virtual-development-board/#what-is-toolchain)
+* [Why we need cross-toolchain ?](/blog/2013/06/07/toolchain-for-virtual-development-board/#why-we-need-cross-toolchain)
+* [How to create toolchain ?](/blog/2013/06/07/toolchain-for-virtual-development-board/#how-to-create-toolchain)
+* [Emdebian path](/blog/2013/06/07/toolchain-for-virtual-development-board/#emdebian-path)
+* [Summary](/blog/2013/06/07/toolchain-for-virtual-development-board/#summary)
+* [Kudos](/blog/2013/06/07/toolchain-for-virtual-development-board/#kudos)
 
 <a id="intro"></a>
 ### Introduction ###
@@ -131,12 +131,12 @@ with `__udivsi3` instruction. This cause loop in initialization process.
 <a id="summary"></a>
 ### Summary ###
 If you take effort of creating toolchain using `Crosstool-NG` than 
-congratulations.  But for simplifying whole [__Virtual Development Board__](/blog/2013/04/22/intro-to-virtual-development-board-building)
+congratulations.  But for simplifying whole [__Virtual Development Board__](/blog/2013/06/07/intro-to-virtual-development-board-building)
 series I will use `Emdebian` toolchain in further posts. Of course you can use 
 your brand new `Crosstool-NG` toolchain by simply remember that tools prefixes are 
 different. `Emdebian` uses `arm-linux-gnueabi-` and `Crosstool-NG` was created with 
 `arm-unknown-linux-gnueabi-`. Replace one with another every time when needed.
-In [next post](/blog/2013/04/22/embedded-board-bootloader) we will deal with 
+In [next post](/blog/2013/06/07/embedded-board-bootloader) we will deal with 
 bootloader.
 
 <a id="kudos"></a>

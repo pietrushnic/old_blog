@@ -1,18 +1,18 @@
 ---
 layout: post
 title: "0x4: Linux kernel for embedded system"
-date: 2013-04-22 10:33
+date: 2013-06-07 10:33
 comments: true
 categories: [embedded, linux, vdb]
-published: false
-keywords:
-description:
+published: true
+keywords: kernel, virtual development board, embedded, linux
+description: How to configure kernel for VersatilPB emulation in Qemu ?
 ---
 ## Table of contents ##
 
-* [A little history](/blog/2013/04/22/linux-kernel-for-embedded-system/#a-little-history)
-* [Get linux and build it](/blog/2013/04/22/linux-kernel-for-embedded-system/#get-linux-and-build-it)
-* [Kudos](/blog/2013/04/22/linux-kernel-for-embedded-system/#kudos)
+* [A little history](/blog/2013/06/07/linux-kernel-for-embedded-system/#a-little-history)
+* [Get linux and build it](/blog/2013/06/07/linux-kernel-for-embedded-system/#get-linux-and-build-it)
+* [Kudos](/blog/2013/06/07/linux-kernel-for-embedded-system/#kudos)
 
 <a id="a-little-history"></a>
 ### A little history ###
@@ -60,15 +60,28 @@ and go to:
 ```
 Kernel Features -> Use the ARM EABI to compile the kernel
 ```
+We will also need DHCP and NFS support (CONFIG_IP_PNP_DHCP and CONFIG_ROOT_NFS).
+First is `IP: DHCP support` and can be found under:
+```
+-> Networking support (NET [=y])
+  -> Networking options
+    -> TCP/IP networking (INET [=y])
+      -> IP: kernel level autoconfiguration (IP_PNP [=y])
+```
+Second is :
+```
+-> File systems
+  -> Network File Systems (NETWORK_FILESYSTEMS [=y])  
+```
 let's build image with U-Boot support.
 ```
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- uImage
 ```
 We have kernel. How we can provide this kernel to our development environment ?
-As I discuss in [previous post](/blog/2013/04/22/embedded-board-bootloader) we 
+As I discuss in [previous post](/blog/2013/06/07/embedded-board-bootloader) we 
 can use bare-metal qemu, but not with uImage kernel. This is special U-Boot 
 kernel, so easiest way will be using it with bootloader. We will figure out how
-to do this in [next section](/blog/2013/04/22/qemu-network-configuration-and-tftp-for-virtual-development-board)
+to do this in [next section](/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board)
 about tftp and qemu network configuration.
 
 __TODO__: add picture of configuration in intro - vdb, link it here
