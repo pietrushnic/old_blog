@@ -9,8 +9,8 @@
   <meta name="author" content="pietrushnic">
 
   
-  <meta name="description" content="You might be surprised at how much you have to make to correctly build
-arm-unknown-linux-gnueabi config based toolchain with crosstool-ng. As you can &hellip;">
+  <meta name="description" content="In this post I try to describe my vim configuration procedure and how it is
+connected with git. The whole concept is based on keeping all the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,7 +86,7 @@ arm-unknown-linux-gnueabi config based toolchain with crosstool-ng. As you can &
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/03/14/quick-build-of-arm-unknown-linux/">Quick build of arm-unknown-linux-gnueabi with crosstool-ng</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/02/20/improve-productivity-by-tracking-work_20/">Improve productivity by tracking work environment with git - vim</a></h1>
     
     
       <p class="meta">
@@ -102,86 +102,60 @@ arm-unknown-linux-gnueabi config based toolchain with crosstool-ng. As you can &
   
 
 
-<time datetime="2012-03-14T23:42:00+01:00" pubdate data-updated="true">Mar 14<span>th</span>, 2012</time>
+<time datetime="2012-02-20T21:43:00+01:00" pubdate data-updated="true">Feb 20<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>You might be surprised at how much you have to make to correctly build
-<code>arm-unknown-linux-gnueabi</code> config based toolchain with <a href="http://crosstool-ng.org/">crosstool-ng</a>. As you can
-see examples of many open source projects, the man&rsquo;s work is a rare resource.
-The result of this economic fact is that the attempt to build configuration
-<code>arm-unknown-linux-gnueabi</code> is not a simple task and during an operation you can
-come across many problems. Although I am not afraid of problems and effectively
-try to fight them and of course sharing the results of my work. My build system
-parameters:  <code>Debian GNU/Linux wheezy/sid 3.2.0-2-amd64</code></p>
+  <div class="entry-content"><p>In this post I try to describe my vim configuration procedure and how it is
+connected with git. The whole concept is based on keeping all the configuration
+files in a separate directory. These files are connected using symbolic links in
+places where system or application requires it (eg <code>$HOME/.vimrc -&gt;
+/home/jdoe/workspace/dotfiles/vimrc</code>). So first let&rsquo;s create local directory for
+vim:</p>
 
-<ul>
-<li>Clone crosstools-ng (you need mercurial)</li>
-</ul>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd ~/workspace/dotfiles;mkdir vim  </span></code></pre></td></tr></table></div></figure>
 
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>hg clone http://crosstool-ng.org/hg/crosstool-ng
-</span></code></pre></td></tr></table></div></figure>
+<h3>Pathogen</h3>
+
+<p>The first plugin that will be installed is pathogen created by tpope and
+accessible through github. Pathogen is a vim script to manage all vim plugins
+with ease. Below line add pathogen as submodule to our workspace repository
+created in <a href="/blog/2012/02/19/improve-productivity-by-tracking-work/">previous
+post</a>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git submodule add https://github.com/tpope/vim-pathogen.git dotfiles/vim/pathogen</span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li>Create temporary directory and run</li>
-</ul>
+<p>Initialize repository and update it:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git submodule init && git submodule update</span></code></pre></td></tr></table></div></figure>
 
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>ct-ng arm-unknown-linux-eabi <span class="c">#choose latest kernel (for me it was 3.2.9)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>Create additional directories need to complete pathogen installation, change
+directory to autoload:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd dotfiles/vim;mkdir {autoload,bundle};cd autoload</span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li>We probably want to change directory to which all stuff will be build (default is <code>$HOME/x-tools</code>):</li>
-</ul>
+<p>In autoload directory pathogen should be installed, bundle directory is a place
+for all plugins installed in future. Finally we need to link vim script from
+pathogen submodule to current directory (<code>dotfiles/vim/autoload</code>):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ln -s ../pathogen/autoload/pathogen.vim .</span></code></pre></td></tr></table></div></figure>
 
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>ct-ng menuconfig
-</span></code></pre></td></tr></table></div></figure>
+<p>Directory structure should look like below:</p>
 
-
-<p>And go to:
-<code>Paths and misc options ---&gt; (${HOME}/x-tools/${CT_TARGET}) Prefix directory</code>
-Change it according to your needs. Exit end save configuration.
-* Build (number after dot depend on how many command we want to run simultaneously):
-<code>ct-ng build.4</code>
-It can take a lot of time. On my machine with 5k BogoMips it takes over 1h.</p>
-
-<h3>Problems that you can encounter:</h3>
-
-<ul>
-<li><code>gcj</code> &ndash; latest changeset <code>2916:6f758ed4c0b9</code> have trouble finding <code>gcj</code> binary,
-which it show using following message:</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>ERROR<span class="o">]</span> Missing: <span class="s1">&#39;x86_64-unknown-linux-gnu-gcj&#39;</span> or <span class="s1">&#39;x86_64-unknown-linux-gnu-gcj&#39;</span> or <span class="s1">&#39;gcj&#39;</span> : either needed!
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To workaround this install <code>gcj</code> and link binary like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo ln -s /usr/bin/gcj-4.6 /usr/bin/gcj
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li><code>duma</code> &ndash; mentioned changeset also has problem with url to D.U.M.A library,
-apply below changes to workaround problems:</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -190,189 +164,210 @@ apply below changes to workaround problems:</li>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gd">--- a/scripts/build/debug/200-duma.sh Mon Mar 12 21:19:26 2012 +0100</span>
-</span><span class='line'><span class="gi">+++ b/scripts/build/debug/200-duma.sh Wed Mar 14 20:02:22 2012 +0100</span>
-</span><span class='line'><span class="gu">@@ -4,7 +4,7 @@ # Downloading an non-existing file from sourceforge will give you an</span>
-</span><span class='line'> # HTML file containing an error message, instead of returning a 404.
-</span><span class='line'> # Sigh...
-</span><span class='line'><span class="gd">- CT_GetFile &quot;duma_${CT_DUMA_VERSION}&quot; .tar.gz http://kent.dl.sourceforge.net/sourceforge/duma/ </span>
-</span><span class='line'><span class="gi">+ CT_GetFile &quot;duma_${CT_DUMA_VERSION}&quot; .tar.gz http://downloads.sourceforge.net/project/duma/duma/2.5.15</span>
-</span><span class='line'> # Downloading from sourceforge may leave garbage, cleanup
-</span><span class='line'> CT_DoExecLog ALL rm -f &quot;${CT_TARBALLS_DIR}/showfiles.php&quot;\* }
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pietrushnic@eriador:~/workspace/dotfiles$ tree .
+</span><span class='line'>└── vim
+</span><span class='line'>├── autoload
+</span><span class='line'>│   └── pathogen.vim -&gt; ../pathogen/autoload/pathogen.vim
+</span><span class='line'>├── bundle
+</span><span class='line'>└── pathogen
+</span><span class='line'>├── autoload
+</span><span class='line'>│   └── pathogen.vim
+</span><span class='line'>└── README.markdown</span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li><code>mawk</code> &ndash; if mawk return syntax error like this:</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'>mawk: scripts/gen-sorted.awk: line 19: regular expression compile failed (bad
-</span><span class='line'>class -- [], [^] or [)
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It could be fixed in two ways. First is to change <code>line 19</code> in <code>/path/to/tmp/dir/.build/src/glibc-2.9/scripts/gen-sorted.awk</code>
-Is:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'>sub(/\/[^/]+$/, &quot;&quot;, subdir);
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Should be:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'>sub(/\/[^\/]+$/, &quot;&quot;, subdir);
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Or simply by installing gawk, reconfigure and recompile <code>crosstools-ng</code>.</p>
-
-<p>This was my first post related to linux embedded enviroment. Hope it will be more. Enjoy!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/14/splitting-my-personal-repository/">Splitting my personal repository</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-14T23:26:00+01:00" pubdate data-updated="true">Mar 14<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>After writing a few posts in which my workspace scripts could be useful, I
-realized that I should split blog works from the scripts that can be useful to
-others. From now materials related to the blog I will track in a separate
-repository and I&rsquo;ll add them as submodule into my environment. This implies that
-if we intend to deliver something to a broader audience this should include only
-those things which the recipient is expected and which we say that we provide.
-Any additional items should be removed. We get a lot of unwanted stuff today, at
-every opportunity. From an economic point of view, it is known that very often
-margin value law is used here i.e. by hypermarkets, I will touch on this subject
-on another occasion, related to economics.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/12/debugging-coreboot-in-qemu-enviroment/">Debugging coreboot in qemu environment - part 1</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-12T21:30:00+01:00" pubdate data-updated="true">Mar 12<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>First of all I use testing version of Debian &ndash; wheezy. Clone coreboot repository:</p>
+<p>At the end of pathogen installation few lines to <code>$HOME/.vimrc</code> should be added.
+Of course following rules about dotfiles management <code>.vimrc</code> should be created as
+separate file in <code>~/workspace/dotfiles</code> and linked to <code>$HOME/.vimrc</code>.</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git clone http://review.coreboot.org/p/coreboot Conifigure:  
-</span><span class='line'>cd coreboot; make menuconfig Set:  </span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>touch vimrc;ln -s $PWD/vimrc $HOME/.vimrc</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Configure FILO as apayload and use its latest version:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Payload -&gt; Add a payload -&gt; FILO Payload -&gt; FILO version -&gt; HEAD</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Add verbose debugging messages:</p>
+<p>Add below lines to <code>$HOME/.vimrc</code>:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Debugging -&gt; Check PIRQ table consistency Debugging -&gt; Output verbose malloc debug messages
-</span><span class='line'>Debugging -&gt; Output verbose ACPI debug messages Debugging -&gt; Enable debug messages for option ROM execution
-</span><span class='line'>Debugging -&gt; Built-in low-level shell Debugging -&gt; Trace function calls</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>call pathogen#infect()
+</span><span class='line'>call pathogen#runtime_append_all_bundles()
+</span><span class='line'>call pathogen#helptags()
+</span><span class='line'>syntax on
+</span><span class='line'>filetype plugin
+</span><span class='line'>indent on</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Try to build:</p>
+<h3>Fuzzyfinder</h3>
+
+<p>This is second plugin without which I cannot work. It speeds up searching though
+files, directories and tags. Has multiple useful features. RTFM if you want knew
+them. I will be also added as a git submodule:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>make</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git submodule add https://github.com/vim-scripts/FuzzyFinder.git dotfiles/vim/bundle/fuzzyfinder</span></code></pre></td></tr></table></div></figure>
 
 
-<p>If everything builds correctly you can process. Sometimes there is need to use
-cross compiler. To build one:</p>
+<p>Additional plugin is needed to correctly install fuzzyfinder:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git submodule add https://github.com/vim-scripts/L9.git dotfiles/vim/bundle/l9</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Initialize and update submodules:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git submodule init && git submodule update</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Configuration I suggest to configure fuzzyfinder with accordance to example provided in help. </p>
+
+<ul>
+<li>Run vim and type :h fuf@en<Enter>. </li>
+<li>Choose tag fuf-vimrc-example and press Ctrl-]. </li>
+<li>Mark whole keybindings copy and paste to <code>~/.vimrc</code></li>
+</ul>
+
+
+<p>Right now I think it is enough with vim configuration. Of course I use plenty of
+other plugins but I don&rsquo;t have to time to describe my them all (maybe in future
+posts). Don&rsquo;t forget to commit your changes, there could be a lot of them,
+however, to deal with the distribution of these changes and improve your skills
+try to use git add -p interface, suggesting after linux code style &ndash; each commit
+should contain separate logical part of the changes, personally I add prefix to
+my commits (eg . vim, git, etc.) to ease deal with git log.  Notes:</p>
+
+<ul>
+<li>vim helpfiles generates tags files, which should be ignored by git, so I
+recommend to create .gitignore in every module with blow content:</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd util/crossgcc
-</span><span class='line'>./buildgcc</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.gitignore
+</span><span class='line'>tags*</span></code></pre></td></tr></table></div></figure>
 
 
-<p>To explore <code>coreboot</code> code effectively I suggest to create tags and cscope
-database for <code>coreboot</code>. In my personal workspace I&rsquo;ve got process that I go
-through before I start work (if you use my workspace configuration which
-is available <a href="https://github.com/pietrushnic/workspace">@github</a> you
-can follow below steps directly, if not adjust to your environment):</p>
-
-<ol>
-<li>run vim ;)</li>
-<li><code>:cd /path/to/code</code></li>
-<li><code>s&lt;Tab&gt;</code> (fuzzyfinder &ndash;> bookmark dir)</li>
-<li><code>si</code> (fuzzyfinder &ndash;> change dir)</li>
-<li><code>sr</code> (run ctags to generate tags and cscope to build symbol database &ndash; <code>ctags -R;cscope -R -q -b -v</code>)</li>
-</ol>
+<ul>
+<li>by default fuzzyfinder operate on unfriendly color palette espessicaly when
+using it through putty, highlighted pattern could be changed by added below
+lines to .vimrc (9 = black)</li>
+</ul>
 
 
-<p>After steps above we can start work with code. Run vim in <code>coreboot</code> directory.
-Type:
-<code>:e src/cpu/x86/16bit/reset16.inc</code>
-Put cursor over <code>protected_start</code> and press <code>Ctrl-]</code>. If everything goes ok you
-should jump to <code>build/mainboard/emulation/qemu-x86/bootblock.s</code> line 537.</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>" fuzzy-finder - fix colors highlight PmenuSel ctermbg=9</span></code></pre></td></tr></table></div></figure>
 
-<p>In second article we dive into first phase of <code>coreboot</code> execution in emulated environment.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/20/hostname-generator/">Hostname generator</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-20T20:58:00+01:00" pubdate data-updated="true">Feb 20<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Many times happened that I spend time, during the installation of the new system, whether it be a virtual physical machine, wondering about it&rsquo;s hostname. One day I asked myself the trouble searching for host name generator. Best I could find (currently second in the results of google) is rospo.net. It gives you the choice of category for the host name. My favorite, as a fan of fantasy is &ldquo;Characters from Tolkien&rdquo;. Although the category name does not reflect the truth, because in addition also includes a set of known sites in middlearth and more. So I recommend:</p>
+
+<p>  <a href="http://rospo.net/webproducts/name/index.php">http://rospo.net/webproducts/name/index.php</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/19/improve-productivity-by-tracking-work/">Improve productivity by tracking work environment with git - preparation</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-19T21:12:00+01:00" pubdate data-updated="true">Feb 19<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><em>Update</em>: My repository is available
+<a href="https://github.com/pietrushnic/workspace.git">here</a>.</p>
+
+<p>Below is first post from series in which I want to describe my experience gained
+in attempt to enhance my productivity by using git to control the contents of
+some files in my home directory. The first step to improve the productivity
+is good organization of working environment. It happens very often that I work
+on multiple machines both physical and virtual. Therefore I need a
+good mechanism to share knowledge, experience, code, configuration and many
+other things. Configuration described below is only an example that actually
+fits my way of working.  First of all simple concept of directory structure is
+needed. Let&rsquo;s start with:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir -p $HOME/workspace/blog;mkdir -p $HOME/workspace/dotfiles
+</span><span class='line'>cd workspace </span></code></pre></td></tr></table></div></figure>
+
+
+<p>Write some files (i.e. for your blog) with your favourite editor, initialize
+repository and prepare first commit</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git init
+</span><span class='line'>git add .;git commit -m "Initial commit for environment tracking" </span></code></pre></td></tr></table></div></figure>
+
+
+<p>To avoid information about untracked vim swp files add $HOME/workspace/.gitignore with following content:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.gitignore
+</span><span class='line'>*.swp</span></code></pre></td></tr></table></div></figure>
+
 </div>
   
   
@@ -402,10 +397,6 @@ should jump to <code>build/mainboard/emulation/qemu-x86/bootblock.s</code> line 
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/06/14/build-and-run-ovmf-under-qemu/">Build and run OVMF under Qemu</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2013/06/07/root-file-system-for-embedded-system/">0x6: Root file system for embedded system</a>
       </li>
     
@@ -419,6 +410,10 @@ should jump to <code>build/mainboard/emulation/qemu-x86/bootblock.s</code> line 
     
       <li class="post">
         <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a>
       </li>
     
   </ul>
