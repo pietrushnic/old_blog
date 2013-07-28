@@ -9,7 +9,7 @@
   <meta name="author" content="pietrushnic">
 
   
-  <meta name="description" content="Another time-waster was a decent code formatter and syntax highlighter. I google out following solution, it is based on SyntaxHighlighter 3 It has &hellip;">
+  <meta name="description" content="&mdash;&ndash; layout: post title: &ldquo;arbtt as productivity improver for Linux enviroment&rdquo; date: 2012-02-06T00:37:00+01:00 categories: & &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,7 +85,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/01/06/syntax-highlighter-and-code-formatter/">Syntax highlighter and code formatter for Blogger</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/02/06/arbtt-as-productivity-improver-for/">Arbtt As Productivity Improver For</a></h1>
     
     
       <p class="meta">
@@ -101,25 +101,26 @@
   
 
 
-<time datetime="2012-01-06T18:14:00+01:00" pubdate data-updated="true">Jan 6<span>th</span>, 2012</time>
+<time datetime="2012-02-06T00:00:00+01:00" pubdate data-updated="true">Feb 6<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Another time-waster was a decent code formatter and syntax highlighter. I google out <a href="http://www.commonitman.com/2010/09/how-to-use-syntax-highlighter-3-in.html">following solution</a>, it is based on <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter 3</a> It has interesting options:</p>
+  <div class="entry-content"><p>&mdash;&ndash; layout: post title: &ldquo;arbtt as productivity improver for Linux enviroment&rdquo; date: 2012-02-06T00:37:00+01:00 categories: &ndash; productivity &mdash;&ndash;</p>
 
-<ol>
-<li>You can select the language for which a syntax-colored</li>
-<li>Turn on/off line numbering</li>
-<li>Themes &ndash; this one is pretty nice for my blog</li>
-<li>Customizable tabs size</li>
-<li>The option to disable toolbar</li>
-</ol>
+<p>As I mentioned in previous <a href="http://pietrushnic.blogspot.com/2012/02/first-steps-to-improve-work.html">post</a> I work a lot on improving my productivity. After FreeMind it is time for <a href="http://darcs.nomeata.de/arbtt/doc/users_guide/">arbtt</a>. This is small tool which tracks active windows during your work. It is delivered with distro that I&rsquo;m currently using (Debian wheezy). So all I had to do was:</p>
 
+<p>sudo apt-get install arbtt Below I try describe how I configure arbtt to work with some apps that I use (Google Chrome, FreeMind, gnome-terminal and screen).<br/>
+To effectively work with arbtt I had to run a daemon that collects information. In this way, I found the first problem, namely, it is hard to find a website, which correctly explains how to execute command during startup on Debian with GNOME environment. After few tries I realize that I should focus on GNOME autostart mechanism. This led me to create little file in $HOME/.config/autostart which looks like that:</p>
 
-<p>My dream would be to create a theme that would look similar to vim syntax highlighing.</p>
+<p>[Desktop Entry] Type=Application Encoding=UTF-8 Name=The Automatic Rule-Base Time Tracker Exec=arbtt-capture Terminal=false So I had configured arbtt and it starts to capture data about my work. To display this data in friendly manner arbtt-stat should be used. Application complains if $HOME/.arbtt/categorize.cfg wasn&rsquo;t configured for it appropriate. Detailed documentation about this file can be found on arbtt <a href="http://darcs.nomeata.de/arbtt/doc/users_guide/configuration.html">configuration page</a>. The process of writing this file should be iterative, starting point for me was:</p>
+
+<p>&mdash; This defines some aliases, to make the reports look nicer: aliases ( &ldquo;sun-awt-X11-XFramePeer&rdquo; &ndash;> &ldquo;java&rdquo; ) &mdash; A rule that probably everybody wants. Being inactive for over a minute &mdash; causes this sample to be ignored by default. $idle > 60 ==> tag inactive, current window $program == &ldquo;sun-awt-X11-XFramePeer&rdquo; &amp;&amp; current window ($title =~ /(.+)\s-\sFreeMind/) ==> tag program:FreeMind-$1, current window $program == &ldquo;gnome-terminal&rdquo; &amp;&amp; current window ($title =~ /(.+)/) ==> tag term:$1, &mdash; Simple rule that just tags the current program tag program:$current.program, &mdash; I&rsquo;d like to know what web pages in google-chrome I&rsquo;m working in. So I do &mdash; not tag necessarily by the active window title, but the title that contains &mdash; the specific string. current window $program == &ldquo;google-chrome&rdquo; &amp;&amp; any window ($program == &ldquo;google-chrome&rdquo; &amp;&amp; $title =~ /(.+)\s-\sGoogle\sChrome/) ==> tag www:$1, However, after creating a configuration file such statistics were displayed correctly it was still a big problem to solve &ndash; how to combine arbtt with gnome-terminal and screen. The first one requires only a correctly set the window&rsquo;s name. Although the synchronization of the terminal window&rsquo;s name with a window inside the screen was not a trivial task (primarily on the mass of broken tutorials that can be found on the web). Finally my .screenrc looks like that:</p>
+
+<p>termcapinfo xterm* &lsquo;hs:ts=\E]0;:fs=\007:ds=\E]0;\007&rsquo; defhstatus &ldquo;[screen] ^Et&rdquo; hardstatus off # Set the scrollback length: defscrollback 10000 # Select whether you want to see the copyright notice during startup: startup_message off # Display a caption string below, appearing like tabs and # displaying the window number and application name (by default). caption always caption string &ldquo;%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]&rdquo; #&ldquo;%{= kb}[ %=%{w}%?%-Lw%?%{b}(%{W}%n*%f %t%?(%u)%?%{b})%{w}%?%+Lw%?%?%= %{b}][%{B} %H %{W}%l %{b}][%{B} %d.%m.%Y %{W}%0c %{b}]&rdquo; #&ldquo;%{bw}[%H] [%?%-Lw%?%{wb}%n*%f%t%{bw}%?%+Lw%?]%=%{bw} [%1`] [%c:%s] [%l]&rdquo; # &ldquo;%{kw}%-w%{wr}%n %t%{&ndash;}%+w&rdquo; defhstatus set terminal title and caption keeps data about my open windows in screen. Every time I open new window or change current one terminal title is updated.<br/>
+For now that&rsquo;s all. In the future I wanted to write how to synchronize the title of the window in the screen with vim editor to include information about the currently edited file.</p>
 </div>
   
   
@@ -132,7 +133,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/01/06/flashrom-and-shuttle-av18e2/">flashrom and Shuttle AV18E2</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/02/05/first-steps-to-improve-work/">First steps to improve work productivity in Linux environment</a></h1>
     
     
       <p class="meta">
@@ -148,29 +149,20 @@
   
 
 
-<time datetime="2012-01-06T14:31:00+01:00" pubdate data-updated="true">Jan 6<span>th</span>, 2012</time>
+<time datetime="2012-02-05T03:08:00+01:00" pubdate data-updated="true">Feb 5<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>During Christmas break I found an old unused motherboard in my home, right away I thought that it maybe useful as learning environment for coreboot. First you need to do with this kind of board is to check if it is possible to flash its BIOS with user space tool called <a href="http://www.flashrom.org/">flashrom</a> list of supported hardware can be found <a href="http://www.flashrom.org/Supported_hardware">here</a>.</p>
+  <div class="entry-content"><p>The problem encountered on several occasions over several months. Now it is time to deal with it. How did this happen? As always, resources were not sufficient, and if we can not increase the amount of resources we must strive to optimize their use.In this case, it was about time.</p>
 
-<p>All you need to do is go through <a href="http://www.flashrom.org/Board_Testing_HOWTO">this HOWTO</a>. Be aware that these operations can cause you will not be able to run your motherboard if something goes wrong. Therefore, I suggest protect yourself by supplying checked programmer or other memory chip for your board containing a working BIOS.</p>
+<p>While reading my last acquisition, once again I faced the problem of re-configure Linux account. Every time when I need new account for some reasons I need to configure some things manually. Most things are simple enough, we copy configuration files from the already existing user directory, and voila. Of course Murphy&rsquo;s law works, and something goes wrong. Sometimes we need to create a new account with just a few of the tools configured as in other existing accounts. So we have a problem, however, reflecting on the solution, my mind was deepened in the increasing number of new issues, which caused the solution became more distant.</p>
 
-<p>For my <a href="http://www.shuttle.eu/_archive/older/de/av18.htm">Shuttle board</a> I checked if the Winbond W49F002U chip on it is supported by flashrom. Fortunately it was. After that I read my BIOS by:</p>
+<p>How this process looks like? First we need new account, it should get automatically some configuration files that I create for other accounts. Second I realize that I don&rsquo;t have methods for storing configs that I use most. I heard about dotfiles tracking with git with cloud help (e.g. <a href="https://github.com/">github</a>). When I google this issue I found <a href="https://github.com/trym/dotty">dotty</a>. But after that I ask myself about productivity improvements in broad sense and the conclusion was that my work scheme should be changed. So I try to find some hints about improving productivity, there are thousand of web pages about that. Few things I found useful first of all the idea of &ldquo;automated time tracking&rdquo;. Second that chaos that I produced during solving simple problem meant that I thought about controlling of its flow, and this led me to <a href="http://en.wikipedia.org/wiki/Mind_map">mind mapping</a> technique. AFAIK <a href="http://freemind.sourceforge.net/wiki/index.php/Main_Page">FreeMind</a> is the best free software for playing with this way of data presentation. Below I attach my first mind map in FreeMind, this is of course beta version.</p>
 
-<p>flashrom -Vr bios_bckp.bin
-And write it by:</p>
-
-<p>flashrom -Vw bios_bckp.bin At the end I&rsquo;ve got VERIFIED message but when I look carefully inside the log there was something like this:</p>
-
-<p>Erasing and writing flash chip&hellip; Trying erase function 0&hellip; 0x000000-0x01ffff:S, 0x020000-0x037fff:S, 0x038000-0x039fff:S, 0x03a000-0x03bfff:S, 0x03c000-0x03ffff:S Erase/write done. Verifying flash&hellip; VERIFIED. This means that these addresses have not been overwritten but skipped, becuse the fact that the data which were to be overridden were identical with what we wanted to write. So if we found such output to properly verify flashrom we need to clear our memory and write it again with BIOS backup. Correct output should look like this:</p>
-
-<p>Erasing and writing flash chip&hellip; Trying erase function 0&hellip; 0x000000-0x01ffff:W, 0x020000-0x037fff:W, 0x038000-0x039fff:W, 0x03a000-0x03bfff:W, 0x03c000-0x03ffff:W Erase/write done. Verifying flash&hellip; VERIFIED.</p>
-
-<p>Next post I will try to familiarize you with the process of debugging coreboot using <a href="http://wiki.qemu.org/Main_Page">QEMU</a>.</p>
+<p>  <img src="http://4.bp.blogspot.com/-JCXeznxAkyM/Ty3jqvKH1UI/AAAAAAAAAD8/6Rye6fkesjM/s640/improve_productivity.png" alt="" /></p>
 </div>
   
   
@@ -183,7 +175,7 @@ And write it by:</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/01/06/how-to-begin-with-coreboot/">How to begin with coreboot</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/01/15/another-interesting-topic-with-which-i/">UEFI from Linux enthusiast perspective</a></h1>
     
     
       <p class="meta">
@@ -199,26 +191,20 @@ And write it by:</p>
   
 
 
-<time datetime="2012-01-06T14:23:00+01:00" pubdate data-updated="true">Jan 6<span>th</span>, 2012</time>
+<time datetime="2012-01-15T23:04:00+01:00" pubdate data-updated="true">Jan 15<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>About a month ago I started my adventure with coreboot. As <a href="http://www.coreboot.org/">coreboot home</a> page says &ldquo;coreboot is a Free Software project aimed at replacing the proprietary BIOS (firmware) found in most computers&rdquo;. Although I read the majority of materials from mentioned page I still suffered from a lack of basic information that would help me to arrange everything in my head. Therefore, I decided to write a series of posts described my actions associated with this interesting project.</p>
+  <div class="entry-content"><p>Another interesting topic with which I am dealing with recently is the <a href="http://www.uefi.org/home/">UEFI</a>. As we read on wikipedia: &ldquo;The Unified Extensible Firmware Interface (UEFI) is a specification that defines a software interface between an operating system and platform firmware.&rdquo;. The purpose of this specification is to create something what in the future fully replace the BIOS.</p>
 
-<p>At the beginning I would recommend some interesting sources of information on coreboot:</p>
+<p>Of course, as always in such a situation, I wonder what OpenSource and Linux gurus have to say. A brief googling and I found <a href="http://kerneltrap.org/node/6884">this</a>. On the one hand are noticeable advantages: better design, formalized structure of the code, the C programming language, but you can feel that community fears and feared that the &ldquo;standard&rdquo; will be used in an inappropriate manner. Therefore, I regularly read <a href="http://lwn.net/">LWN</a> RSS feeds, and it seems that on the horizon you can see already the first ideas on how to use UEFI to limit freedom. You can read about it in this article: <a href="http://lwn.net/Articles/475359/">&ldquo;SFLC: Microsoft confirms UEFI fears, locks down ARM devices&rdquo;</a>.</p>
 
-<ul>
-<li><a href="http://www.coreboot.org/QEMU">http://www.coreboot.org/QEMU</a> - If you&rsquo;re impatient and want to start as soon as possible</li>
-<li><a href="http://www.coreboot.org/Screenshots#Videos">Coreboot videos</a> - One of the easiest ways to obtain general information about the project</li>
-<li><a href="http://lennartb.home.xs4all.nl/coreboot/coreboot.html">Start to understand</a> - I found this page by accident while googling materials, thanks to its author I understood basics and found out what&rsquo;s next</li>
-<li><a href="http://www.coreboot.org/Documentation">Documentation</a> - Many different types of documents, a large proportion of them are not applying to the latest version of coreboot v4, however, still has a educational value.</li>
-</ul>
+<p>Personally, I really do not like it, because I believe that everyone who buys the equipment has the right to exploit its capabilities in such a manner it deems appropriate.</p>
 
-
-<p>After reviewing the above materials, you should understand the basics of coreboot. In the <a href="http://pietrushnic.blogspot.com/2012/01/flashrom-and-shuttle-av18e2.html">next post</a> I will describe <a href="http://flashrom.org/">flashrom</a> application and my experience with one of the old motherboard.</p>
+<p>Of course, as usual, I change the subject. I wanted to write about the project <a href="http://sourceforge.net/apps/mediawiki/tianocore/index.php?title=Welcome">TianoCore</a>, which is an open source implementation of UEFI implemented by Intel. When you do not have the strength nor the resources to fight the system, use the system to gather strength and resources, and then start fighting. So in the next post I will try to describe my first experience with <a href="http://sourceforge.net/apps/mediawiki/tianocore/index.php?title=EDK2">EDKII</a> in emulated environment of QEMU.</p>
 </div>
   
   
@@ -248,6 +234,10 @@ And write it by:</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/06/14/build-and-run-ovmf-under-qemu/">Build and run OVMF under Qemu</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/06/07/root-file-system-for-embedded-system/">0x6: Root file system for embedded system</a>
       </li>
     
@@ -261,10 +251,6 @@ And write it by:</p>
     
       <li class="post">
         <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a>
       </li>
     
   </ul>

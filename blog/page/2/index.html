@@ -9,13 +9,9 @@
   <meta name="author" content="pietrushnic">
 
   
-  <meta name="description" content="Table of contents What is bootloader ?
-Why we need bootloader ?
-Which bootloader ?
-What is versatilepb ?
-Compilation
-Where to go from here ?
-Kudos &hellip;">
+  <meta name="description" content="Table of contents A little history
+Get linux and build it
+Kudos A little history Thinking about embedded linux probably leads to first try of porting &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,6 +81,178 @@ Kudos &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/07/linux-kernel-for-embedded-system/">0x4: Linux kernel for embedded system</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-07T10:33:00+02:00" pubdate data-updated="true">Jun 7<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Table of contents</h2>
+
+<ul>
+<li><a href="/blog/2013/06/07/linux-kernel-for-embedded-system/#a-little-history">A little history</a></li>
+<li><a href="/blog/2013/06/07/linux-kernel-for-embedded-system/#get-linux-and-build-it">Get linux and build it</a></li>
+<li><a href="/blog/2013/06/07/linux-kernel-for-embedded-system/#kudos">Kudos</a></li>
+</ul>
+
+
+<p><a id="a-little-history"></a></p>
+
+<h3>A little history</h3>
+
+<p>Thinking about embedded linux probably leads to  first try of porting linux to
+different architecture. I did google research (I know I should probably read
+mailing list archive) and found that there were few attempt to port linux to
+different platform. There is no clear information about which port of linux was
+first. This is probably because many hackers didn&rsquo;t report their effort. Arguably
+earliest out-of-tree version was probably for Acron A5000 (arm), Motorola 68000
+(m68k) around Spring/Summer of 1994. I found also notes about SPARC port in
+1993. Some sources also tells story about 1993 Amiga and Atari port. But first
+port that get in to official linux tree was DEC Alpha.<a href="http://digital-domain.net/lug/unix-linux-history.html">[1]</a><a href="http://www.arm.linux.org.uk/docs/history.php">[2]</a></p>
+
+<p>So linux is already 22 years old and first port start when it was 2-3 years old,
+so we can assume it is mature enough to support most of non-x86 architectures.</p>
+
+<p><a id="get-linux-and-build-it"></a></p>
+
+<h3>Get linux and build it</h3>
+
+<p>To deal with our <em>embedded</em> board we need operating system or some kind of
+software that will allow us to use board features. Right now to boot system we
+need at least kernel. So we have to prepare kernel for board of choice
+<code>versatilepb</code>.</p>
+
+<p>Let&rsquo;s start with cloning Linux repository:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and configure kernel for <code>versatilepb</code>.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd linux
+</span><span class='line'>make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- versatile_defconfig</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It looks some feature is disabled in <code>versatile_defconfig</code>. I mean
+<code>CONFIG_AEABI</code>. It specifies file format, data types, register usage and other
+things. The main difference between EABI and ABI is that privileged instructions
+are allowed in application code. More about EABI
+<a href="http://en.wikipedia.org/wiki/Application_binary_interface#EABI">here</a>.
+To enable this option run:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- menuconfig</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and go to:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Kernel Features -&gt; Use the ARM EABI to compile the kernel</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We will also need DHCP and NFS support (CONFIG_IP_PNP_DHCP and CONFIG_ROOT_NFS).
+First is <code>IP: DHCP support</code> and can be found under:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-&gt; Networking support (NET [=y])
+</span><span class='line'>  -&gt; Networking options
+</span><span class='line'>    -&gt; TCP/IP networking (INET [=y])
+</span><span class='line'>      -&gt; IP: kernel level autoconfiguration (IP_PNP [=y])</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Second is :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-&gt; File systems
+</span><span class='line'>  -&gt; Network File Systems (NETWORK_FILESYSTEMS [=y])  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>let&rsquo;s build image with U-Boot support.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- uImage</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We have kernel. How we can provide this kernel to our development environment ?
+As I discuss in <a href="/blog/2013/06/07/embedded-board-bootloader">previous post</a> we
+can use bare-metal qemu, but not with uImage kernel. This is special U-Boot
+kernel, so easiest way will be using it with bootloader. We will figure out how
+to do this in <a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board">next section</a>
+about tftp and qemu network configuration.</p>
+
+<p><strong>TODO</strong>: add picture of configuration in intro &ndash; vdb, link it here
+Target configuration will consist on providing kernel through tftp server using U-Boot. Also
+want to use NFS root filesystem to boot our small distro. As it is in real
+development environment.</p>
+
+<p><em>NOTE</em>: During compilation process you can encounter error like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(...)
+</span><span class='line'>  UIMAGE  arch/arm/boot/uImage
+</span><span class='line'>  "mkimage" command not found - U-Boot images will not be built
+</span><span class='line'>  make[1]: *** [arch/arm/boot/uImage] Error 1
+</span><span class='line'>  make: *** [uImage] Error 2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Of course it means that we need mkimage to create U-Boot image, so:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install uboot-mkimage</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>Update</em>: in Debian jessie/sid this package was replaced by <code>u-boot-tools</code>.</p>
+
+<p>We have to use uImage special build because load and execute address differes
+from board to board. If we will use vmlinux image then addresses should be
+manually modified. So using uImage is easiest</p>
+
+<p><a id="kudos"></a></p>
+
+<h3>Kudos</h3>
+
+<p>[1] <a href="http://digital-domain.net/lug/unix-linux-history.html">UNIX/Linux History</a></br>
+[2] <a href="http://www.arm.linux.org.uk/docs/history.php">The History of ARM Linux</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -458,114 +626,6 @@ bootloader.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/07/qemu-as-an-environment-for-embedded-board-emulation/">0x1: Qemu as an environment for embedded board emulation</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-07T08:27:00+02:00" pubdate data-updated="true">Jun 7<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Table of contents</h2>
-
-<ul>
-<li><a href="/blog/2013/06/07/qemu-as-an-environment-for-embedded-board-emulation/#intro">Introduction</a></li>
-<li><a href="/blog/2013/06/07/qemu-as-an-environment-for-embedded-board-emulation/#compilation">Compilation</a></li>
-<li><a href="/blog/2013/06/07/qemu-as-an-environment-for-embedded-board-emulation/#kudos">Kudos</a></li>
-</ul>
-
-
-<p><a id="intro"></a></p>
-
-<h3>Introduction</h3>
-
-<p>QEMU is a CPU emulator using dynamic binary translation to convert guest CPU
-instructions into host CPU instructions<a href="http://infoscience.epfl.ch/record/149975/files/x86-llvm-translator-chipounov_2.pdf">[1]</a>. It supports many architectures from
-x86, through ARM and MIPS, to MicroBlaze. According to compilation configuration
-target list QEMU targets 26 different softmmu types.  Only for ARM it supports
-33 machines (like ARM Versatile/PB (ARM926EJ-S) or Samsung NURI board
-(Exynos4210)) and 28 CPUs (with cortex-a9 and pxa270). It gives access to
-network, storage, video, usb, serial and other peripheral, also user defined. It
-is developed under GNU GPL, so everybody are free to make modifications, improve
-and extend it. This properties makes QEMU very good candidate for virtual board
-emulator.</p>
-
-<p><a id="compilation"></a></p>
-
-<h3>Compilation</h3>
-
-<p>Let&rsquo;s start creating our Virtual Development Board. As usually I will use latest
-greatest version from git:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone http://git.qemu.org/git/qemu.git
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Compile it and install. Right now I will use only <code>arm-softmmu</code> target because it
-will emulate whole arm system for me. ARM right now dominated big part of
-embedded market but we will see if situation won&rsquo;t change in feature.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd </span>qemu
-</span><span class='line'>./configure --target-list<span class="o">=</span>arm-softmmu
-</span><span class='line'>make
-</span><span class='line'>make install
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>During configuration process you can encounter lack of <code>pixman</code>, just accept qemu
-offer to initialize it as a submodule.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>git submodule update --init pixman
-</span><span class='line'>make <span class="c"># restart compilation process</span>
-</span><span class='line'>make install
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If compilation ends without problem than our first component is ready to use.
-Right now we can emulate our ARM based board with many types of CPUs. List of
-all available can be retrieved by running command <code>qemu-system-arm -cpu ?</code>, list
-of emulated machines by <code>-M ?</code>. Now, let&rsquo;s talk about <a href="/blog/2013/06/07/toolchain-for-virtual-development-board">toolchains</a>.</p>
-
-<p><a id="kudos"></a></p>
-
-<h3>Kudos</h3>
-
-<p>[1] <a href="http://infoscience.epfl.ch/record/149975/files/x86-llvm-translator-chipounov_2.pdf">Dynamically Translating x86 to LLVM using QEMU</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -588,6 +648,10 @@ of emulated machines by <code>-M ?</code>. Now, let&rsquo;s talk about <a href="
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/06/14/build-and-run-ovmf-under-qemu/">Build and run OVMF under Qemu</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/06/07/root-file-system-for-embedded-system/">0x6: Root file system for embedded system</a>
       </li>
     
@@ -601,10 +665,6 @@ of emulated machines by <code>-M ?</code>. Now, let&rsquo;s talk about <a href="
     
       <li class="post">
         <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a>
       </li>
     
   </ul>

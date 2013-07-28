@@ -114,6 +114,12 @@
     </url>
     <url>
         <loc>
+            http://pietrushnic.github.io/blog/2012/03/20/-democracy-the-god-that-failed-hans-hermann-hoppe/
+        </loc>
+        <lastmod>2013-07-28T08:33:38+02:00</lastmod>
+    </url>
+    <url>
+        <loc>
             http://pietrushnic.github.io/blog/2012/03/20/building-arm-toolchain-part-1-libs-and/
         </loc>
         <lastmod>2013-07-28T08:33:38+02:00</lastmod>
@@ -198,12 +204,22 @@
     </url>
     <url>
         <loc>
+            http://pietrushnic.github.io/blog/2013/03/30/useful-hints-for-blogging-using-octopress-with-vim/
+        </loc>
+        <lastmod>2013-07-28T08:33:38+02:00</lastmod>
+    </url>
+    <url>
+        <loc>
             http://pietrushnic.github.io/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi/
         </loc>
         <lastmod>2013-07-28T08:33:38+02:00</lastmod>
     </url>
     <url>
         <loc>http://pietrushnic.github.io/blog/2013/04/06/tmux/</loc>
+        <lastmod>2013-07-28T08:33:38+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://pietrushnic.github.io/blog/2013/05/12/kernel-developers-tools/</loc>
         <lastmod>2013-07-28T08:33:38+02:00</lastmod>
     </url>
     <url>
@@ -219,6 +235,12 @@
     <url>
         <loc>
             http://pietrushnic.github.io/blog/2013/05/16/octopress-depoying-problem-after-migrating-to-star-dot-github-dot-io/
+        </loc>
+        <lastmod>2013-07-28T08:33:38+02:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://pietrushnic.github.io/blog/2013/05/23/mutt-from-source-best-known-methods/
         </loc>
         <lastmod>2013-07-28T08:33:38+02:00</lastmod>
     </url>
@@ -258,6 +280,10 @@
         <loc>
             http://pietrushnic.github.io/blog/2013/06/07/root-file-system-for-embedded-system/
         </loc>
+        <lastmod>2013-07-28T08:33:38+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://pietrushnic.github.io/blog/2013/06/14/build-and-run-ovmf-under-qemu/</loc>
         <lastmod>2013-07-28T08:33:38+02:00</lastmod>
     </url>
     <url>
