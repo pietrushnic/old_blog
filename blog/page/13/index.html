@@ -9,8 +9,7 @@
   <meta name="author" content="pietrushnic">
 
   
-  <meta name="description" content="Very short manual on how to set up irssi to work with freenode servers.
-Fist, install irssi: sudo apt-get install irssi Run: irssi For freenode write &hellip;">
+  <meta name="description" content="&ldquo;Human Action&rdquo; Ludwig von Mises&rsquo;s work by some of called the pope of free market. IMHO is one of the best books on economics I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,7 +85,7 @@ Fist, install irssi: sudo apt-get install irssi Run: irssi For freenode write &h
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/02/15/set-irssi-under-debian-to-use-freenode/">Set irssi under debian to use freenode server</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/03/07/human-action-ludwig-von-misess-work-by/">&#8220;Human Action&#8221; Ludwig von Mises</a></h1>
     
     
       <p class="meta">
@@ -102,33 +101,16 @@ Fist, install irssi: sudo apt-get install irssi Run: irssi For freenode write &h
   
 
 
-<time datetime="2012-02-15T20:25:00+01:00" pubdate data-updated="true">Feb 15<span>th</span>, 2012</time>
+<time datetime="2012-03-07T23:37:00+01:00" pubdate data-updated="true">Mar 7<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Very short manual on how to set up irssi to work with freenode servers.<br/>
-Fist, install irssi:</p>
+  <div class="entry-content"><p>  <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Ludzkie_dzialanie_okladka.jpg/166px-Ludzkie_dzialanie_okladka.jpg" alt="" /></p>
 
-<p>sudo apt-get install irssi Run:</p>
-
-<p>irssi For freenode write:</p>
-
-<p>/connect holmes.freenode.net Send register command for youe {nickname} and add information about your {e-mail}:</p>
-
-<p>/msg nickserv register {nickname} {e-mail} Copy and paste line, which you get from freenode registration server to your mailbox, to irssi. After that add freenode network:</p>
-
-<p>/network add freenode Add what should be automaticali send to server after connecting, remeber to correctly write your {nickname} and {password}, password will be stored in plain text:</p>
-
-<p>/network add -autosendcmd &lsquo;^nick {nickname};/msg nickserv identify {password}&rsquo; freenode Auto-connect everytime when irssi will be run:</p>
-
-<p>/server ADD -auto -network freenode holmes.freenode.net 6667 Channel autologin:</p>
-
-<p>/channel ADD -auto #debian freenode After all we should save settings:</p>
-
-<p>/save That&rsquo;s all, enjoy!</p>
+<p>&ldquo;Human Action&rdquo; Ludwig von Mises&rsquo;s work by some of called the pope of free market. IMHO is one of the best books on economics I read in my life. It is not easy, however, giving it time with certainly pays off. Allows to understand the basic laws which ruled the modern world of finance. Mises in a sensational way talk about the myths explaining what is inflation, why it has impact on our lives, what is and how works the supply of credit, and who depend most on the production of money without coverage (<em>fiat</em> money). I can say that until I read this book, I was lost in the dark. Thanks to it I received a weapon to overthrow ridiculous  world order concepts, absurd messages communicated in the media. I recommend:  <a href="http://mises.org/store/Human-Action-The-Scholars-Edition-P119.aspx">mises.org store &ndash; Human Action </a></p>
 </div>
   
   
@@ -141,7 +123,7 @@ Fist, install irssi:</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/02/06/arbtt-as-productivity-improver-for/">Arbtt As Productivity Improver For</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/03/07/blog-has-changed-slightly/">Nice small additions for my blog</a></h1>
     
     
       <p class="meta">
@@ -157,26 +139,14 @@ Fist, install irssi:</p>
   
 
 
-<time datetime="2012-02-06T00:00:00+01:00" pubdate data-updated="true">Feb 6<span>th</span>, 2012</time>
+<time datetime="2012-03-07T23:15:00+01:00" pubdate data-updated="true">Mar 7<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>&mdash;&ndash; layout: post title: &ldquo;arbtt as productivity improver for Linux enviroment&rdquo; date: 2012-02-06T00:37:00+01:00 categories: &ndash; productivity &mdash;&ndash;</p>
-
-<p>As I mentioned in previous <a href="http://pietrushnic.blogspot.com/2012/02/first-steps-to-improve-work.html">post</a> I work a lot on improving my productivity. After FreeMind it is time for <a href="http://darcs.nomeata.de/arbtt/doc/users_guide/">arbtt</a>. This is small tool which tracks active windows during your work. It is delivered with distro that I&rsquo;m currently using (Debian wheezy). So all I had to do was:</p>
-
-<p>sudo apt-get install arbtt Below I try describe how I configure arbtt to work with some apps that I use (Google Chrome, FreeMind, gnome-terminal and screen).<br/>
-To effectively work with arbtt I had to run a daemon that collects information. In this way, I found the first problem, namely, it is hard to find a website, which correctly explains how to execute command during startup on Debian with GNOME environment. After few tries I realize that I should focus on GNOME autostart mechanism. This led me to create little file in $HOME/.config/autostart which looks like that:</p>
-
-<p>[Desktop Entry] Type=Application Encoding=UTF-8 Name=The Automatic Rule-Base Time Tracker Exec=arbtt-capture Terminal=false So I had configured arbtt and it starts to capture data about my work. To display this data in friendly manner arbtt-stat should be used. Application complains if $HOME/.arbtt/categorize.cfg wasn&rsquo;t configured for it appropriate. Detailed documentation about this file can be found on arbtt <a href="http://darcs.nomeata.de/arbtt/doc/users_guide/configuration.html">configuration page</a>. The process of writing this file should be iterative, starting point for me was:</p>
-
-<p>&mdash; This defines some aliases, to make the reports look nicer: aliases ( &ldquo;sun-awt-X11-XFramePeer&rdquo; &ndash;> &ldquo;java&rdquo; ) &mdash; A rule that probably everybody wants. Being inactive for over a minute &mdash; causes this sample to be ignored by default. $idle > 60 ==> tag inactive, current window $program == &ldquo;sun-awt-X11-XFramePeer&rdquo; &amp;&amp; current window ($title =~ /(.+)\s-\sFreeMind/) ==> tag program:FreeMind-$1, current window $program == &ldquo;gnome-terminal&rdquo; &amp;&amp; current window ($title =~ /(.+)/) ==> tag term:$1, &mdash; Simple rule that just tags the current program tag program:$current.program, &mdash; I&rsquo;d like to know what web pages in google-chrome I&rsquo;m working in. So I do &mdash; not tag necessarily by the active window title, but the title that contains &mdash; the specific string. current window $program == &ldquo;google-chrome&rdquo; &amp;&amp; any window ($program == &ldquo;google-chrome&rdquo; &amp;&amp; $title =~ /(.+)\s-\sGoogle\sChrome/) ==> tag www:$1, However, after creating a configuration file such statistics were displayed correctly it was still a big problem to solve &ndash; how to combine arbtt with gnome-terminal and screen. The first one requires only a correctly set the window&rsquo;s name. Although the synchronization of the terminal window&rsquo;s name with a window inside the screen was not a trivial task (primarily on the mass of broken tutorials that can be found on the web). Finally my .screenrc looks like that:</p>
-
-<p>termcapinfo xterm* &lsquo;hs:ts=\E]0;:fs=\007:ds=\E]0;\007&rsquo; defhstatus &ldquo;[screen] ^Et&rdquo; hardstatus off # Set the scrollback length: defscrollback 10000 # Select whether you want to see the copyright notice during startup: startup_message off # Display a caption string below, appearing like tabs and # displaying the window number and application name (by default). caption always caption string &ldquo;%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]&rdquo; #&ldquo;%{= kb}[ %=%{w}%?%-Lw%?%{b}(%{W}%n*%f %t%?(%u)%?%{b})%{w}%?%+Lw%?%?%= %{b}][%{B} %H %{W}%l %{b}][%{B} %d.%m.%Y %{W}%0c %{b}]&rdquo; #&ldquo;%{bw}[%H] [%?%-Lw%?%{wb}%n*%f%t%{bw}%?%+Lw%?]%=%{bw} [%1`] [%c:%s] [%l]&rdquo; # &ldquo;%{kw}%-w%{wr}%n %t%{&ndash;}%+w&rdquo; defhstatus set terminal title and caption keeps data about my open windows in screen. Every time I open new window or change current one terminal title is updated.<br/>
-For now that&rsquo;s all. In the future I wanted to write how to synchronize the title of the window in the screen with vim editor to include information about the currently edited file.</p>
+  <div class="entry-content"><p>Blog has changed slightly. I&rsquo;ve added two new sections: social media and afk. In &ldquo;social media&rdquo; I will add links to my profiles on various social networking sites. You&rsquo;ll find my most recent development achievements ( <a href="https://github.com/pietrushnic">@github</a>) and twitts on topics of interest to me ( <a href="https://twitter.com/#!/pietrushnic">@twitter</a>). The second section, &ldquo;afk&rdquo; (away from keyboard) is intended for the information of life beyond the keyboard, which in my case is not too extensive. I will publish here information about the books we read, watched movies and many other interesting things, which can be passionate away from the keyboard.</p>
 </div>
   
   
@@ -189,7 +159,7 @@ For now that&rsquo;s all. In the future I wanted to write how to synchronize the
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/02/05/first-steps-to-improve-work/">First steps to improve work productivity in Linux environment</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/02/20/improve-productivity-by-tracking-work_20/">Improve productivity by tracking work environment with git - vim</a></h1>
     
     
       <p class="meta">
@@ -205,20 +175,164 @@ For now that&rsquo;s all. In the future I wanted to write how to synchronize the
   
 
 
-<time datetime="2012-02-05T03:08:00+01:00" pubdate data-updated="true">Feb 5<span>th</span>, 2012</time>
+<time datetime="2012-02-20T21:43:00+01:00" pubdate data-updated="true">Feb 20<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>The problem encountered on several occasions over several months. Now it is time to deal with it. How did this happen? As always, resources were not sufficient, and if we can not increase the amount of resources we must strive to optimize their use.In this case, it was about time.</p>
+  <div class="entry-content"><p>In this post I try to describe my vim configuration procedure and how it is
+connected with git. The whole concept is based on keeping all the configuration
+files in a separate directory. These files are connected using symbolic links in
+places where system or application requires it (eg <code>$HOME/.vimrc -&gt;
+/home/jdoe/workspace/dotfiles/vimrc</code>). So first let&rsquo;s create local directory for
+vim:</p>
 
-<p>While reading my last acquisition, once again I faced the problem of re-configure Linux account. Every time when I need new account for some reasons I need to configure some things manually. Most things are simple enough, we copy configuration files from the already existing user directory, and voila. Of course Murphy&rsquo;s law works, and something goes wrong. Sometimes we need to create a new account with just a few of the tools configured as in other existing accounts. So we have a problem, however, reflecting on the solution, my mind was deepened in the increasing number of new issues, which caused the solution became more distant.</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd ~/workspace/dotfiles;mkdir vim  </span></code></pre></td></tr></table></div></figure>
 
-<p>How this process looks like? First we need new account, it should get automatically some configuration files that I create for other accounts. Second I realize that I don&rsquo;t have methods for storing configs that I use most. I heard about dotfiles tracking with git with cloud help (e.g. <a href="https://github.com/">github</a>). When I google this issue I found <a href="https://github.com/trym/dotty">dotty</a>. But after that I ask myself about productivity improvements in broad sense and the conclusion was that my work scheme should be changed. So I try to find some hints about improving productivity, there are thousand of web pages about that. Few things I found useful first of all the idea of &ldquo;automated time tracking&rdquo;. Second that chaos that I produced during solving simple problem meant that I thought about controlling of its flow, and this led me to <a href="http://en.wikipedia.org/wiki/Mind_map">mind mapping</a> technique. AFAIK <a href="http://freemind.sourceforge.net/wiki/index.php/Main_Page">FreeMind</a> is the best free software for playing with this way of data presentation. Below I attach my first mind map in FreeMind, this is of course beta version.</p>
 
-<p>  <img src="http://4.bp.blogspot.com/-JCXeznxAkyM/Ty3jqvKH1UI/AAAAAAAAAD8/6Rye6fkesjM/s640/improve_productivity.png" alt="" /></p>
+<h3>Pathogen</h3>
+
+<p>The first plugin that will be installed is pathogen created by tpope and
+accessible through github. Pathogen is a vim script to manage all vim plugins
+with ease. Below line add pathogen as submodule to our workspace repository
+created in <a href="/blog/2012/02/19/improve-productivity-by-tracking-work/">previous
+post</a>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git submodule add https://github.com/tpope/vim-pathogen.git dotfiles/vim/pathogen</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Initialize repository and update it:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git submodule init && git submodule update</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Create additional directories need to complete pathogen installation, change
+directory to autoload:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd dotfiles/vim;mkdir {autoload,bundle};cd autoload</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In autoload directory pathogen should be installed, bundle directory is a place
+for all plugins installed in future. Finally we need to link vim script from
+pathogen submodule to current directory (<code>dotfiles/vim/autoload</code>):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ln -s ../pathogen/autoload/pathogen.vim .</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Directory structure should look like below:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pietrushnic@eriador:~/workspace/dotfiles$ tree .
+</span><span class='line'>└── vim
+</span><span class='line'>├── autoload
+</span><span class='line'>│   └── pathogen.vim -&gt; ../pathogen/autoload/pathogen.vim
+</span><span class='line'>├── bundle
+</span><span class='line'>└── pathogen
+</span><span class='line'>├── autoload
+</span><span class='line'>│   └── pathogen.vim
+</span><span class='line'>└── README.markdown</span></code></pre></td></tr></table></div></figure>
+
+
+<p>At the end of pathogen installation few lines to <code>$HOME/.vimrc</code> should be added.
+Of course following rules about dotfiles management <code>.vimrc</code> should be created as
+separate file in <code>~/workspace/dotfiles</code> and linked to <code>$HOME/.vimrc</code>.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>touch vimrc;ln -s $PWD/vimrc $HOME/.vimrc</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Add below lines to <code>$HOME/.vimrc</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>call pathogen#infect()
+</span><span class='line'>call pathogen#runtime_append_all_bundles()
+</span><span class='line'>call pathogen#helptags()
+</span><span class='line'>syntax on
+</span><span class='line'>filetype plugin
+</span><span class='line'>indent on</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Fuzzyfinder</h3>
+
+<p>This is second plugin without which I cannot work. It speeds up searching though
+files, directories and tags. Has multiple useful features. RTFM if you want knew
+them. I will be also added as a git submodule:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git submodule add https://github.com/vim-scripts/FuzzyFinder.git dotfiles/vim/bundle/fuzzyfinder</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Additional plugin is needed to correctly install fuzzyfinder:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git submodule add https://github.com/vim-scripts/L9.git dotfiles/vim/bundle/l9</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Initialize and update submodules:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git submodule init && git submodule update</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Configuration I suggest to configure fuzzyfinder with accordance to example provided in help. </p>
+
+<ul>
+<li>Run vim and type :h fuf@en<Enter>. </li>
+<li>Choose tag fuf-vimrc-example and press Ctrl-]. </li>
+<li>Mark whole keybindings copy and paste to <code>~/.vimrc</code></li>
+</ul>
+
+
+<p>Right now I think it is enough with vim configuration. Of course I use plenty of
+other plugins but I don&rsquo;t have to time to describe my them all (maybe in future
+posts). Don&rsquo;t forget to commit your changes, there could be a lot of them,
+however, to deal with the distribution of these changes and improve your skills
+try to use git add -p interface, suggesting after linux code style &ndash; each commit
+should contain separate logical part of the changes, personally I add prefix to
+my commits (eg . vim, git, etc.) to ease deal with git log.  Notes:</p>
+
+<ul>
+<li>vim helpfiles generates tags files, which should be ignored by git, so I
+recommend to create .gitignore in every module with blow content:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.gitignore
+</span><span class='line'>tags*</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>by default fuzzyfinder operate on unfriendly color palette espessicaly when
+using it through putty, highlighted pattern could be changed by added below
+lines to .vimrc (9 = black)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>" fuzzy-finder - fix colors highlight PmenuSel ctermbg=9</span></code></pre></td></tr></table></div></figure>
+
 </div>
   
   
@@ -248,6 +362,10 @@ For now that&rsquo;s all. In the future I wanted to write how to synchronize the
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/06/14/build-and-run-ovmf-under-qemu/">Build and run OVMF under Qemu</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/06/07/root-file-system-for-embedded-system/">0x6: Root file system for embedded system</a>
       </li>
     
@@ -261,10 +379,6 @@ For now that&rsquo;s all. In the future I wanted to write how to synchronize the
     
       <li class="post">
         <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a>
       </li>
     
   </ul>
