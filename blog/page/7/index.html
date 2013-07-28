@@ -9,8 +9,7 @@
   <meta name="author" content="pietrushnic">
 
   
-  <meta name="description" content="1. Introduction It&rsquo;s been over 3 months when I published my last post. In chaos of daily jobs I
-realize that there is so much things that I don &hellip;">
+  <meta name="description" content="It&rsquo;s been a long time since I last wrote anything on the blog. Because I hear complains about the background causing my blog hard to read I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,7 +85,7 @@ realize that there is so much things that I don &hellip;">
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/03/19/another-blogger-switched-to-octopress/">Yet another blogger switched to Octopress</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/11/13/new-background-and-not-so-big-coming/">New background and not so big &#8220;coming back&#8221;</a></h1>
     
     
       <p class="meta">
@@ -102,262 +101,18 @@ realize that there is so much things that I don &hellip;">
   
 
 
-<time datetime="2013-03-19T03:01:00+01:00" pubdate data-updated="true">Mar 19<span>th</span>, 2013</time>
+<time datetime="2012-11-13T00:04:00+01:00" pubdate data-updated="true">Nov 13<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h3>1. Introduction</h3>
+  <div class="entry-content"><p>It&rsquo;s been a long time since I last wrote anything on the blog. Because I hear complains about the background causing my blog hard to read I decide to change it.</p>
 
-<p>It&rsquo;s been over 3 months when I published my last post. In chaos of daily jobs I
-realize that there is so much things that I don&rsquo;t like in Google Blogger that I
-have to find different solution for my blogging aspirations. So first of all
-requirements, what do I hate most in Blogger:</p>
+<p>I have little break in my side project and noticed that most read posts are related to some technical workarounds and solutions for different problems I decide to write a series about gcc errors and some solutions for it. I know it may sound like some complete spam and trash for blog, but when I searched for some explanation and solution of this errors sometimes it was hard to find them, sometimes it was hard to match with my code and finally sometimes I was unable to understand what is going on. I want to share what I learned and even if it wouldn&rsquo;t help anyone I want to have this in one place.</p>
 
-<ul>
-<li> <strong>editor</strong> &ndash; I used to vim and cannot stand that there is no bracket matching,
-vertical/block modification, and other cool stuff that I use</li>
-<li> <strong>the way that page was stored</strong> &ndash; I want to have control on my blog and if I can
-use for example git to track its content that would be great</li>
-<li>  <strong>lamish</strong> &ndash; with Blogger I learned nothing, I look for something related with new
-trends in web development, it looks that ruby on rails is the most interesting
-framework</li>
-</ul>
-
-
-<p>And I found <a href="http://octopress.org">Octopress</a> it has all I need. The page states
-&ldquo;A blogging framework for hackers&rdquo;. I don&rsquo;t know if I can or should call myself
-hacker but the idea is great for me.</p>
-
-<p>So I start to move my blog to Octopress. Of course there is a plenty of things
-to do but also many to learn.</p>
-
-<p>Lets start with first part of hints that I found useful:</p>
-
-<h3>2. Blogger post conversion to markdown and import to Octopress</h3>
-
-<p><strong>Update</strong>: <em>after I wrote this post I found interesting article on <a href="https://github.com/mojombo/jekyll/wiki/blog-migrations">this page</a></em></p>
-
-<ul>
-<li>Export Blogger posts.
-To do this go to your blog <code>Design-&gt;Settings-&gt;Other-&gt;Export blog-&gt;Donwload blog</code></li>
-<li>Convert xml to html files.
-I used latest modification of <a href="https://gist.github.com/dnagir/1765496/forks">import.rb</a>
-but you probably can find better solution.</li>
-<li>Convert html files to markdown for example by using <a href="https://github.com/xijo/reverse_markdown">reverse_markdown</a>:</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo gem install reverse_markdown
-</span><span class='line'>d path/with/your/html/files
-</span><span class='line'>find -name <span class="s2">&quot;*.html&quot;</span> | sed -e <span class="s1">&#39;s/\.html//&#39;</span> | xargs -n 1 -I @ sh -c <span class="s1">&#39;reverse_markdown @.html &gt; @.markdown&#39;</span>
-</span><span class='line'>mv *.markdown path/to/your/octopress/source/_posts/
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>At the end of this process you should take a look at generated code, so setup
-your octopress and run <code>rake preview</code></li>
-<li>Fix syntax and enjoy your posts in markdown.
-
-<ul>
-<li>useful thing here for me was markdown syntax highlighting in vim by tpope
-<a href="https://github.com/tpope/vim-markdown">vim-markdown</a></li>
-<li>liquid syntax <a href="https://github.com/tpope/vim-liquid">vim-liquid</a></li>
-<li>also setting spellchecker could be useful, add below line to your <code>$HOME/.vimrc</code>
-and you will get spell cheking with en_us dictionary and word wraping on 80
-character:</li>
-</ul>
-</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="err">&quot;</span> blogging with markdown
-</span><span class='line'>au BufRead,BufEnter *.markdown setlocal <span class="nv">textwidth</span><span class="o">=</span>80 formatoptions+<span class="o">=</span>w spell <span class="nv">spelllang</span><span class="o">=</span>en_us
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>3. Octopress configuration &ndash; tricks that I used for this blog</h3>
-
-<ul>
-<li>Configure your social networks as it was explained in <a href="http://octopress.org/docs/configuring">Octopress documentation</a></li>
-<li>It is good to register on <a href="http://disqus.com/">Disqus</a> the idea of keeping
-comments separated from blog is very good. I realized it when was trying
-migrate my comments from Blogger and didn&rsquo;t have installed Disqus.</li>
-<li><a href="http://www.google.com/analytics/">Google Analytics</a> and <a href="http://www.addthis.com/">AddThis</a>
-also are very helpful in tracking how your content was shared and what of this
-stuff has greatest interest. I will write article how to integrate <a href="http://www.addthis.com/">AddThis</a>
-because there is lack of information about it in google.</li>
-<li>Header background image can be changed by dealing with sass files. I did this
-in <code>sass/custom/_layout.scss</code> using below lines:</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nt">body</span> <span class="o">&gt;</span> <span class="nt">header</span><span class="o">[</span><span class="nt">role</span><span class="o">=</span><span class="s2">&quot;banner&quot;</span><span class="o">]</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">background-image</span><span class="o">:</span> <span class="sx">url(/images/header_bg2_1200x168.png)</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">background-repeat</span><span class="o">:</span> <span class="k">no-repeat</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>If you add some background you probably want to set position of your title and
-subtitle. You can do this in the same file as background image using something
-like this:</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nt">body</span> <span class="o">&gt;</span> <span class="nt">header</span> <span class="nt">h2</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">position</span><span class="o">:</span><span class="k">relative</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">padding-left</span><span class="o">:</span><span class="m">6.6em</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">body</span> <span class="o">&gt;</span> <span class="nt">header</span> <span class="nt">h1</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">font-weight</span><span class="o">:</span><span class="k">bold</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">position</span><span class="o">:</span><span class="k">relative</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">padding-left</span><span class="o">:</span><span class="m">3em</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Do not forget about updating your Octopress frequently. Instructions how to do
-that can be found in <a href="http://octopress.org/docs/updating/">documentation</a></li>
-</ul>
-
-
-<h3>4. SEO</h3>
-
-<p>Most interesting article about SEO is surprisingly on top of google search <a href="http://www.yatishmehta.in/seo-for-octopress">&lsquo;octopress seo&rsquo;</a>.
-Main thing that I take from the article is that Octopress already have built in
-support for SEO by additional elements in post header. This elements are <code>keywords:, description:</code>
-for example:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nt">---</span>
-</span><span class='line'><span class="nt">layout</span><span class="o">:</span> <span class="nt">post</span>
-</span><span class='line'><span class="nt">title</span><span class="o">:</span> <span class="s2">&quot;Another blogger switched to Octopress&quot;</span>
-</span><span class='line'><span class="nt">date</span><span class="o">:</span> <span class="nt">2013-03-19</span> <span class="nt">03</span><span class="nd">:01</span>
-</span><span class='line'><span class="nt">comments</span><span class="o">:</span> <span class="nt">true</span>
-</span><span class='line'><span class="nt">categories</span><span class="o">:</span> <span class="s2">&quot;about this blog&quot;</span>
-</span><span class='line'><span class="nt">published</span><span class="o">:</span> <span class="nt">false</span>
-</span><span class='line'><span class="nt">keywords</span><span class="o">:</span> <span class="nt">blog</span><span class="o">,</span><span class="nt">octopress</span><span class="o">,</span><span class="nt">blogger</span><span class="o">,</span><span class="nt">configuration</span><span class="o">,</span><span class="nt">seo</span><span class="o">,</span><span class="nt">tricks</span>
-</span><span class='line'><span class="nt">description</span><span class="o">:</span> <span class="nt">Octopress</span> <span class="nt">configuration</span>
-</span><span class='line'><span class="nt">---</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Octopress will use keywords and description to build meta section of every
-website on your blog.</p>
-
-<p>To not forget keyword and description section in my posts I modified Rakefile:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff --git a/Rakefile b/Rakefile</span>
-</span><span class='line'><span class="gh">index d3a1cb0..3e2ced7 100644</span>
-</span><span class='line'><span class="gd">--- a/Rakefile</span>
-</span><span class='line'><span class="gi">+++ b/Rakefile</span>
-</span><span class='line'><span class="gu">@@ -111,6 +111,9 @@ task :new_post, :title do |t, args|</span>
-</span><span class='line'>     post.puts &quot;date: #{Time.now.strftime(&#39;%Y-%m-%d %H:%M&#39;)}&quot;
-</span><span class='line'>     post.puts &quot;comments: true&quot;
-</span><span class='line'>     post.puts &quot;categories: &quot;
-</span><span class='line'><span class="gi">+    post.puts &quot;published: false&quot;</span>
-</span><span class='line'><span class="gi">+    post.puts &quot;keywords:&quot;</span>
-</span><span class='line'><span class="gi">+    post.puts &quot;description:&quot;</span>
-</span><span class='line'>     post.puts &quot;---&quot;
-</span><span class='line'>   end
-</span><span class='line'> end
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>5. Others</h3>
-
-<p>Few things that were not so obvious for me:</p>
-
-<ul>
-<li>to create category name that contain few words like <code>about this blog</code> syntax
-like this:</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'>categories:
-</span><span class='line'> - about this blog
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>not like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'>categories: about this blog # or &quot;about this blog&quot;
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>ordered and unordered lists are not indented by default, this code in <code>sass/custom/_layout.scss</code>
-fix this behavior:</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nt">article</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">ol</span><span class="o">,</span> <span class="n">ul</span> <span class="err">{</span>
-</span><span class='line'>    <span class="k">padding-left</span><span class="o">:</span> <span class="m">3em</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="err">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Hope this tips are useful for you.</p>
+<p>Recently I returned to my long-neglected hobby &ndash; chess. I will also try to write something constructive in this topic. Last time I also think a lot about embedded stuff (trying to reverse my printer), android (writing little project helping my colleague) and many other things. So maybe I will write about this. To not be boring I will simply get my hands dirty.</p>
 </div>
   
   
@@ -370,7 +125,7 @@ fix this behavior:</li>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/01/15/short-hint-for-all-those-who-use-vim/">Short hint for all those who use vim and pathogen</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/05/13/mutt-tutorial-part-4-html-mails-address/">Mutt tutorial part 4 - html mails, address book and other useful features</a></h1>
     
     
       <p class="meta">
@@ -386,49 +141,70 @@ fix this behavior:</li>
   
 
 
-<time datetime="2013-01-15T11:51:00+01:00" pubdate data-updated="true">Jan 15<span>th</span>, 2013</time>
+<time datetime="2012-05-13T17:21:00+02:00" pubdate data-updated="true">May 13<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Today, after updating my wokspace to latest version I encounter below error during vim running:</p>
+  <div class="entry-content"><p>How mutt can handle mails in html format ? Takling about html mail handling is
+talking about handling any type of <a href="http://en.wikipedia.org/wiki/MIME">Multipurpose Internet Mail Extensions</a>.
+Mutt supports handling for all MIME types in one place for all programs. This
+place is <code>.mailcap</code> file. Googling a little bit I found below mailcap file
+configuration (kudos to <a href="http://trembits.blogspot.com/2011/12/viewing-html-in-mutt.html">Bart Nagel</a>).</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>text/html; pandoc -f html -t markdown; copiousoutput; description=HTML Text; test=type pandoc &gt;/dev/null
+</span><span class='line'>text/html;lynx -stdin -dump -force\_html -width 70; copiousoutput; description=HTML Text; test=type lynx &gt;/dev/null
+</span><span class='line'>text/html; w3m -dump -T text/html -cols 70; copiousoutput; description=HTML Text; test=type w3m &gt;/dev/null
+</span><span class='line'>text/html; html2text -width 70; copiousoutput; description=HTML Text; test=type html2text &gt;/dev/null</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Of course we need to install all applications to make mailcap work correct:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install pandoc lynx w3m html2text
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To bring address book functionality to mutt we need abook application:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install abook
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Also few new line in <code>$HOME/.muttrc</code> will be needed:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Error detected while processing function pathogen#runtime_append_all_bundles:
-</span><span class='line'>line 1:
-</span><span class='line'>E121: Undefined variable: source_path
-</span><span class='line'>E116: Invalid arguments for function string(source_path).') to pathogen#incubate('.string(source_path.'/{}').')') 
-</span><span class='line'>E116: Invalid arguments for function 4_warn
-</span><span class='line'>Press ENTER or type command to continue</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Quick look on pathogen runtime_append_all_bundles function and I found:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>call s:warn<span class="o">(</span><span class="s1">&#39;Change pathogen#runtime_append_all_bundles(&#39;</span>.string<span class="o">(</span>a:1<span class="o">)</span>.<span class="s1">&#39;) to pathogen#incubate(&#39;</span>.string<span class="o">(</span>a:1.<span class="s1">&#39;/{}&#39;</span><span class="o">)</span>.<span class="s1">&#39;)&#39;</span><span class="o">)</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># add alias file for addresses</span>
+</span><span class='line'><span class="nb">set </span><span class="nv">alias_file</span><span class="o">=</span>~/.mutt/alias <span class="nb">source</span> ~/.mutt/alias
+</span><span class='line'><span class="c"># configure addressbook</span>
+</span><span class='line'><span class="nb">set </span><span class="nv">query_command</span><span class="o">=</span> <span class="s2">&quot;abook --mutt-query &#39;%s&#39;&quot;</span>
+</span><span class='line'>macro index,pager A <span class="s2">&quot;&lt;pipe-message&gt;</span>
+</span><span class='line'><span class="s2">abook --add-email-quiet&lt;return&gt;&quot;</span> <span class="s2">&quot;add the sender address to abook&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>So simply replacing:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>call pathogen#runtime_append_all_bundles<span class="o">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>with:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>call pathogen#incubate<span class="o">()</span> in <span class="nv">$HOME</span>/.vimrc fix the problem.
-</span></code></pre></td></tr></table></div></figure>
-
+<p>Adding new address simply create entry in alias file. During adding new alias
+abook asks about alias name, e-mail address, personal name and confirmation for
+given data.  Some this fields could be filled automatically by interaction
+between abook and mutt. Of course file <code>$HOME/.mutt/alias</code> have to exist before
+running mutt:
+touch <code>$HOME/.mutt/alias</code> To access saved aliases simply click <Tab> button in
+cc, to or bcc filed.  There is few more options that I found useful. To find it
+please go to my <a href="https://github.com/pietrushnic/workspace">workspace</a> scripts at
+github. Also if you have any issues with the configuration or comments please
+let me know by commenting below the post.</p>
 </div>
   
   
@@ -441,7 +217,7 @@ fix this behavior:</li>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/11/18/sqlite3-gem-not-supported-on-heroku/">Sqlite3 gem not supported on Heroku</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/05/13/mutt-tutorial-part-3-sidebar-urls-in-e/">Mutt tutorial part 3 - sidebar, URLs in e-mails</a></h1>
     
     
       <p class="meta">
@@ -457,17 +233,34 @@ fix this behavior:</li>
   
 
 
-<time datetime="2012-11-18T21:16:00+01:00" pubdate data-updated="true">Nov 18<span>th</span>, 2012</time>
+<time datetime="2012-05-13T15:43:00+02:00" pubdate data-updated="true">May 13<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>When I tried to deploy second part of <a href="http://ruby.railstutorial.org/chapters/a-demo-app#top">RoR tutorial</a>
-to Heroku I get this error:</p>
+  <div class="entry-content"><p>Information in this post came from <a href="http://www.lunar-linux.org/mutt-sidebar/">lunar linux page</a>. Kudos to its author. In this
+post I want to discuss two topics: sidebar and how to open urls form inside
+mutt. Sidebar is mutt feature delivered in mutt-patched package in Debian. It
+cause to split standard mutt window in two parts. In first we can find list of
+folders defined in the <code>$HOME/.muttrc</code> file, second window is a known old window
+with the list of posts. Mutt window with sidebar looks like on the picture
+below:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>  <img src="http://lunar-linux.org/~tchan/mutt/mutt-screenshot.png" alt="" /></p>
+
+<p>To use side bar we need to install mutt-patched packed in Debian:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install mutt-patched
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To make side bar more accessible I use default settings from lunar linux page.
+Add below lines to <code>$HOME/.muttrc</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -476,50 +269,46 @@ to Heroku I get this error:</p>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>An error occurred while installing sqlite3 (1.3.5), and Bundler cannot continue.  
-</span><span class='line'>Make sure that `gem install sqlite3 -v '1.3.5'` succeeds before bundling.
-</span><span class='line'>!
-</span><span class='line'>!  Failed to install gems via Bundler.
-</span><span class='line'>!
-</span><span class='line'>! Detected sqlite3 gem which is not supported on Heroku.
-</span><span class='line'>!  http://devcenter.heroku.com/articles/how-do-i-use-sqlite3-for-development
-</span><span class='line'>!
-</span><span class='line'>!  Heroku push rejected, failed to compile Ruby/rails app
-</span><span class='line'>To git@heroku.com:thawing-beyond-7283.git 
-</span><span class='line'>! [remote rejected] master -&gt; master (pre-receive hook declined)
-</span><span class='line'>error: failed to push some refs to 'git@heroku.com:thawing-beyond-7283.git'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I searched a little bit about this error and find <a href="http://stackoverflow.com/questions/3747002/heroku-rails-3-and-sqlite3">this</a>
-stackoverflow post. But when I look more carefully on the Gemfile syntax I
-found a mistake. I used simply:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;sqlite3&#39;</span><span class="p">,</span> <span class="s1">&#39;1.3.5&#39;</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">set </span><span class="nv">sidebar_width</span> <span class="o">=</span> 30
+</span><span class='line'><span class="nb">set </span><span class="nv">sidebar_visible</span> <span class="o">=</span> yes
+</span><span class='line'>color sidebar_new yellow default
+</span><span class='line'><span class="nb">bind </span>index CP sidebar-prev
+</span><span class='line'><span class="nb">bind </span>index CN sidebar-next
+</span><span class='line'><span class="nb">bind </span>index CO sidebar-open
+</span><span class='line'><span class="nb">bind </span>pager CP sidebar-prev
+</span><span class='line'><span class="nb">bind </span>pager CN sidebar-next
+</span><span class='line'><span class="nb">bind </span>pager CO sidebar-open
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>But I should have:</p>
+<p>First line sets width of side bar it depends on how long are your folder names.
+Second line makes sidebar by default visible. Third makes folders with new
+messages yellow. Other lines create shortcuts for navigating sidebar. Note that
+C is not Ctrl but uppercase &lsquo;c&rsquo; key. Second topic I want to discuss is how to
+open urls from inside e-mails. To do this we can use tip from <a href="http://www.mutt.org/doc/manual/manual-4.html#ss4.13">mutt site</a>. As it said we need
+urlview application:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;sqlite3&#39;</span><span class="p">,</span> <span class="s1">&#39;1.3.5&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'><span class="n">group</span> <span class="ss">:production</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;pg&#39;</span><span class="p">,</span> <span class="s1">&#39;0.12.2&#39;</span>
-</span><span class='line'><span class="k">end</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install urlview
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>As RoR tutorial states.</p>
+<p>To correctly configure this tool you need to create <code>$HOME/.urlview</code> file. So:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vim <span class="nv">$HOME</span>/.urlview
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In this file we define two things. First will be regular expression which match
+urls and second will be command line to run when regexp was matched. File looks like below:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>REGEXP <span class="o">(((</span>https?|ftp|gopher<span class="o">)</span>://|<span class="o">(</span>mailto|file|news<span class="o">)</span>:<span class="o">)[</span>^’ <span class="s2">&quot;]+|(www|web|w3).[-a-z0-9.]+)[^’ .,;&quot;</span>:<span class="o">]</span> COMMAND chromium %s
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Chromuim is my browser of choice but you can use firefox, lynx or anything you want.</p>
 </div>
   
   
@@ -549,10 +338,6 @@ found a mistake. I used simply:</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/06/14/build-and-run-ovmf-under-qemu/">Build and run OVMF under Qemu</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2013/06/07/root-file-system-for-embedded-system/">0x6: Root file system for embedded system</a>
       </li>
     
@@ -566,6 +351,10 @@ found a mistake. I used simply:</p>
     
       <li class="post">
         <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a>
       </li>
     
   </ul>
