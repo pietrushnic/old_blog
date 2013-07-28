@@ -71,6 +71,7 @@ Fist, install irssi: sudo apt-get install irssi Run: irssi For freenode write &h
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/projects">Projects</a></li>
   <li><a href="/about">About Me</a></li>
 </ul>
 
@@ -118,13 +119,13 @@ Fist, install irssi:</p>
 
 <p>/network add freenode Add what should be automaticali send to server after connecting, remeber to correctly write your {nickname} and {password}, password will be stored in plain text:</p>
 
-<p>/network add -autosendcmd &#8217;<sup>nick</sup> {nickname};/msg nickserv identify {password}&#8217; freenode Auto-connect everytime when irssi will be run:</p>
+<p>/network add -autosendcmd &lsquo;^nick {nickname};/msg nickserv identify {password}&rsquo; freenode Auto-connect everytime when irssi will be run:</p>
 
 <p>/server ADD -auto -network freenode holmes.freenode.net 6667 Channel autologin:</p>
 
 <p>/channel ADD -auto #debian freenode After all we should save settings:</p>
 
-<p>/save That&#8217;s all, enjoy!</p>
+<p>/save That&rsquo;s all, enjoy!</p>
 </div>
 
 
@@ -191,7 +192,7 @@ Fist, install irssi:</p>
 
 <aside class="sidebar">
   
-    <section>
+    Included file 'custom/asides/projects.html' not found in _includes directory<section>
   <h1>About Me</h1>
   <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I'm a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
   </p>
@@ -201,23 +202,23 @@ Fist, install irssi:</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/04/06/tmux/">Tmux as screen replacement and productivity accelerator</a>
+        <a href="/blog/2013/06/07/root-file-system-for-embedded-system/">0x6: Root file system for embedded system</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi/">Yet another quick build of arm-unknown-linux-gnueabi</a>
+        <a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board/">0x5: Qemu network configuration and tftp for Virtual Development Board</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/01/-democracy-the-god-that-failed-hans-hermann-hoppe/">"Democracy: The God That Failed" Hans-Hermann Hoppe</a>
+        <a href="/blog/2013/06/07/linux-kernel-for-embedded-system/">0x4: Linux kernel for embedded system</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/03/30/music-for-programming/">Music for programming</a>
+        <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/03/19/debian-switching-to-unstable/">tmux multiplexer and vi-like keys in copy-mode</a>
+        <a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a>
       </li>
     
   </ul>

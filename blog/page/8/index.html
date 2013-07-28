@@ -9,7 +9,9 @@
   <meta name="author" content="pietrushnic">
 
   
-  <meta name="description" content="About a month ago I started my adventure with coreboot. As coreboot home page says &#8220;coreboot is a Free Software project aimed at replacing the &hellip;">
+  <meta name="description" content="This is second post of mutt tutorial series. As in the previous post
+for below information I need to thank Kousik for posts about gpg
+and using it &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,6 +72,7 @@
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/projects">Projects</a></li>
   <li><a href="/about">About Me</a></li>
 </ul>
 
@@ -84,7 +87,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/01/06/how-to-begin-with-coreboot/">How to begin with coreboot</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/05/13/mutt-tutorial-part-2-secure-login/">Mutt tutorial part 2 - secure login</a></h1>
     
     
       <p class="meta">
@@ -100,26 +103,94 @@
   
 
 
-<time datetime="2012-01-06T14:23:00+01:00" pubdate data-updated="true">Jan 6<span>th</span>, 2012</time>
+<time datetime="2012-05-13T14:13:00+02:00" pubdate data-updated="true">May 13<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>About a month ago I started my adventure with coreboot. As <a href="http://www.coreboot.org/">coreboot home</a> page says &#8220;coreboot is a Free Software project aimed at replacing the proprietary BIOS (firmware) found in most computers&#8221;. Although I read the majority of materials from mentioned page I still suffered from a lack of basic information that would help me to arrange everything in my head. Therefore, I decided to write a series of posts described my actions associated with this interesting project.</p>
+  <div class="entry-content"><p>This is second post of mutt tutorial series. As in the <a href="/blog/2012/05/13/mutt-tutorial-part-1-setup-imap-account">previous post</a>
+for below information I need to thank Kousik for posts about <a href="http://nixtricks.wordpress.com/2009/10/04/introduction-to-encryption-of-files-using-gpg/">gpg</a>
+and <a href="http://nixtricks.wordpress.com/2010/05/05/mutt-configure-mutt-to-receive-email-via-imap-and-send-via-smtp/">using it with mutt</a>.
+But probably the most important to simplify this method was Fau comment <a href="http://nixtricks.wordpress.com/2010/05/20/mutt-multiple-email-accounts-using-hooks/#comment-162">here</a>.
+So going to the point of secure login for mutt we need gpg. First of all we need
+to install it by simply:</p>
 
-<p>At the beginning I would recommend some interesting sources of information on coreboot:</p>
-
-<ul>
-<li><a href="http://www.coreboot.org/QEMU">http://www.coreboot.org/QEMU</a> - If you&#8217;re impatient and want to start as soon as possible</li>
-<li><a href="http://www.coreboot.org/Screenshots#Videos">Coreboot videos</a> - One of the easiest ways to obtain general information about the project</li>
-<li><a href="http://lennartb.home.xs4all.nl/coreboot/coreboot.html">Start to understand</a> - I found this page by accident while googling materials, thanks to its author I understood basics and found out what&#8217;s next</li>
-<li><a href="http://www.coreboot.org/Documentation">Documentation</a> - Many different types of documents, a large proportion of them are not applying to the latest version of coreboot v4, however, still has a educational value.</li>
-</ul>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install gpg
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>After reviewing the above materials, you should understand the basics of coreboot. In the <a href="http://pietrushnic.blogspot.com/2012/01/flashrom-and-shuttle-av18e2.html">next post</a> I will describe <a href="http://flashrom.org/">flashrom</a> application and my experience with one of the old motherboard.</p>
+<p>After that we generate our keys by:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>gpg --gen-key
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I choose all default answers. So first is key type: <code>'RSA and RSA'</code>.
+Second &ndash; <code>keysize: 2048</code>. Third &ndash; time for key expiration: <code>'0 = key does not expire'</code>.
+After that you need to identify your key with some data. This data will be used
+to find your key so IMHO it should be short and simple but meaningful. At the end
+of this process you will be asked about pass phrase, which will be used to decrypt
+files encrypted with generated key. When you end with key generation you can
+encrypt file with passwords. Best way to do this is to write some script that will
+be sourced by mutt after decryption. For storing passwords I create directory in my <code>$HOME</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir <span class="nv">$HOME</span>/.passwd
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Inside this directory I create text file with the script, which look like below:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vim <span class="nv">$HOME</span>/.passwd/mutt.txt
+</span><span class='line'><span class="nb">set </span><span class="nv">my_isp1</span> <span class="o">=</span> <span class="s2">&quot;password1&quot;</span>
+</span><span class='line'><span class="nb">set </span><span class="nv">my_isp2</span> <span class="o">=</span> <span class="s2">&quot;password2&quot;</span>
+</span><span class='line'><span class="nb">set </span><span class="nv">my_isp3</span> <span class="o">=</span> <span class="s2">&quot;password3&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This script of course mean to set value of variable name <code>my_isp{1,2,3}</code> to some
+password string. Remember to use <code>my\_</code> prefix because this is the way that user
+variables should be defined in mutt scripts. After writing this file we need to
+encrypt it.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>gpg -e -o mutt.gpg mutt.txt
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we should delete txt file. To use our newly created encrypted password script
+we need to add some lines to <code>$HOME/.muttrc</code>. So <code>vim $HOME/.muttrc</code>. Line that
+we need before sourcing encrypted scripts is declaration of variables in the script:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">set </span><span class="nv">my_isp1</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'><span class="nb">set </span><span class="nv">my_isp2</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'><span class="nb">set </span><span class="nv">my_isp3</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After this line we can source and decrypt out file with the passwords:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">source</span> <span class="s2">&quot;gpg --textmode -d ~/.passwd/mutt.gpg |&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>At the end wee need to replace all out plain text passwords (<code>smtp_pass</code> and
+<code>imap_pass</code> variables) with variables defined in out encrypted file. This
+settings will cause that mutt during start will run gpg to ask about password
+to decrypt password script file. In the <a href="/blog/2012/05/13/mutt-tutorial-part-3-sidebar-urls-in-e/">next post</a>
+I will discuss mutt with sidebar and how to open html files from inside mutt.</p>
 </div>
   
   
@@ -132,7 +203,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/01/05/blogger-favicon-in-chrome-and-ff/">Blogger favicon in Chrome and FF</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/05/13/mutt-tutorial-part-1-setup-imap-account/">Mutt tutorial part 1 - setup IMAP account</a></h1>
     
     
       <p class="meta">
@@ -148,105 +219,116 @@
   
 
 
-<time datetime="2012-01-05T00:22:00+01:00" pubdate data-updated="true">Jan 5<span>th</span>, 2012</time>
+<time datetime="2012-05-13T11:43:00+02:00" pubdate data-updated="true">May 13<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I didn&#8217;t imagine that placing the code for favicon can be so time consuming. Here are some tpis and tricks that can be useful to others.<br/>
-1. First find or create favicon ( <a href="http://www.google.pl/search?q=favicon&amp;um=1&amp;ie=UTF-8&amp;hl=en&amp;tbm=isch&amp;source=og&amp;sa=N&amp;tab=wi&amp;ei=udsET4OiG8vO-Qbd27j5Cw&amp;biw=1600&amp;bih=732&amp;sei=u9sET_miJsztOf-2uLYO#um=1&amp;hl=en&amp;tbs=isz:ex%2Ciszw%3A32%2Ciszh%3A32&amp;tbm=isch&amp;sa=1&amp;q=favicon&amp;pbx=1&amp;oq=favicon&amp;aq=f&amp;aqi=g10&amp;aql=&amp;gs_sm=s&amp;gs_upl=1959l2847l0l4598l6l5l0l0l0l3l407l1119l0.3.1.0.1l5l0&amp;bav=on.2,or.r_gc.r_pw.,cf.osb&amp;fp=7c76d7186cf3fdc4&amp;biw=1600&amp;bih=732">google</a> or <a href="http://favicon.cc/">favicon.cc</a>)<br/>
-2. Make sure that you have not set any favicon (Design-> Page Elelments-> Favicon)<br/>
-3. Add this code below </head> tag</p>
-
-<p><link href='http://bsaves.com/HowHero/Blogger%20Templates/moonspot/images/favicon.ico' rel='shortcut icon' type='image/vnd.microsoft.icon' /> <link href='http://bsaves.com/HowHero/Blogger%20Templates/moonspot/images/favicon.ico' rel='icon'/> This tip comes from <a href="http://widgetsforfree.blogspot.com/2009/08/how-to-change-favicon-in-blogger.html">here</a>. It doesn&#8217;t work on IE but this did not bother me.</p>
-
-<p>If you want put the favicon in the network to imageshack.us to receive a direct link from them you must register. For those who do not want to do that I propose to use available in Chrome the &#8220;inspect element&#8221; feature with its help you can easily read the entire value of the field &#8220;Direct Link&#8221; on imageshack.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/05/blogspot-beginning/">Blogspot beginning</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-05T00:02:00+01:00" pubdate data-updated="true">Jan 5<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ol>
-<li>Blog should be correctly displayed under lynx<br/>
-2. I&#8217;m not a sophisticated graphic designer, so I can not afford a sensational appearance (so far).</li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/04/test/">Test</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-04T21:46:00+01:00" pubdate data-updated="true">Jan 4<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>01234567890123456789012345678901234567890123456789012345678901234567890123456789 This first test for blogger.vim plugin. THis will be used as sandbox, it looks like blogger vim works fine, need to check features that mostly use. Continue testing: <a href="http://google.pl">this is link</a> - this is dash - 2nd dash
-this is bash code
-plain text
-1. 1st
-  1. under 1.st
-  2. 2nd under 2st</p>
+  <div class="entry-content"><p>Mutt is one of those programs that make people call you a linux geek, nerd or a
+snob. This is because using TUI or command line tools in world of fancy GUI for
+most people is wierd. What&rsquo;s so great about mutt? I probably still have not
+found much of its advantages, but at first glance we can notice a few things.
+First, it keeps Unix convention of small programs for specific task <a href="http://www.faqs.org/docs/artu/ch01s06.html">&ldquo;Make each program to one thing well&rdquo;</a> or
+<a href="http://en.wikipedia.org/wiki/KISS_principle">KISS</a>. This means that mutt is
+only <a href="http://en.wikipedia.org/wiki/Mail_user_agent">MUA</a>, which is used to
+retrieve e-mails and for other tasks you need to use another application.
+However, due to the philosophy most applications are well suited to each other
+and usually everything works good. So you can easily combine it with Vim as the
+mail editor, abook as a address book, urlview as a browser launcher for html and
+graphics elements and so on. Third, it has support for IMAP which gives very
+nice usage model for most of e-mail account providers. Fourth, is used by such
+notables as Greg Kroah-Hartman and as <a href="http://www.mjmwired.net/kernel/Documentation/email-clients.txt">kernel documentation suggest</a> by
+other kernel developers. So lets start to discover mutt. Below I will discuss
+some basic features that until now (few days of using mutt) I found useful.</p>
 
 <ol>
-<li>2.nd</li>
+<li>Big kudos to Shinobu for <a href="http://zuttobenkyou.wordpress.com/2010/11/05/mutt-multiple-gmail-imap-setup/">this</a>
+post it helps me a lot. So first of all we need support for multiple
+accounts. In my case I have 4 accounts. Three of them got working IMAP
+access. 4th provider screw up something and access to IMAP server doesn&rsquo;t
+work so I need to workaround this with one of the Gmail features. At the
+beginning we create <code>$HOME/.muttrc</code> file:</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vim <span class="nv">$HOME</span>/.muttrc
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>IMAP account configuration for looks like that:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># unset important variables</span>
+</span><span class='line'>account-hook . <span class="s2">&quot;unset imap_user; unset imap_pass&quot;</span>
+</span><span class='line'>account-hook <span class="s2">&quot;imaps://&lt;account_name&gt;@&lt;imap_server_address&gt;/&quot;</span> <span class="s2">&quot;\</span>
+</span><span class='line'><span class="s2">    set imap_user = &lt;e-mail_address&gt;</span>
+</span><span class='line'><span class="s2">        imap_pass = &lt;e-mail_password&gt;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Setup for &lt;e-mail_address&gt;:</span>
+</span><span class='line'><span class="nb">set </span><span class="nv">folder</span> <span class="o">=</span> imaps://&lt;account_name&gt;@&lt;imap_server_address&gt;/
+</span><span class='line'><span class="c"># setup needed folders</span>
+</span><span class='line'><span class="nv">mailboxes</span> <span class="o">=</span> +INBOX <span class="o">=</span>&lt;folder_name&gt;
+</span><span class='line'><span class="nb">set </span><span class="nv">spoolfile</span> <span class="o">=</span> +INBOX
+</span><span class='line'>folder-hook imaps://&lt;account_name&gt;@&lt;imap_server_address&gt;/ <span class="err">&quot;</span><span class="se">\</span>
+</span><span class='line'>   <span class="nb">set </span><span class="nv">folder</span> <span class="o">=</span> imaps://&lt;account_name&gt;@&lt;imap_server_address&gt;/
+</span><span class='line'>   <span class="nv">spoolfile</span> <span class="o">=</span> +INBOX
+</span><span class='line'>   <span class="nv">postponed</span> <span class="o">=</span> +<span class="o">[</span>Gmail<span class="o">]</span>/Drafts
+</span><span class='line'>   <span class="nv">record</span> <span class="o">=</span> +<span class="o">[</span>Gmail<span class="o">]</span>/<span class="s1">&#39;Sent Mail&#39;</span>
+</span><span class='line'>   <span class="nv">from</span> <span class="o">=</span> <span class="s1">&#39;&lt;your_name&gt; &lt;e-mail_address&gt; &#39;</span>
+</span><span class='line'>   <span class="nv">realname</span> <span class="o">=</span> <span class="s1">&#39;&lt;real_name&gt;&#39;</span>
+</span><span class='line'>   <span class="nv">smtp_url</span> <span class="o">=</span> smtps://&lt;account_name&gt;@&lt;smpt_server_address&gt;
+</span><span class='line'>   <span class="nv">smtp_pass</span> <span class="o">=</span>  <span class="nb">unset </span>important variables
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>&lt;account_name&gt;</code> &ndash; for <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#x66;&#111;&#111;&#x2e;&#98;&#97;&#x72;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#46;&#99;&#111;&#109;">&#102;&#x6f;&#111;&#46;&#x62;&#x61;&#114;&#64;&#103;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#99;&#111;&#109;</a> it will be foo.bar
+<code>&lt;imap_server_address&gt;</code> &ndash; this information you can get from your e-mail provider
+help pages or from the settings of web e-mail client, for Gmail it is
+imap.gmail.com
+<code>&lt;e-mail_address&gt;</code> &ndash; your e-mail address
+<code>&lt;e-mail_password&gt;</code> &ndash; your e-mail password, later we will discuss how to store this more secure than
+plain text :)
+<code>&lt;folder_name&gt;</code> &ndash; any folder (for gmail account also filters) you
+have on you IMAP account, so for gmail account it could be Drafts, Starred,
+Important or others.
+<code>&lt;your_name&gt;</code> &ndash; your real name or nick anything you want
+to show in from field
+<code>&lt;real_name&gt;</code> &ndash; could be the same as <code>&lt;your_name&gt;</code>
+<code>&lt;smpt_server_address&gt;</code> &ndash; your SMTP server address, for gmail users it will be
+smtp.gmail.com</p>
+
+<ol>
+<li>If your e-mail provider have only pop3 access and you have gmail account you
+can use one of gmail account features to make your pop3 account visible as a
+IMAP folder. To do this got to Settings &ndash;> Accounts and Import and in the
+section &ldquo;Check mail from other accounts&rdquo; add your POP3 account. After that
+make sure to label your mails from POP3 account. Try to not use &lsquo;@&rsquo; in the
+label name because this cause problems during mutt configuration. If you set
+label for your POP3 account check if your label in Label tab have &ldquo;Show in
+IMAP&rdquo; marked, if yes everything was set correctly. To use this label in mutt
+simply add another <code>&lt;folder_name&gt;</code> to mailboxes line.</li>
 </ol>
 
 </div>
@@ -261,7 +343,7 @@ plain text
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/01/04/blog-look-and-feel-idea/">Blog look and feel idea</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/04/21/vim-as-blogger-editor_21/">Vim as a Blogger editor</a></h1>
     
     
       <p class="meta">
@@ -277,14 +359,32 @@ plain text
   
 
 
-<time datetime="2012-01-04T19:30:00+01:00" pubdate data-updated="true">Jan 4<span>th</span>, 2012</time>
+<time datetime="2012-04-21T12:55:00+02:00" pubdate data-updated="true">Apr 21<span>st</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Because I&#8217;m a fan of Linux climate of terminals and this kind of stuff. I will try to tweak blogspot tamplete (fonts, background etc.) to terminal (right know I don&#8217;t know which one) style. </p>
+  <div class="entry-content"><p>  <a href="https://github.com/ujihisa/blogger.vim">Blogger.vim</a> is a vim plugin for interfacing with Google&rsquo;s Blogger. Below I will use my workspace git <a href="https://github.com/pietrushnic/workspace">repository</a>. To use this plugin we need pretty new ruby >= 1.9.2 and gems nokogiri and net-https-wrapper. Let&rsquo;s install latest possible ruby for Debian, before that make sure you have latest updates:</p>
+
+<p>sudo apt-get update sudo apt-get upgrade sudo apt-get dist-upgrade And ruby:</p>
+
+<p>sudo apt-get install ruby1.9.3 Before we install gems , we need to resolve some dependencies:</p>
+
+<p>sudo apt-get install libxml2-dev libxslt1-dev Latest nokogiri 1.5.2 have some issues, so we need to use 1.5.0 which is stable:</p>
+
+<p>sudo gem install nokogiri &mdash;version 1.5.0 And the wrapper for <a href="https:">https:</a></p>
+
+<p>sudo gem install net-https-wrapper Finally also pandoc will be neded to display web pages in vim:</p>
+
+<p>sudo apt-get install pandoc Right now we are able to run vim with blogger support. First we need to configure vim, add below lines to your $HOME/.vimrc file:</p>
+
+<p>let g:blogger_blogid = &lsquo;your_blogid_here&rsquo; let g:blogger_email = &lsquo;your_email_here&rsquo; let g:blogger_pass = &lsquo;your_blogger_password_here&rsquo; Run vim and try to list your blogger posts by typing:</p>
+
+<p>:e blogger:list If list of you see all your posts than it seems that plugin works good. Finally check writing feature. Create file with some text and type:</p>
+
+<p>:w blogger:create Few things doesn&rsquo;t work as it should. Meybe I will find enough time to fix it. This article was created by using blogger.vim script.</p>
 </div>
   
   
@@ -304,7 +404,7 @@ plain text
 </div>
 <aside class="sidebar">
   
-    <section>
+    Included file &#8216;custom/asides/projects.html&#8217; not found in _includes directory<section>
   <h1>About Me</h1>
   <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I&#8217;m a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
   </p>
@@ -314,23 +414,23 @@ plain text
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/04/06/tmux/">Tmux as screen replacement and productivity accelerator</a>
+        <a href="/blog/2013/06/07/root-file-system-for-embedded-system/">0x6: Root file system for embedded system</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi/">Yet another quick build of arm-unknown-linux-gnueabi</a>
+        <a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board/">0x5: Qemu network configuration and tftp for Virtual Development Board</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/01/-democracy-the-god-that-failed-hans-hermann-hoppe/">&#8220;Democracy: The God That Failed&#8221; Hans-Hermann Hoppe</a>
+        <a href="/blog/2013/06/07/linux-kernel-for-embedded-system/">0x4: Linux kernel for embedded system</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/03/30/music-for-programming/">Music for programming</a>
+        <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/03/19/debian-switching-to-unstable/">tmux multiplexer and vi-like keys in copy-mode</a>
+        <a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a>
       </li>
     
   </ul>

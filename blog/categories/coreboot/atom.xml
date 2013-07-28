@@ -4,7 +4,7 @@
   <title><![CDATA[Category: coreboot | pietrushnic's world]]></title>
   <link href="http://pietrushnic.github.io/blog/categories/coreboot/atom.xml" rel="self"/>
   <link href="http://pietrushnic.github.io/"/>
-  <updated>2013-04-21T07:27:22+02:00</updated>
+  <updated>2013-07-28T06:36:17+02:00</updated>
   <id>http://pietrushnic.github.io/</id>
   <author>
     <name><![CDATA[pietrushnic]]></name>
@@ -40,7 +40,7 @@ our emulated environment (qemu). What I mean by that ?</p>
 <code>
 qemu -bios src/coreboot/build/coreboot.rom -s -S -d in_asm,cpu -nographic
 </code>
-We don't need graphics so it also could be disable (-nographic). Run above
+We don&rsquo;t need graphics so it also could be disable (-nographic). Run above
 command and prepare debugging environment as described below.</p>
 
 <ul>
@@ -100,7 +100,7 @@ it means that your debugging enviroment was set correctly.</li>
     <link href="http://pietrushnic.github.io/blog/2012/03/12/debugging-coreboot-in-qemu-enviroment/"/>
     <updated>2012-03-12T21:30:00+01:00</updated>
     <id>http://pietrushnic.github.io/blog/2012/03/12/debugging-coreboot-in-qemu-enviroment</id>
-    <content type="html"><![CDATA[<p>First of all I use testing version of Debian - wheezy. Clone coreboot repository:<br/>
+    <content type="html"><![CDATA[<p>First of all I use testing version of Debian &ndash; wheezy. Clone coreboot repository:<br/>
 <code>
 git clone http://review.coreboot.org/p/coreboot Conifigure:  
 cd coreboot; make menuconfig Set:  
@@ -130,7 +130,7 @@ cd util/crossgcc
 </code></p>
 
 <p>To explore <code>coreboot</code> code effectively I suggest to create tags and cscope
-database for <code>coreboot</code>. In my personal workspace I've got process that I go
+database for <code>coreboot</code>. In my personal workspace I&rsquo;ve got process that I go
 through before I start work (if you use my workspace configuration which
 is available <a href="https://github.com/pietrushnic/workspace">@github</a> you
 can follow below steps directly, if not adjust to your environment):</p>
@@ -138,9 +138,9 @@ can follow below steps directly, if not adjust to your environment):</p>
 <ol>
 <li>run vim ;)</li>
 <li><code>:cd /path/to/code</code></li>
-<li><code>s&lt;Tab&gt;</code> (fuzzyfinder -> bookmark dir)</li>
-<li><code>si</code> (fuzzyfinder -> change dir)</li>
-<li><code>sr</code> (run ctags to generate tags and cscope to build symbol database - <code>ctags -R;cscope -R -q -b -v</code>)</li>
+<li><code>s&lt;Tab&gt;</code> (fuzzyfinder &ndash;> bookmark dir)</li>
+<li><code>si</code> (fuzzyfinder &ndash;> change dir)</li>
+<li><code>sr</code> (run ctags to generate tags and cscope to build symbol database &ndash; <code>ctags -R;cscope -R -q -b -v</code>)</li>
 </ol>
 
 
@@ -168,11 +168,11 @@ should jump to <code>build/mainboard/emulation/qemu-x86/bootblock.s</code> line 
 <p>flashrom -Vr bios_bckp.bin
 And write it by:</p>
 
-<p>flashrom -Vw bios_bckp.bin At the end I've got VERIFIED message but when I look carefully inside the log there was something like this:</p>
+<p>flashrom -Vw bios_bckp.bin At the end I&rsquo;ve got VERIFIED message but when I look carefully inside the log there was something like this:</p>
 
-<p>Erasing and writing flash chip... Trying erase function 0... 0x000000-0x01ffff:S, 0x020000-0x037fff:S, 0x038000-0x039fff:S, 0x03a000-0x03bfff:S, 0x03c000-0x03ffff:S Erase/write done. Verifying flash... VERIFIED. This means that these addresses have not been overwritten but skipped, becuse the fact that the data which were to be overridden were identical with what we wanted to write. So if we found such output to properly verify flashrom we need to clear our memory and write it again with BIOS backup. Correct output should look like this:</p>
+<p>Erasing and writing flash chip&hellip; Trying erase function 0&hellip; 0x000000-0x01ffff:S, 0x020000-0x037fff:S, 0x038000-0x039fff:S, 0x03a000-0x03bfff:S, 0x03c000-0x03ffff:S Erase/write done. Verifying flash&hellip; VERIFIED. This means that these addresses have not been overwritten but skipped, becuse the fact that the data which were to be overridden were identical with what we wanted to write. So if we found such output to properly verify flashrom we need to clear our memory and write it again with BIOS backup. Correct output should look like this:</p>
 
-<p>Erasing and writing flash chip... Trying erase function 0... 0x000000-0x01ffff:W, 0x020000-0x037fff:W, 0x038000-0x039fff:W, 0x03a000-0x03bfff:W, 0x03c000-0x03ffff:W Erase/write done. Verifying flash... VERIFIED.</p>
+<p>Erasing and writing flash chip&hellip; Trying erase function 0&hellip; 0x000000-0x01ffff:W, 0x020000-0x037fff:W, 0x038000-0x039fff:W, 0x03a000-0x03bfff:W, 0x03c000-0x03ffff:W Erase/write done. Verifying flash&hellip; VERIFIED.</p>
 
 <p>Next post I will try to familiarize you with the process of debugging coreboot using <a href="http://wiki.qemu.org/Main_Page">QEMU</a>.</p>
 ]]></content>
@@ -183,14 +183,14 @@ And write it by:</p>
     <link href="http://pietrushnic.github.io/blog/2012/01/06/how-to-begin-with-coreboot/"/>
     <updated>2012-01-06T14:23:00+01:00</updated>
     <id>http://pietrushnic.github.io/blog/2012/01/06/how-to-begin-with-coreboot</id>
-    <content type="html"><![CDATA[<p>About a month ago I started my adventure with coreboot. As <a href="http://www.coreboot.org/">coreboot home</a> page says "coreboot is a Free Software project aimed at replacing the proprietary BIOS (firmware) found in most computers". Although I read the majority of materials from mentioned page I still suffered from a lack of basic information that would help me to arrange everything in my head. Therefore, I decided to write a series of posts described my actions associated with this interesting project.</p>
+    <content type="html"><![CDATA[<p>About a month ago I started my adventure with coreboot. As <a href="http://www.coreboot.org/">coreboot home</a> page says &ldquo;coreboot is a Free Software project aimed at replacing the proprietary BIOS (firmware) found in most computers&rdquo;. Although I read the majority of materials from mentioned page I still suffered from a lack of basic information that would help me to arrange everything in my head. Therefore, I decided to write a series of posts described my actions associated with this interesting project.</p>
 
 <p>At the beginning I would recommend some interesting sources of information on coreboot:</p>
 
 <ul>
-<li><a href="http://www.coreboot.org/QEMU">http://www.coreboot.org/QEMU</a> - If you're impatient and want to start as soon as possible</li>
+<li><a href="http://www.coreboot.org/QEMU">http://www.coreboot.org/QEMU</a> - If you&rsquo;re impatient and want to start as soon as possible</li>
 <li><a href="http://www.coreboot.org/Screenshots#Videos">Coreboot videos</a> - One of the easiest ways to obtain general information about the project</li>
-<li><a href="http://lennartb.home.xs4all.nl/coreboot/coreboot.html">Start to understand</a> - I found this page by accident while googling materials, thanks to its author I understood basics and found out what's next</li>
+<li><a href="http://lennartb.home.xs4all.nl/coreboot/coreboot.html">Start to understand</a> - I found this page by accident while googling materials, thanks to its author I understood basics and found out what&rsquo;s next</li>
 <li><a href="http://www.coreboot.org/Documentation">Documentation</a> - Many different types of documents, a large proportion of them are not applying to the latest version of coreboot v4, however, still has a educational value.</li>
 </ul>
 

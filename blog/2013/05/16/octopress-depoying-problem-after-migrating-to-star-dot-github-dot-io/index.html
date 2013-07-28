@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>"Democracy: The God That Failed" Hans-Hermann Hoppe - pietrushnic's world</title>
+  <title>Octopress depoying problem after migrating to *.github.io - pietrushnic's world</title>
   <meta name="author" content="pietrushnic">
 
   
-  <meta name="description" content="Some thoughts about Hoppe's book Democracy - The God That Failed">
-  <meta name="keywords" content="politics,Hoppe,libertarianism,thoughts,freedom">
+  <meta name="description" content="Problem with deploying to github pages">
+  <meta name="keywords" content="github pages, domain, github">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://pietrushnic.github.io/blog/2013/04/01/-democracy-the-god-that-failed-hans-hermann-hoppe">
+  <link rel="canonical" href="http://pietrushnic.github.io/blog/2013/05/16/octopress-depoying-problem-after-migrating-to-star-dot-github-dot-io">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="pietrushnic's world" type="application/atom+xml">
@@ -70,6 +70,7 @@
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/projects">Projects</a></li>
   <li><a href="/about">About Me</a></li>
 </ul>
 
@@ -81,7 +82,7 @@
   
   <header>
     
-      <h1 class="entry-title">"Democracy: The God That Failed" Hans-Hermann Hoppe</h1>
+      <h1 class="entry-title">Octopress depoying problem after migrating to *.github.io</h1>
     
     
       <p class="meta">
@@ -97,74 +98,42 @@
   
 
 
-<time datetime="2013-04-01T07:50:00+02:00" pubdate data-updated="true">Apr 1<span>st</span>, 2013</time>
+<time datetime="2013-05-16T22:20:00+02:00" pubdate data-updated="true">May 16<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><img class="left" src="http://www.hanshoppe.com/wp-content/uploads/images/hoppe_demo-polish-cover-big.jpg" width="200" height="100">
-I began this article last year. Until now I wonder if anyone could be interested
-in reading about book that I read. I saw great interesting in linux/embedded
-stuff but what about different things that we met every day. What about
-politics/economics and religion ? Don&#8217;t know if I should start this but I will
-give it a try.</p>
+<div class="entry-content"><p>My story was that I migrate to new environment and want to recover my octopress
+setup. I thought that it will be as simple as cloning my blog github repository
+and start to work.</p>
 
-<p>I&#8217;m argue a lot about politics/economics and religion. I&#8217;m trying to fight with
-mainstream knowledge based on unconsidered news heard in mass-media. I don&#8217;t
-have degree in this matter but study by myself a little bit. So maybe this is
-good place for sharing ideas.</p>
+<p>First problem that I experienced was lack of octopress repository as a remote
+branch &ndash; it is required to update your ocotpress blog to latest code. Fix was
+simple:</p>
 
-<p>So about a year ago I read a book <a href="http://www.amazon.com/Democracy-Economics-Politics-Monarchy-Natural/dp/0765808684">&#8220;Democracy: The God That Failed&#8221;</a>.
-I talk a lot about this book with my colleagues and have to said that some ideas in it
-are very controversial. One thing is that Hoppe assume some economic facts that
-are not clear for most people - I agree with most of them, because it is
-<a href="http://en.wikipedia.org/wiki/Libertarianism">libertarian</a> point of view and I&#8217;m supporter
-of this political philosophy.</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git remote add octopress git://github.com/imathis/octopress.git</span></code></pre></td></tr></table></div></figure>
 
-<p>Hoppe shows that people democracy have to fail because every time leads to socialism.
-Increasing number of privileges and promoting average citizen to politics cause
-system inefficient. So most of this things in my environment are well known and
-discussion goes into detailed arguments.</p>
 
-<p>Probably the most shocking for me was concept of totally private security
-system. My mind and probably mind of average Polish citizen is not prepared for
-so revolutionary changes. So Hoppe argue that everyone can have guns, missiles,
-tanks or any other fight equipment he want. Hoppe is an anarcho-capitalist so he
-doesn&#8217;t like state and it&#8217;s monopoly on high end weapon. After rethinking twice
-this concept could be good but IMO through natural evolution we will get
-companies that would take care about security - of course I think about free
-market companies not corrupted-government-related public companies. Also today
-we can find some trends in this, many Polish citizen with high wages go to
-closed residential housing with security, protecting themselves against poor,
-beggars and drunk junkies.</p>
+<p>After updating my blog I tried to deploy new article and I get:</p>
 
-<p>Second thing that heated debate was that state kills more than anarchy or not
-organized society. Discussion goes to question: When more people were killed
-during the Middle Ages, which took quite a long time, or in a few wars started
-by democratically ruled countries ?</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>## Pushing generated _deploy website
+</span><span class='line'>ERROR: Repository not found.
+</span><span class='line'>fatal: The remote end hung up unexpectedly</span></code></pre></td></tr></table></div></figure>
 
-<p>So if we look at wiki <a href="http://en.wikipedia.org/wiki/List_of_wars_and_disasters_by_death_toll">article</a>
-what we can see ? Biggest killers in history are Chinese and they did this in
-medieval. So not Europe with its Christian crusade and small contention between
-the principalities ? I will not count Mongolian and Tatar invasion because it
-took 200 years, so this was not a simple war it was series of wars simply
-concatenated in one point. Surprising data from China, they were able to kill
-5-15% of world population
-three times during medieval. They didn&#8217;t have atomic bomb, Ebola, chemical
-poisons
-and they did this. If you ever read something about China history you know that
-it is one of the best organized society in the world (take a look at great
-wall).  First administration exams, wheel base (width of road), language was
-standardized over 2k years ago. Very good organization of the state. So biggest
-wars and most killed battles came from well organized strong state. Take a look
-at Hitrler&#8217;s and Stalin&#8217;s government. If you want peace you don&#8217;t need &#8220;New
-World Order&#8221; or &#8220;World Government&#8221; you need weak state with power distributed to
-locally living people. Let them decide if they want conflict with town or
-village near them. Or maybe better live in peace, trade freely and make world
-better. Centralized systems are slow, inefficient and cost a lot. Distributed
-systems are those in which life of one man is important.</p>
+
+<p>I figured out that my github pages were incorrectly set, so I run <code>rake
+setup_github_pages</code>. If you&rsquo;re user of github pages long enough you know that
+few weeks ago github decide to migrate domain from <code>*.github.com</code> to
+<code>*.github.io</code>. So I followed instructions in setup process and used <code>io</code> domain,
+this is incorrect. If you have github repository for your pages with <code>com</code> in
+name you should use your orginal repository address. Repository was not changed.
+This is obvious but I lost few minutes to figure out whats going on.</p>
 </div>
 
 
@@ -187,21 +156,15 @@ systems are those in which life of one man is important.</p>
   
 
 
-<time datetime="2013-04-01T07:50:00+02:00" pubdate data-updated="true">Apr 1<span>st</span>, 2013</time>
+<time datetime="2013-05-16T22:20:00+02:00" pubdate data-updated="true">May 16<span>th</span>, 2013</time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/books/'>books</a>
-  
-</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://pietrushnic.github.io/blog/2013/04/01/-democracy-the-god-that-failed-hans-hermann-hoppe/" data-via="pietrushnic" data-counturl="http://pietrushnic.github.io/blog/2013/04/01/-democracy-the-god-that-failed-hans-hermann-hoppe/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://pietrushnic.github.io/blog/2013/05/16/octopress-depoying-problem-after-migrating-to-star-dot-github-dot-io/" data-via="pietrushnic" data-counturl="http://pietrushnic.github.io/blog/2013/05/16/octopress-depoying-problem-after-migrating-to-star-dot-github-dot-io/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -212,20 +175,26 @@ systems are those in which life of one man is important.</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/03/30/music-for-programming/" title="Previous Post: Music for programming">&laquo; Music for programming</a>
+        <a class="basic-alignment left" href="/blog/2013/05/16/workflow-imporovement-with-open-source-tools/" title="Previous Post: Workflow imporovement with Open Source tools - part 1">&laquo; Workflow imporovement with Open Source tools - part 1</a>
       
       
-        <a class="basic-alignment right" href="/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi/" title="Next Post: Yet another quick build of arm-unknown-linux-gnueabi">Yet another quick build of arm-unknown-linux-gnueabi &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2013/06/07/intro-to-virtual-development-board-building/" title="Next Post: 0x0: Intro to Virtual Development Board building">0x0: Intro to Virtual Development Board building &raquo;</a>
       
     </p>
   </footer>
 </article>
 
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
 </div>
 
 <aside class="sidebar">
   
-    <section>
+    Included file 'custom/asides/projects.html' not found in _includes directory<section>
   <h1>About Me</h1>
   <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I'm a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
   </p>
@@ -235,23 +204,23 @@ systems are those in which life of one man is important.</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/04/06/tmux/">Tmux as screen replacement and productivity accelerator</a>
+        <a href="/blog/2013/06/07/root-file-system-for-embedded-system/">0x6: Root file system for embedded system</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi/">Yet another quick build of arm-unknown-linux-gnueabi</a>
+        <a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board/">0x5: Qemu network configuration and tftp for Virtual Development Board</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/01/-democracy-the-god-that-failed-hans-hermann-hoppe/">"Democracy: The God That Failed" Hans-Hermann Hoppe</a>
+        <a href="/blog/2013/06/07/linux-kernel-for-embedded-system/">0x4: Linux kernel for embedded system</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/03/30/music-for-programming/">Music for programming</a>
+        <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/03/19/debian-switching-to-unstable/">tmux multiplexer and vi-like keys in copy-mode</a>
+        <a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a>
       </li>
     
   </ul>
@@ -317,7 +286,10 @@ systems are those in which life of one man is important.</p>
       var disqus_shortname = 'pietrushnicsworld';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://pietrushnic.github.io/blog/2013/05/16/octopress-depoying-problem-after-migrating-to-star-dot-github-dot-io/';
+        var disqus_url = 'http://pietrushnic.github.io/blog/2013/05/16/octopress-depoying-problem-after-migrating-to-star-dot-github-dot-io/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

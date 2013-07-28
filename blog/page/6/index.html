@@ -9,7 +9,13 @@
   <meta name="author" content="pietrushnic">
 
   
-  <meta name="description" content="Many times happened that I spend time, during the installation of the new system, whether it be a virtual physical machine, wondering about it&#8217; &hellip;">
+  <meta name="description" content="Today, after updating my wokspace to latest version I encounter below error during vim running: 1
+2
+3
+4
+5
+6
+Error detected while processing function &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,6 +76,7 @@
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/projects">Projects</a></li>
   <li><a href="/about">About Me</a></li>
 </ul>
 
@@ -84,7 +91,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/02/20/hostname-generator/">Hostname generator</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/01/15/short-hint-for-all-those-who-use-vim/">Short hint for all those who use vim and pathogen</a></h1>
     
     
       <p class="meta">
@@ -100,16 +107,49 @@
   
 
 
-<time datetime="2012-02-20T20:58:00+01:00" pubdate data-updated="true">Feb 20<span>th</span>, 2012</time>
+<time datetime="2013-01-15T11:51:00+01:00" pubdate data-updated="true">Jan 15<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Many times happened that I spend time, during the installation of the new system, whether it be a virtual physical machine, wondering about it&#8217;s hostname. One day I asked myself the trouble searching for host name generator. Best I could find (currently second in the results of google) is rospo.net. It gives you the choice of category for the host name. My favorite, as a fan of fantasy is &#8220;Characters from Tolkien&#8221;. Although the category name does not reflect the truth, because in addition also includes a set of known sites in middlearth and more. So I recommend:</p>
+  <div class="entry-content"><p>Today, after updating my wokspace to latest version I encounter below error during vim running:</p>
 
-<p>  <a href="http://rospo.net/webproducts/name/index.php">http://rospo.net/webproducts/name/index.php</a></p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Error detected while processing function pathogen#runtime_append_all_bundles:
+</span><span class='line'>line 1:
+</span><span class='line'>E121: Undefined variable: source_path
+</span><span class='line'>E116: Invalid arguments for function string(source_path).') to pathogen#incubate('.string(source_path.'/{}').')') 
+</span><span class='line'>E116: Invalid arguments for function 4_warn
+</span><span class='line'>Press ENTER or type command to continue</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Quick look on pathogen runtime_append_all_bundles function and I found:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>call s:warn<span class="o">(</span><span class="s1">&#39;Change pathogen#runtime_append_all_bundles(&#39;</span>.string<span class="o">(</span>a:1<span class="o">)</span>.<span class="s1">&#39;) to pathogen#incubate(&#39;</span>.string<span class="o">(</span>a:1.<span class="s1">&#39;/{}&#39;</span><span class="o">)</span>.<span class="s1">&#39;)&#39;</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So simply replacing:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>call pathogen#runtime_append_all_bundles<span class="o">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>with:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>call pathogen#incubate<span class="o">()</span> in <span class="nv">$HOME</span>/.vimrc fix the problem.
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
   
   
@@ -122,7 +162,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/02/19/improve-productivity-by-tracking-work/">Improve productivity by tracking work environment with git - preparation</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/11/18/sqlite3-gem-not-supported-on-heroku/">Sqlite3 gem not supported on Heroku</a></h1>
     
     
       <p class="meta">
@@ -138,24 +178,69 @@
   
 
 
-<time datetime="2012-02-19T21:12:00+01:00" pubdate data-updated="true">Feb 19<span>th</span>, 2012</time>
+<time datetime="2012-11-18T21:16:00+01:00" pubdate data-updated="true">Nov 18<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Below is first post from series in which I want to describe my experience gained in attempt to enhance my productivity by using git to control the contents of some files in my home directory. The first step to improve the productivity is good organization of working environment. It happens very often that I work on multiple machines both physical and virtual. Therefore I need a good mechanism to share knowledge, experience, code, configuration and many other things. Configuration described below is only an example that actually fits my way of working.<br/>
-First of all simple concept of directory structure is needed. Let&#8217;s start with:</p>
+  <div class="entry-content"><p>When I tried to deploy second part of <a href="http://ruby.railstutorial.org/chapters/a-demo-app#top">RoR tutorial</a>
+to Heroku I get this error:</p>
 
-<p>$HOME/workspace         |- dotfiles         |- blog
-mkdir -p $HOME/workspace/blog;mkdir -p $HOME/workspace/dotfiles
-cd workspace Write some files (i.e. for your blog) with your favourite editor, initialize repository and prepare first commit</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>An error occurred while installing sqlite3 (1.3.5), and Bundler cannot continue.  
+</span><span class='line'>Make sure that `gem install sqlite3 -v '1.3.5'` succeeds before bundling.
+</span><span class='line'>!
+</span><span class='line'>!  Failed to install gems via Bundler.
+</span><span class='line'>!
+</span><span class='line'>! Detected sqlite3 gem which is not supported on Heroku.
+</span><span class='line'>!  http://devcenter.heroku.com/articles/how-do-i-use-sqlite3-for-development
+</span><span class='line'>!
+</span><span class='line'>!  Heroku push rejected, failed to compile Ruby/rails app
+</span><span class='line'>To git@heroku.com:thawing-beyond-7283.git 
+</span><span class='line'>! [remote rejected] master -&gt; master (pre-receive hook declined)
+</span><span class='line'>error: failed to push some refs to 'git@heroku.com:thawing-beyond-7283.git'</span></code></pre></td></tr></table></div></figure>
 
-<p>git init
-git add .;git commit -m &#8220;Initial commit for environment tracking&#8221; To avoid information about untracked vim swp files add $HOME/workspace/.gitignore with following content:</p>
 
-<p>.gitignore *.swp</p>
+<p>I searched a little bit about this error and find <a href="http://stackoverflow.com/questions/3747002/heroku-rails-3-and-sqlite3">this</a>
+stackoverflow post. But when I look more carefully on the Gemfile syntax I
+found a mistake. I used simply:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;sqlite3&#39;</span><span class="p">,</span> <span class="s1">&#39;1.3.5&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But I should have:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;sqlite3&#39;</span><span class="p">,</span> <span class="s1">&#39;1.3.5&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="n">group</span> <span class="ss">:production</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;pg&#39;</span><span class="p">,</span> <span class="s1">&#39;0.12.2&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As RoR tutorial states.</p>
 </div>
   
   
@@ -168,7 +253,7 @@ git add .;git commit -m &#8220;Initial commit for environment tracking&#8221; To
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/02/15/set-irssi-under-debian-to-use-freenode/">Set irssi under debian to use freenode server</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/11/18/prepare-for-ruby-on-rails-on-debian/">Prepare for Ruby on Rails on Debian wheezy</a></h1>
     
     
       <p class="meta">
@@ -184,123 +269,204 @@ git add .;git commit -m &#8220;Initial commit for environment tracking&#8221; To
   
 
 
-<time datetime="2012-02-15T20:25:00+01:00" pubdate data-updated="true">Feb 15<span>th</span>, 2012</time>
+<time datetime="2012-11-18T18:18:00+01:00" pubdate data-updated="true">Nov 18<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Very short manual on how to set up irssi to work with freenode servers.<br/>
-Fist, install irssi:</p>
+  <div class="entry-content"><p>I start to learn Ruby on Rails. As always when you learn new programming
+language toolchain is required. In this tutorial I will try to go through
+toolchain preparation for my Debian wheezy. Of course I based on Vim as my
+editor of choice. Second requirement will be using some parts of toolchain in
+latest greatest version.</p>
 
-<p>sudo apt-get install irssi Run:</p>
+<p>As a beginner point for learning Ruby on Rails I choose <a href="http://ruby.railstutorial.org/ruby-on-rails-tutorial-book">this tutorial</a>.
+I will try to use their methods of setting environment adding my comments where
+it is needed. Also will resolve Debian and Vim specific issues. So let&rsquo;s begin.</p>
 
-<p>irssi For freenode write:</p>
+<p>After quick look at RoR tutorial I have to switch to <a href="http://blog.sudobits.com/2012/05/02/how-to-install-ruby-on-rails-in-ubuntu-12-04-lts/">this site</a>
+for installation for Ubuntu 12.04 LTS. But instructions don&rsquo;t work as expected
+for my Debian. So after quick:</p>
 
-<p>/connect holmes.freenode.net Send register command for youe {nickname} and add information about your {e-mail}:</p>
-
-<p>/msg nickserv register {nickname} {e-mail} Copy and paste line, which you get from freenode registration server to your mailbox, to irssi. After that add freenode network:</p>
-
-<p>/network add freenode Add what should be automaticali send to server after connecting, remeber to correctly write your {nickname} and {password}, password will be stored in plain text:</p>
-
-<p>/network add -autosendcmd &#8217;<sup>nick</sup> {nickname};/msg nickserv identify {password}&#8217; freenode Auto-connect everytime when irssi will be run:</p>
-
-<p>/server ADD -auto -network freenode holmes.freenode.net 6667 Channel autologin:</p>
-
-<p>/channel ADD -auto #debian freenode After all we should save settings:</p>
-
-<p>/save That&#8217;s all, enjoy!</p>
-</div>
-  
-  
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install git curl
+</span></code></pre></td></tr></table></div></figure>
 
 
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/06/arbtt-as-productivity-improver-for/">Arbtt As Productivity Improver For</a></h1>
-    
-    
-      <p class="meta">
-        
+<p>I realized that I need proxy for curl and not only temporary but permanent. I
+added below line to my <code>$HOME/.curlrc:</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">proxy</span><span class="o">=</span>proxy.server.com:8080
+</span></code></pre></td></tr></table></div></figure>
 
 
+<p>After that I was able to download and install stable version of rvm:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -L get.rvm.io | bash -s stable
+</span></code></pre></td></tr></table></div></figure>
 
 
+<p>Next I sourced configuration:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">source</span> ~/.rvm/scripts/rvm
+</span></code></pre></td></tr></table></div></figure>
 
 
+<p>Output which I get was:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>pietrushnic@lothlann:~/src/node<span class="nv">$ </span>rvm requirements
+</span><span class='line'>Requirements <span class="k">for </span>Linux <span class="s2">&quot;Debian GNU/Linux wheezy/sid&quot;</span>
+</span><span class='line'>NOTE: <span class="s1">&#39;ruby&#39;</span> represents Matz<span class="s1">&#39;s Ruby Interpreter (MRI) (1.8.X, 1.9.X)</span>
+</span><span class='line'><span class="s1">             This is the *original* / standard Ruby Language Interpreter</span>
+</span><span class='line'><span class="s1">      &#39;</span>ree<span class="s1">&#39;  represents Ruby Enterprise Edition</span>
+</span><span class='line'><span class="s1">      &#39;</span>rbx<span class="s1">&#39;  represents Rubinius</span>
+</span><span class='line'>
+</span><span class='line'><span class="s1">bash &gt;= 4.1 required</span>
+</span><span class='line'><span class="s1">curl is required</span>
+</span><span class='line'><span class="s1">git is required (&gt;= 1.7 for ruby-head)</span>
+</span><span class='line'><span class="s1">patch is required (for 1.8 rubies and some ruby-head&#39;</span>s<span class="o">)</span>.
+</span><span class='line'>
+</span><span class='line'>To install rbx and/or Ruby 1.9 head <span class="o">(</span>MRI<span class="o">)</span> <span class="o">(</span>eg. 1.9.2-head<span class="o">)</span>,
+</span><span class='line'><span class="k">then </span>you must install and use rvm 1.8.7 first.
+</span><span class='line'>
+</span><span class='line'>Additional Dependencies:
+</span><span class='line'><span class="c"># For Ruby / Ruby HEAD (MRI, Rubinius, &amp; REE), install the following:</span>
+</span><span class='line'>ruby: /usr/bin/apt-get install build-essential openssl libreadline6
+</span><span class='line'>libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev
+</span><span class='line'>libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev
+</span><span class='line'>automake libtool bison subversion pkg-config
+</span><span class='line'>
+</span><span class='line'><span class="c"># For JRuby, install the following: jruby: /usr/bin/apt-get install curl g++ </span>
+</span><span class='line'>openjdk-6-jre-headless jruby-head: /usr/bin/apt-get install ant openjdk-6-jdk <span class="c"># </span>
+</span><span class='line'>For IronRuby, install the following: ironruby: /usr/bin/apt-get install curl
+</span><span class='line'>mono-2.0-devel
+</span></code></pre></td></tr></table></div></figure>
 
 
-  
+<p>I need Ruby so copy&amp;paste line for it and:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install build-essential openssl libreadline6 libreadline6-dev curl
+</span><span class='line'>git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3
+</span><span class='line'>libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison
+</span><span class='line'>subversion pkg-config
+</span></code></pre></td></tr></table></div></figure>
 
 
-<time datetime="2012-02-06T00:00:00+01:00" pubdate data-updated="true">Feb 6<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
+<p>Next thing we need is Node.js because this code of JavaScript runtime is under
+active development (latest version is 0.8.14 and Debian provided for sid 0.6.19)
+we use its latest greatest version from git repository.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone https://github.com/joyent/node.git
+</span></code></pre></td></tr></table></div></figure>
 
 
-  <div class="entry-content"><p>&#8212; layout: post title: &#8220;arbtt as productivity improver for Linux enviroment&#8221; date: 2012-02-06T00:37:00+01:00 categories: - productivity &#8212;</p>
+<p>Following by:</p>
 
-<p>As I mentioned in previous <a href="http://pietrushnic.blogspot.com/2012/02/first-steps-to-improve-work.html">post</a> I work a lot on improving my productivity. After FreeMind it is time for <a href="http://darcs.nomeata.de/arbtt/doc/users_guide/">arbtt</a>. This is small tool which tracks active windows during your work. It is delivered with distro that I&#8217;m currently using (Debian wheezy). So all I had to do was:</p>
-
-<p>sudo apt-get install arbtt Below I try describe how I configure arbtt to work with some apps that I use (Google Chrome, FreeMind, gnome-terminal and screen).<br/>
-To effectively work with arbtt I had to run a daemon that collects information. In this way, I found the first problem, namely, it is hard to find a website, which correctly explains how to execute command during startup on Debian with GNOME environment. After few tries I realize that I should focus on GNOME autostart mechanism. This led me to create little file in $HOME/.config/autostart which looks like that:</p>
-
-<p>[Desktop Entry] Type=Application Encoding=UTF-8 Name=The Automatic Rule-Base Time Tracker Exec=arbtt-capture Terminal=false So I had configured arbtt and it starts to capture data about my work. To display this data in friendly manner arbtt-stat should be used. Application complains if $HOME/.arbtt/categorize.cfg wasn&#8217;t configured for it appropriate. Detailed documentation about this file can be found on arbtt <a href="http://darcs.nomeata.de/arbtt/doc/users_guide/configuration.html">configuration page</a>. The process of writing this file should be iterative, starting point for me was:</p>
-
-<p>&#8211; This defines some aliases, to make the reports look nicer: aliases ( &#8220;sun-awt-X11-XFramePeer&#8221; -> &#8220;java&#8221; ) &#8211; A rule that probably everybody wants. Being inactive for over a minute &#8211; causes this sample to be ignored by default. $idle > 60 ==> tag inactive, current window $program == &#8220;sun-awt-X11-XFramePeer&#8221; &amp;&amp; current window ($title =~ /(.+)\s-\sFreeMind/) ==> tag program:FreeMind-$1, current window $program == &#8220;gnome-terminal&#8221; &amp;&amp; current window ($title =~ /(.+)/) ==> tag term:$1, &#8211; Simple rule that just tags the current program tag program:$current.program, &#8211; I&#8217;d like to know what web pages in google-chrome I&#8217;m working in. So I do &#8211; not tag necessarily by the active window title, but the title that contains &#8211; the specific string. current window $program == &#8220;google-chrome&#8221; &amp;&amp; any window ($program == &#8220;google-chrome&#8221; &amp;&amp; $title =~ /(.+)\s-\sGoogle\sChrome/) ==> tag www:$1, However, after creating a configuration file such statistics were displayed correctly it was still a big problem to solve - how to combine arbtt with gnome-terminal and screen. The first one requires only a correctly set the window&#8217;s name. Although the synchronization of the terminal window&#8217;s name with a window inside the screen was not a trivial task (primarily on the mass of broken tutorials that can be found on the web). Finally my .screenrc looks like that:</p>
-
-<p>termcapinfo xterm* &#8216;hs:ts=\E]0;:fs=\007:ds=\E]0;\007&#8217; defhstatus &#8220;[screen] ^Et&#8221; hardstatus off # Set the scrollback length: defscrollback 10000 # Select whether you want to see the copyright notice during startup: startup_message off # Display a caption string below, appearing like tabs and # displaying the window number and application name (by default). caption always caption string &#8220;%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]&#8221; #&#8221;%{= kb}[ %=%{w}%?%-Lw%?%{b}(%{W}%n*%f %t%?(%u)%?%{b})%{w}%?%+Lw%?%?%= %{b}][%{B} %H %{W}%l %{b}][%{B} %d.%m.%Y %{W}%0c %{b}]&#8221; #&#8221;%{bw}[%H] [%?%-Lw%?%{wb}%n*%f%t%{bw}%?%+Lw%?]%=%{bw} [%1`] [%c:%s] [%l]&#8221; # &#8220;%{kw}%-w%{wr}%n %t%{-}%+w&#8221; defhstatus set terminal title and caption keeps data about my open windows in screen. Every time I open new window or change current one terminal title is updated.<br/>
-For now that&#8217;s all. In the future I wanted to write how to synchronize the title of the window in the screen with vim editor to include information about the currently edited file.</p>
-</div>
-  
-  
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd </span>node;./configure;make;make <span class="nb">test</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/05/first-steps-to-improve-work/">First steps to improve work productivity in Linux environment</a></h1>
-    
-    
-      <p class="meta">
-        
+<p>In my configuration only one test failed test-tls-server-verify:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Running <span class="s1">&#39;Allow both authed and unauthed connections with CA1&#39;</span>
+</span><span class='line'>  throw new assert.AssertionError<span class="o">({</span>
+</span><span class='line'>          ^
+</span><span class='line'>  AssertionError: agent1 rejected, but should NOT have been
+</span><span class='line'>     at ChildProcess.&lt;anonymous&gt;
+</span><span class='line'>      <span class="o">(</span>/home/pietrushnic/src/node/test/simple/test-tls-server-verify.js:217:14<span class="o">)</span>
+</span><span class='line'>          at ChildProcess.EventEmitter.emit <span class="o">(</span>events.js:96:17<span class="o">)</span>
+</span><span class='line'>      at Process.ChildProcess._handle.onexit
+</span><span class='line'>      <span class="o">(</span>child_process.js:698:12<span class="o">)</span>
+</span><span class='line'>      at process._makeCallback <span class="o">(</span>node.js:248:20<span class="o">)</span>
+</span><span class='line'>      &lt;/anonymous&gt;
+</span></code></pre></td></tr></table></div></figure>
 
 
+<p>This is known issue probably we have to wait for update of OpenSSL library in
+wheezy. Ignore this problem and install node.js:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo make install
+</span></code></pre></td></tr></table></div></figure>
 
 
+<p>Because of RoR tutorial requirements we install version 1.9.3:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rvm get head <span class="o">&amp;&amp;</span> rvm reload rvm install 1.9.3
+</span></code></pre></td></tr></table></div></figure>
 
 
+<p>Next thing will be adding vim-ruby for our favorite editor Vim. I organize my
+dotfiles using git. I also use pathogen to control Vim plugins (as described
+<a href="http://pietrushnic.blogspot.com/2012/02/improve-productivity-by-tracking-work_20.html">here</a>),
+so :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd </span>workspace
+</span><span class='line'>git submodule add https://github.com/tpope/vim-rails.git
+</span><span class='line'>dotfiles/vim/bundle/vim-rails
+</span><span class='line'>git submodule init <span class="o">&amp;&amp;</span> git submodule update
+</span><span class='line'>git commit -m <span class="s2">&quot;vim-rails submodule added&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-  
-
-
-<time datetime="2012-02-05T03:08:00+01:00" pubdate data-updated="true">Feb 5<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>The problem encountered on several occasions over several months. Now it is time to deal with it. How did this happen? As always, resources were not sufficient, and if we can not increase the amount of resources we must strive to optimize their use.In this case, it was about time.</p>
-
-<p>While reading my last acquisition, once again I faced the problem of re-configure Linux account. Every time when I need new account for some reasons I need to configure some things manually. Most things are simple enough, we copy configuration files from the already existing user directory, and voila. Of course Murphy&#8217;s law works, and something goes wrong. Sometimes we need to create a new account with just a few of the tools configured as in other existing accounts. So we have a problem, however, reflecting on the solution, my mind was deepened in the increasing number of new issues, which caused the solution became more distant.</p>
-
-<p>How this process looks like? First we need new account, it should get automatically some configuration files that I create for other accounts. Second I realize that I don&#8217;t have methods for storing configs that I use most. I heard about dotfiles tracking with git with cloud help (e.g. <a href="https://github.com/">github</a>). When I google this issue I found <a href="https://github.com/trym/dotty">dotty</a>. But after that I ask myself about productivity improvements in broad sense and the conclusion was that my work scheme should be changed. So I try to find some hints about improving productivity, there are thousand of web pages about that. Few things I found useful first of all the idea of &#8220;automated time tracking&#8221;. Second that chaos that I produced during solving simple problem meant that I thought about controlling of its flow, and this led me to <a href="http://en.wikipedia.org/wiki/Mind_map">mind mapping</a> technique. AFAIK <a href="http://freemind.sourceforge.net/wiki/index.php/Main_Page">FreeMind</a> is the best free software for playing with this way of data presentation. Below I attach my first mind map in FreeMind, this is of course beta version.</p>
-
-<p>  <img src="http://4.bp.blogspot.com/-JCXeznxAkyM/Ty3jqvKH1UI/AAAAAAAAAD8/6Rye6fkesjM/s640/improve_productivity.png" alt="" /></p>
+<p>Finally we have ready to use Ruby on Rails development environment based on Vim.
+I suggest to take a look at this
+<a href="https://www.youtube.com/watch?v=30P8DSNOZuU">movie</a> and after that dive into 
+<a href="http://ruby.railstutorial.org/">tutorial</a>.</p>
 </div>
   
   
@@ -320,7 +486,7 @@ For now that&#8217;s all. In the future I wanted to write how to synchronize the
 </div>
 <aside class="sidebar">
   
-    <section>
+    Included file &#8216;custom/asides/projects.html&#8217; not found in _includes directory<section>
   <h1>About Me</h1>
   <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I&#8217;m a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
   </p>
@@ -330,23 +496,23 @@ For now that&#8217;s all. In the future I wanted to write how to synchronize the
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/04/06/tmux/">Tmux as screen replacement and productivity accelerator</a>
+        <a href="/blog/2013/06/07/root-file-system-for-embedded-system/">0x6: Root file system for embedded system</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi/">Yet another quick build of arm-unknown-linux-gnueabi</a>
+        <a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board/">0x5: Qemu network configuration and tftp for Virtual Development Board</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/01/-democracy-the-god-that-failed-hans-hermann-hoppe/">&#8220;Democracy: The God That Failed&#8221; Hans-Hermann Hoppe</a>
+        <a href="/blog/2013/06/07/linux-kernel-for-embedded-system/">0x4: Linux kernel for embedded system</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/03/30/music-for-programming/">Music for programming</a>
+        <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/03/19/debian-switching-to-unstable/">tmux multiplexer and vi-like keys in copy-mode</a>
+        <a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a>
       </li>
     
   </ul>

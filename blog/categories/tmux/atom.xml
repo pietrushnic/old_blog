@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tmux | pietrushnic's world]]></title>
   <link href="http://pietrushnic.github.io/blog/categories/tmux/atom.xml" rel="self"/>
   <link href="http://pietrushnic.github.io/"/>
-  <updated>2013-04-21T07:27:22+02:00</updated>
+  <updated>2013-07-28T06:36:17+02:00</updated>
   <id>http://pietrushnic.github.io/</id>
   <author>
     <name><![CDATA[pietrushnic]]></name>
@@ -20,7 +20,7 @@
     <id>http://pietrushnic.github.io/blog/2013/04/06/tmux</id>
     <content type="html"><![CDATA[<p>As I wrote in <a href="/blog/2013/03/19/debian-switching-to-unstable">previous post</a> I
 switched from GNU screen to <a href="http://tmux.sourceforge.net">tmux</a>. I use it for a
-few moths and have to said that I'm really impressed by simplicity, performance
+few moths and have to said that I&rsquo;m really impressed by simplicity, performance
 and community support in this project. In this post I want to discuss my
 configuration and useful additions for it like tmuxinator, session logging,
 colors or status bar configuration.</p>
@@ -40,19 +40,19 @@ some annoying situations but after few days everything should back to normal.</p
 <p>Most used keybiddings:</p>
 
 <ul>
-<li><code>C-b c</code> - create new window</li>
-<li><code>C-b ,</code> - rename current window</li>
-<li><code>C-b n</code> - next window</li>
-<li><code>C-b p</code> - previous window</li>
-<li><code>C-b l</code> - last window</li>
-<li><code>C-b d</code> - disconnect</li>
-<li><code>C-b k</code> - kill current window</li>
-<li><code>C-b K</code> - kill tmux server</li>
-<li><code>C-b [</code> - enter copy mode</li>
-<li><code>C-b ]</code> - paste last copied buffer</li>
-<li><code>C-b :</code> - tmux command line</li>
-<li><code>C-b w</code> - windows list</li>
-<li><code>C-b ?</code> - help</li>
+<li><code>C-b c</code> &ndash; create new window</li>
+<li><code>C-b ,</code> &ndash; rename current window</li>
+<li><code>C-b n</code> &ndash; next window</li>
+<li><code>C-b p</code> &ndash; previous window</li>
+<li><code>C-b l</code> &ndash; last window</li>
+<li><code>C-b d</code> &ndash; disconnect</li>
+<li><code>C-b k</code> &ndash; kill current window</li>
+<li><code>C-b K</code> &ndash; kill tmux server</li>
+<li><code>C-b [</code> &ndash; enter copy mode</li>
+<li><code>C-b ]</code> &ndash; paste last copied buffer</li>
+<li><code>C-b :</code> &ndash; tmux command line</li>
+<li><code>C-b w</code> &ndash; windows list</li>
+<li><code>C-b ?</code> &ndash; help</li>
 </ul>
 
 
@@ -101,7 +101,7 @@ bind-key -n C-left prev</p>
 
 <h1>wm window title string (uses statusbar variables)</h1>
 
-<p>set -g set-titles-string "tmux.#I.#W"</p>
+<p>set -g set-titles-string &ldquo;tmux.#I.#W&rdquo;</p>
 
 <h1>statusbar</h1>
 
@@ -155,7 +155,7 @@ To make solarized colors work on my setup was quite challenging, because there
 are many things to set (vim, terminal, putty etc.). If you need any advice I can
 write something about this. Right now it is beyond the scope of this post.</p>
 
-<p>At the end of my tmux configuration I've some fancy status bar:
+<p>At the end of my tmux configuration I&rsquo;ve some fancy status bar:
 ```</p>
 
 <h1>clock</h1>
@@ -170,11 +170,11 @@ write something about this. Right now it is beyond the scope of this post.</p>
 
 <h1>outside of Xorg, otherwise dwm statusbar shows these already</h1>
 
-<p>set -g status-right ""
-set -g status-left ""
-if '[ -z "$DISPLAY" ]' 'set -g status-left "[#[fg=green] #H ][#[default]]"'
-if '[ -z "$DISPLAY" ]' 'set -g status-right "[ #[fg=magenta]#(cat /proc/loadavg | cut -d \" \" -f 1,2,3)#[default] ][ #[fg=cyan,bright]%a %Y-%m-%d %H:%M #[default]]"'
-if '[ -z "$DISPLAY" ]' 'set -g status-right-length 50'
+<p>set -g status-right &ldquo;&rdquo;
+set -g status-left &ldquo;&rdquo;
+if &lsquo;[ -z &ldquo;$DISPLAY&rdquo; ]&rsquo; &lsquo;set -g status-left &ldquo;[#[fg=green] #H ][#[default]]&rdquo;&rsquo;
+if &lsquo;[ -z &ldquo;$DISPLAY&rdquo; ]&rsquo; &lsquo;set -g status-right &ldquo;[ #[fg=magenta]#(cat /proc/loadavg | cut -d \&rdquo; \&ldquo; -f 1,2,3)#[default] ][ #[fg=cyan,bright]%a %Y-%m-%d %H:%M #[default]]&rdquo;&rsquo;
+if &lsquo;[ -z &ldquo;$DISPLAY&rdquo; ]&rsquo; &lsquo;set -g status-right-length 50&rsquo;
 ```
 I think that mostly this is self explanatory. This how it look in work:
 <a href="/assets/images/tmux-screen.png"><img class="center" src="/assets/images/tmux-screen.png" width="300" height="400"></a></p>
@@ -216,7 +216,7 @@ valuable. Comment if you think id needs improvements. Thank you for reading.</p>
     <id>http://pietrushnic.github.io/blog/2013/03/19/debian-switching-to-unstable</id>
     <content type="html"><![CDATA[<p>So I tried to write second post for my new blog but to effectively work using
 terminal I need terminal multiplexer. I switched to tmux from screen
-because I reach point that I can't do some things in it in easy way and
+because I reach point that I can&rsquo;t do some things in it in easy way and
 performance was poor. Also activity of tmux developers is better than for gnu
 screen. I also experienced annoy buffer crashing especially after come back from
 lock mode or cmatrix much but after reading few articles about alternative for

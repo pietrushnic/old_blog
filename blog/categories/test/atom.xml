@@ -4,7 +4,7 @@
   <title><![CDATA[Category: test | pietrushnic's world]]></title>
   <link href="http://pietrushnic.github.io/blog/categories/test/atom.xml" rel="self"/>
   <link href="http://pietrushnic.github.io/"/>
-  <updated>2013-04-21T07:27:22+02:00</updated>
+  <updated>2013-07-28T06:36:17+02:00</updated>
   <id>http://pietrushnic.github.io/</id>
   <author>
     <name><![CDATA[pietrushnic]]></name>
@@ -18,7 +18,7 @@
     <link href="http://pietrushnic.github.io/blog/2012/01/04/test/"/>
     <updated>2012-01-04T21:46:00+01:00</updated>
     <id>http://pietrushnic.github.io/blog/2012/01/04/test</id>
-    <content type="html"><![CDATA[<p>01234567890123456789012345678901234567890123456789012345678901234567890123456789 This first test for blogger.vim plugin. THis will be used as sandbox, it looks like blogger vim works fine, need to check features that mostly use. Continue testing: <a href="http://google.pl">this is link</a> - this is dash - 2nd dash
+    <content type="html"><![CDATA[<p>01234567890123456789012345678901234567890123456789012345678901234567890123456789 This first test for blogger.vim plugin. THis will be used as sandbox, it looks like blogger vim works fine, need to check features that mostly use. Continue testing: <a href="http://google.pl">this is link</a> &ndash; this is dash &ndash; 2nd dash
 this is bash code
 plain text
 1. 1st

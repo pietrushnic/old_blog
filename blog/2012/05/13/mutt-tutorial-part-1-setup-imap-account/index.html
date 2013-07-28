@@ -71,6 +71,7 @@ snob. This is because using TUI or command line tools in world of &hellip;">
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/projects">Projects</a></li>
   <li><a href="/about">About Me</a></li>
 </ul>
 
@@ -107,9 +108,9 @@ snob. This is because using TUI or command line tools in world of &hellip;">
 
 <div class="entry-content"><p>Mutt is one of those programs that make people call you a linux geek, nerd or a
 snob. This is because using TUI or command line tools in world of fancy GUI for
-most people is wierd. What&#8217;s so great about mutt? I probably still have not
+most people is wierd. What&rsquo;s so great about mutt? I probably still have not
 found much of its advantages, but at first glance we can notice a few things.
-First, it keeps Unix convention of small programs for specific task <a href="http://www.faqs.org/docs/artu/ch01s06.html">&#8220;Make each program to one thing well&#8221;</a> or
+First, it keeps Unix convention of small programs for specific task <a href="http://www.faqs.org/docs/artu/ch01s06.html">&ldquo;Make each program to one thing well&rdquo;</a> or
 <a href="http://en.wikipedia.org/wiki/KISS_principle">KISS</a>. This means that mutt is
 only <a href="http://en.wikipedia.org/wiki/Mail_user_agent">MUA</a>, which is used to
 retrieve e-mails and for other tasks you need to use another application.
@@ -126,7 +127,7 @@ some basic features that until now (few days of using mutt) I found useful.</p>
 <li>Big kudos to Shinobu for <a href="http://zuttobenkyou.wordpress.com/2010/11/05/mutt-multiple-gmail-imap-setup/">this</a>
 post it helps me a lot. So first of all we need support for multiple
 accounts. In my case I have 4 accounts. Three of them got working IMAP
-access. 4th provider screw up something and access to IMAP server doesn&#8217;t
+access. 4th provider screw up something and access to IMAP server doesn&rsquo;t
 work so I need to workaround this with one of the Gmail features. At the
 beginning we create <code>$HOME/.muttrc</code> file:</li>
 </ol>
@@ -182,31 +183,31 @@ beginning we create <code>$HOME/.muttrc</code> file:</li>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><code>&lt;account_name&gt;</code> - for foo.bar@gmail.com it will be foo.bar
-<code>&lt;imap_server_address&gt;</code> - this information you can get from your e-mail provider
+<p><code>&lt;account_name&gt;</code> &ndash; for <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#x66;&#111;&#111;&#x2e;&#98;&#97;&#x72;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#46;&#99;&#111;&#109;">&#102;&#x6f;&#111;&#46;&#x62;&#x61;&#114;&#64;&#103;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#99;&#111;&#109;</a> it will be foo.bar
+<code>&lt;imap_server_address&gt;</code> &ndash; this information you can get from your e-mail provider
 help pages or from the settings of web e-mail client, for Gmail it is
 imap.gmail.com
-<code>&lt;e-mail_address&gt;</code> - your e-mail address
-<code>&lt;e-mail_password&gt;</code> - your e-mail password, later we will discuss how to store this more secure than
+<code>&lt;e-mail_address&gt;</code> &ndash; your e-mail address
+<code>&lt;e-mail_password&gt;</code> &ndash; your e-mail password, later we will discuss how to store this more secure than
 plain text :)
-<code>&lt;folder_name&gt;</code> - any folder (for gmail account also filters) you
+<code>&lt;folder_name&gt;</code> &ndash; any folder (for gmail account also filters) you
 have on you IMAP account, so for gmail account it could be Drafts, Starred,
 Important or others.
-<code>&lt;your_name&gt;</code> - your real name or nick anything you want
+<code>&lt;your_name&gt;</code> &ndash; your real name or nick anything you want
 to show in from field
-<code>&lt;real_name&gt;</code> - could be the same as <code>&lt;your_name&gt;</code>
-<code>&lt;smpt_server_address&gt;</code> - your SMTP server address, for gmail users it will be
+<code>&lt;real_name&gt;</code> &ndash; could be the same as <code>&lt;your_name&gt;</code>
+<code>&lt;smpt_server_address&gt;</code> &ndash; your SMTP server address, for gmail users it will be
 smtp.gmail.com</p>
 
 <ol>
 <li>If your e-mail provider have only pop3 access and you have gmail account you
 can use one of gmail account features to make your pop3 account visible as a
-IMAP folder. To do this got to Settings -> Accounts and Import and in the
-section &#8220;Check mail from other accounts&#8221; add your POP3 account. After that
-make sure to label your mails from POP3 account. Try to not use &#8216;@&#8217; in the
+IMAP folder. To do this got to Settings &ndash;> Accounts and Import and in the
+section &ldquo;Check mail from other accounts&rdquo; add your POP3 account. After that
+make sure to label your mails from POP3 account. Try to not use &lsquo;@&rsquo; in the
 label name because this cause problems during mutt configuration. If you set
-label for your POP3 account check if your label in Label tab have &#8220;Show in
-IMAP&#8221; marked, if yes everything was set correctly. To use this label in mutt
+label for your POP3 account check if your label in Label tab have &ldquo;Show in
+IMAP&rdquo; marked, if yes everything was set correctly. To use this label in mutt
 simply add another <code>&lt;folder_name&gt;</code> to mailboxes line.</li>
 </ol>
 
@@ -276,7 +277,7 @@ simply add another <code>&lt;folder_name&gt;</code> to mailboxes line.</li>
 
 <aside class="sidebar">
   
-    <section>
+    Included file 'custom/asides/projects.html' not found in _includes directory<section>
   <h1>About Me</h1>
   <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I'm a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
   </p>
@@ -286,23 +287,23 @@ simply add another <code>&lt;folder_name&gt;</code> to mailboxes line.</li>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/04/06/tmux/">Tmux as screen replacement and productivity accelerator</a>
+        <a href="/blog/2013/06/07/root-file-system-for-embedded-system/">0x6: Root file system for embedded system</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi/">Yet another quick build of arm-unknown-linux-gnueabi</a>
+        <a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board/">0x5: Qemu network configuration and tftp for Virtual Development Board</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/01/-democracy-the-god-that-failed-hans-hermann-hoppe/">"Democracy: The God That Failed" Hans-Hermann Hoppe</a>
+        <a href="/blog/2013/06/07/linux-kernel-for-embedded-system/">0x4: Linux kernel for embedded system</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/03/30/music-for-programming/">Music for programming</a>
+        <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/03/19/debian-switching-to-unstable/">tmux multiplexer and vi-like keys in copy-mode</a>
+        <a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a>
       </li>
     
   </ul>

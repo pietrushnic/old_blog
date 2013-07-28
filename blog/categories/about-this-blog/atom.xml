@@ -4,7 +4,7 @@
   <title><![CDATA[Category: about this blog | pietrushnic's world]]></title>
   <link href="http://pietrushnic.github.io/blog/categories/about-this-blog/atom.xml" rel="self"/>
   <link href="http://pietrushnic.github.io/"/>
-  <updated>2013-04-21T07:27:22+02:00</updated>
+  <updated>2013-07-28T06:36:17+02:00</updated>
   <id>http://pietrushnic.github.io/</id>
   <author>
     <name><![CDATA[pietrushnic]]></name>
@@ -20,24 +20,24 @@
     <id>http://pietrushnic.github.io/blog/2013/03/19/another-blogger-switched-to-octopress</id>
     <content type="html"><![CDATA[<h3>1. Introduction</h3>
 
-<p>It's been over 3 months when I published my last post. In chaos of daily jobs I
-realize that there is so much things that I don't like in Google Blogger that I
+<p>It&rsquo;s been over 3 months when I published my last post. In chaos of daily jobs I
+realize that there is so much things that I don&rsquo;t like in Google Blogger that I
 have to find different solution for my blogging aspirations. So first of all
 requirements, what do I hate most in Blogger:</p>
 
 <ul>
-<li> <strong>editor</strong> - I used to vim and cannot stand that there is no bracket matching,
+<li> <strong>editor</strong> &ndash; I used to vim and cannot stand that there is no bracket matching,
 vertical/block modification, and other cool stuff that I use</li>
-<li> <strong>the way that page was stored</strong> - I want to have control on my blog and if I can
+<li> <strong>the way that page was stored</strong> &ndash; I want to have control on my blog and if I can
 use for example git to track its content that would be great</li>
-<li>  <strong>lamish</strong> - with Blogger I learned nothing, I look for something related with new
+<li>  <strong>lamish</strong> &ndash; with Blogger I learned nothing, I look for something related with new
 trends in web development, it looks that ruby on rails is the most interesting
 framework</li>
 </ul>
 
 
 <p>And I found <a href="http://octopress.org">Octopress</a> it has all I need. The page states
-"A blogging framework for hackers". I don't know if I can or should call myself
+&ldquo;A blogging framework for hackers&rdquo;. I don&rsquo;t know if I can or should call myself
 hacker but the idea is great for me.</p>
 
 <p>So I start to move my blog to Octopress. Of course there is a plenty of things
@@ -78,13 +78,13 @@ character:
 au BufRead,BufEnter *.markdown setlocal textwidth=80 formatoptions+=w spell spelllang=en_us
 </code>
 
-<h3>3. Octopress configuration - tricks that I used for this blog</h3></li>
+<h3>3. Octopress configuration &ndash; tricks that I used for this blog</h3></li>
 </ul>
 </li>
 <li>Configure your social networks as it was explained in <a href="http://octopress.org/docs/configuring">Octopress documentation</a></li>
 <li>It is good to register on <a href="http://disqus.com/">Disqus</a> the idea of keeping
 comments separated from blog is very good. I realized it when was trying
-migrate my comments from Blogger and didn't have installed Disqus.</li>
+migrate my comments from Blogger and didn&rsquo;t have installed Disqus.</li>
 <li><a href="http://www.google.com/analytics/">Google Analytics</a> and <a href="http://www.addthis.com/">AddThis</a>
 also are very helpful in tracking how your content was shared and what of this
 stuff has greatest interest. I will write article how to integrate <a href="http://www.addthis.com/">AddThis</a>
@@ -122,7 +122,7 @@ padding-left:3em;
 
 <h3>4. SEO</h3>
 
-<p>Most interesting article about SEO is surprisingly on top of google search <a href="http://www.yatishmehta.in/seo-for-octopress">'octopress seo'</a>.
+<p>Most interesting article about SEO is surprisingly on top of google search <a href="http://www.yatishmehta.in/seo-for-octopress">&lsquo;octopress seo&rsquo;</a>.
 Main thing that I take from the article is that Octopress already have built in
 support for SEO by additional elements in post header. This elements are <code>keywords:, description:</code>
 for example:</p>
@@ -130,10 +130,10 @@ for example:</p>
 <h2>```</h2>
 
 <p>layout: post
-title: "Another blogger switched to Octopress"
+title: &ldquo;Another blogger switched to Octopress&rdquo;
 date: 2013-03-19 03:01
 comments: true
-categories: "about this blog"
+categories: &ldquo;about this blog&rdquo;
 published: false
 keywords: blog,octopress,blogger,configuration,seo,tricks</p>
 
@@ -145,9 +145,9 @@ website on your blog.</p>
 
 <p>To not forget keyword and description section in my posts I modified Rakefile:
 ```diff
-diff --git a/Rakefile b/Rakefile
+diff &mdash;git a/Rakefile b/Rakefile
 index d3a1cb0..3e2ced7 100644
---- a/Rakefile
+&mdash;&ndash; a/Rakefile
 +++ b/Rakefile
 @@ -111,6 +111,9 @@ task :new_post, :title do |t, args|</p>
 
@@ -157,10 +157,10 @@ index d3a1cb0..3e2ced7 100644
 </code></pre>
 
 <ul>
-<li> post.puts "published: false"</li>
-<li> post.puts "keywords:"</li>
-<li> post.puts "description:"
- post.puts "---"
+<li> post.puts &ldquo;published: false&rdquo;</li>
+<li> post.puts &ldquo;keywords:&rdquo;</li>
+<li> post.puts &ldquo;description:&rdquo;
+ post.puts &ldquo;&mdash;&ndash;&rdquo;
 end
 end
 ```</li>
@@ -180,7 +180,7 @@ categories:</li>
 <code>
 not like this:
 </code>
-categories: about this blog # or "about this blog"
+categories: about this blog # or &ldquo;about this blog&rdquo;
 ```</li>
 <li>ordered and unordered lists are not indented by default, this code in <code>sass/custom/_layout.scss</code>
 fix this behavior:

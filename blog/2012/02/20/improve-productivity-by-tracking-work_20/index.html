@@ -9,7 +9,8 @@
   <meta name="author" content="pietrushnic">
 
   
-  <meta name="description" content="In this post I try to describe my vim configuration procedure and how it is connected with git. The whole concept is based on keeping all the &hellip;">
+  <meta name="description" content="In this post I try to describe my vim configuration procedure and how it is
+connected with git. The whole concept is based on keeping all the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,6 +71,7 @@
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/projects">Projects</a></li>
   <li><a href="/about">About Me</a></li>
 </ul>
 
@@ -104,62 +106,157 @@
   </header>
 
 
-<div class="entry-content"><p>In this post I try to describe my vim configuration procedure and how it is connected with git. The whole concept is based on keeping all the configuration files in a separate directory. These files are connected using symbolic links in places where system or application requires it (eg $HOME/.vimrc -> /home/jdoe/workspace/dotfiles/vimrc). So first let&#8217;s create local directory for vim:</p>
+<div class="entry-content"><p>In this post I try to describe my vim configuration procedure and how it is
+connected with git. The whole concept is based on keeping all the configuration
+files in a separate directory. These files are connected using symbolic links in
+places where system or application requires it (eg <code>$HOME/.vimrc -&gt;
+/home/jdoe/workspace/dotfiles/vimrc</code>). So first let&rsquo;s create local directory for
+vim:</p>
 
-<p>cd ~/workspace/dotfiles;mkdir vim</p>
-
-<ol>
-<li>Pathogen</li>
-</ol>
-
-
-<p>The first plugin that will be installed is pathogen created by tpope and accessible through github. Pathogen is a vim script to manage all vim plugins with ease. Below line add pathogen as submodule to our workspace repository created in <a href="http://pietrushnic.blogspot.com/2012/02/improve-productivity-by-tracking-work.html">previous post</a>:</p>
-
-<p>git submodule add https://github.com/tpope/vim-pathogen.git dotfiles/vim/pathogen Initialise repository and update it:</p>
-
-<p>git submodule init &amp;&amp; git submodule update Create additional directories need to complete pathogen installation, change directory to autoload:</p>
-
-<p>cd dotfiles/vim;mkdir {autoload,bundle};cd autoload In autoload directory pathogen should be installed, bundle directory is a place for all plugins installed in future. Finally we need to link vim script from pathogen submodule to current directory (dotfiles/vim/autoload):</p>
-
-<p>ln -s ../pathogen/autoload/pathogen.vim . Directory structure should look like below:</p>
-
-<p>pietrushnic@eriador:~/workspace/dotfiles$ tree . └── vim ├── autoload │   └── pathogen.vim -> ../pathogen/autoload/pathogen.vim ├── bundle └── pathogen ├── autoload │   └── pathogen.vim └── README.markdown At the end of pathogen installation few lines to $HOME/.vimrc should be added. Of course following rules about dotfiles management .vimrc should be created as separate file in ~/workspace/dotfiles and linked to $HOME/.vimrc.
-touch vimrc;ln -s $PWD/vimrc $HOME/.vimrc Add below lines to $HOME/.vimrc
-call pathogen#infect() call pathogen#runtime_append_all_bundles() call pathogen#helptags() syntax on filetype plugin indent on</p>
-
-<ol>
-<li>Fuzzyfinder</li>
-</ol>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd ~/workspace/dotfiles;mkdir vim  </span></code></pre></td></tr></table></div></figure>
 
 
-<p>This is second plugin without which I cannot work. It speeds up searching though files, directories and tags. Has multiple useful features. RTFM if you want knew them. I will be also added as a git submodule:</p>
+<h3>Pathogen</h3>
 
-<p>git submodule add https://github.com/vim-scripts/FuzzyFinder.git dotfiles/vim/bundle/fuzzyfinder Additional plugin is needed to correctly install fuzzyfinder:</p>
+<p>The first plugin that will be installed is pathogen created by tpope and
+accessible through github. Pathogen is a vim script to manage all vim plugins
+with ease. Below line add pathogen as submodule to our workspace repository
+created in <a href="/blog/2012/02/19/improve-productivity-by-tracking-work/">previous
+post</a>:</p>
 
-<p>git submodule add https://github.com/vim-scripts/L9.git dotfiles/vim/bundle/l9</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git submodule add https://github.com/tpope/vim-pathogen.git dotfiles/vim/pathogen</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Initialize repository and update it:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git submodule init && git submodule update</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Create additional directories need to complete pathogen installation, change
+directory to autoload:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd dotfiles/vim;mkdir {autoload,bundle};cd autoload</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In autoload directory pathogen should be installed, bundle directory is a place
+for all plugins installed in future. Finally we need to link vim script from
+pathogen submodule to current directory (<code>dotfiles/vim/autoload</code>):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ln -s ../pathogen/autoload/pathogen.vim .</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Directory structure should look like below:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pietrushnic@eriador:~/workspace/dotfiles$ tree .
+</span><span class='line'>└── vim
+</span><span class='line'>├── autoload
+</span><span class='line'>│   └── pathogen.vim -&gt; ../pathogen/autoload/pathogen.vim
+</span><span class='line'>├── bundle
+</span><span class='line'>└── pathogen
+</span><span class='line'>├── autoload
+</span><span class='line'>│   └── pathogen.vim
+</span><span class='line'>└── README.markdown</span></code></pre></td></tr></table></div></figure>
+
+
+<p>At the end of pathogen installation few lines to <code>$HOME/.vimrc</code> should be added.
+Of course following rules about dotfiles management <code>.vimrc</code> should be created as
+separate file in <code>~/workspace/dotfiles</code> and linked to <code>$HOME/.vimrc</code>.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>touch vimrc;ln -s $PWD/vimrc $HOME/.vimrc</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Add below lines to <code>$HOME/.vimrc</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>call pathogen#infect()
+</span><span class='line'>call pathogen#runtime_append_all_bundles()
+</span><span class='line'>call pathogen#helptags()
+</span><span class='line'>syntax on
+</span><span class='line'>filetype plugin
+</span><span class='line'>indent on</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Fuzzyfinder</h3>
+
+<p>This is second plugin without which I cannot work. It speeds up searching though
+files, directories and tags. Has multiple useful features. RTFM if you want knew
+them. I will be also added as a git submodule:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git submodule add https://github.com/vim-scripts/FuzzyFinder.git dotfiles/vim/bundle/fuzzyfinder</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Additional plugin is needed to correctly install fuzzyfinder:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git submodule add https://github.com/vim-scripts/L9.git dotfiles/vim/bundle/l9</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Initialize and update submodules:</p>
 
-<p>git submodule init &amp;&amp; git submodule update Configuration I suggest to configure fuzzyfinder with accordance to example provided in help. </p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git submodule init && git submodule update</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Configuration I suggest to configure fuzzyfinder with accordance to example provided in help. </p>
 
 <ul>
 <li>Run vim and type :h fuf@en<Enter>. </li>
 <li>Choose tag fuf-vimrc-example and press Ctrl-]. </li>
-<li>Mark whole keybindings copy and paste to ~/.vimrc</li>
+<li>Mark whole keybindings copy and paste to <code>~/.vimrc</code></li>
 </ul>
 
 
-<p>Right now I think it is enough with vim configuration. Of course I use plenty of other plugins but I don&#8217;t have to time to describe my them all (maybe in future posts). Don&#8217;t forget to commit your changes, there could be a lot of them, however, to deal with the distribution of these changes and improve your skills try to use git add -p interface, suggesting after linux code style - each commit should contain separate logical part of the changes, personally I add prefix to my commits (eg . vim, git, etc.) to ease deal with git log.<br/>
-Notes:</p>
+<p>Right now I think it is enough with vim configuration. Of course I use plenty of
+other plugins but I don&rsquo;t have to time to describe my them all (maybe in future
+posts). Don&rsquo;t forget to commit your changes, there could be a lot of them,
+however, to deal with the distribution of these changes and improve your skills
+try to use git add -p interface, suggesting after linux code style &ndash; each commit
+should contain separate logical part of the changes, personally I add prefix to
+my commits (eg . vim, git, etc.) to ease deal with git log.  Notes:</p>
 
 <ul>
-<li>vim helpfiles generates tags files, which should be ignored by git, so I recommend to create .gitignore in every module with blow content:</li>
+<li>vim helpfiles generates tags files, which should be ignored by git, so I
+recommend to create .gitignore in every module with blow content:</li>
 </ul>
 
 
-<p>.gitignore tags* - by default fuzzyfinder operate on unfriendly color palette espessicaly when using it through putty, highlighted pattern could be changed by added below lines to .vimrc (9 = black)</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.gitignore
+</span><span class='line'>tags*</span></code></pre></td></tr></table></div></figure>
 
-<p>&#8221; fuzzy-finder - fix colors highlight PmenuSel ctermbg=9</p>
+
+<ul>
+<li>by default fuzzyfinder operate on unfriendly color palette espessicaly when
+using it through putty, highlighted pattern could be changed by added below
+lines to .vimrc (9 = black)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>" fuzzy-finder - fix colors highlight PmenuSel ctermbg=9</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 
@@ -226,7 +323,7 @@ Notes:</p>
 
 <aside class="sidebar">
   
-    <section>
+    Included file 'custom/asides/projects.html' not found in _includes directory<section>
   <h1>About Me</h1>
   <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I'm a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
   </p>
@@ -236,23 +333,23 @@ Notes:</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/04/06/tmux/">Tmux as screen replacement and productivity accelerator</a>
+        <a href="/blog/2013/06/07/root-file-system-for-embedded-system/">0x6: Root file system for embedded system</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi/">Yet another quick build of arm-unknown-linux-gnueabi</a>
+        <a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board/">0x5: Qemu network configuration and tftp for Virtual Development Board</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/01/-democracy-the-god-that-failed-hans-hermann-hoppe/">"Democracy: The God That Failed" Hans-Hermann Hoppe</a>
+        <a href="/blog/2013/06/07/linux-kernel-for-embedded-system/">0x4: Linux kernel for embedded system</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/03/30/music-for-programming/">Music for programming</a>
+        <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/03/19/debian-switching-to-unstable/">tmux multiplexer and vi-like keys in copy-mode</a>
+        <a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a>
       </li>
     
   </ul>

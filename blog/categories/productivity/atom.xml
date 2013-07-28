@@ -4,7 +4,7 @@
   <title><![CDATA[Category: productivity | pietrushnic's world]]></title>
   <link href="http://pietrushnic.github.io/blog/categories/productivity/atom.xml" rel="self"/>
   <link href="http://pietrushnic.github.io/"/>
-  <updated>2013-04-21T07:27:22+02:00</updated>
+  <updated>2013-07-28T06:36:17+02:00</updated>
   <id>http://pietrushnic.github.io/</id>
   <author>
     <name><![CDATA[pietrushnic]]></name>
@@ -14,13 +14,218 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Workflow imporovement with Open Source tools - part 1]]></title>
+    <link href="http://pietrushnic.github.io/blog/2013/05/16/workflow-imporovement-with-open-source-tools/"/>
+    <updated>2013-05-16T22:16:00+02:00</updated>
+    <id>http://pietrushnic.github.io/blog/2013/05/16/workflow-imporovement-with-open-source-tools</id>
+    <content type="html"><![CDATA[<h3>Introduction</h3>
+
+<p>I want to start a series of articles to describe how I improve my workflow with
+geeky Open Source applications. I will concentrate on terminal applications that
+I try to use in my GTD process.</p>
+
+<h3>Terminal</h3>
+
+<h4>Solarized gnome-terminal</h4>
+
+<p>If you already don&rsquo;t know what solarized color scheme is then please take a look
+at <a href="http://ethanschoonover.com/solarized">this page</a>. To install solarized
+colorscheme in gnome-terminal simply follow instruction from this <a href="https://github.com/sigurdga/gnome-terminal-colors-solarized">git repository</a>.</p>
+
+<h3>Mutt again</h3>
+
+<p>During last days I spent a lot of time to tweak my mutt configuration. Here I
+will give you few hints about things that I learned.</p>
+
+<h4>Solarized mutt</h4>
+
+<p>To enable solarized colorscheme in mutt simply download one of scheme files from <a href="https://github.com/altercation/mutt-colors-solarized">github</a>. If you installed
+dark scheme for your gnome-terminal then I suggest <code>mutt-colors-solarized-dark-16.muttrc</code>.
+Copy this file for example to <code>$HOME/.mutt</code> and source it in muttrc file:
+<code>
+source $HOME/.mutt/mutt-colors-solarized-dark-16.muttrc
+</code></p>
+
+<h4>Width of From column</h4>
+
+<p>Usually from field in today&rsquo;s emails is longer than 19 characters. If this
+happens mutt by default will not display whole string. To change this behavior
+you can manipulate <code>index_format</code> variable. I set mine to 30:
+
+<code>
+set index_format="%4C %Z %{%b %d} %-30.30L (%4l) %s"
+</code>
+</p>
+
+<h4>Sidebar</h4>
+
+<p>Finally I gave up sidebar for using latest code without annoying <code>tls_socket_read</code> error.
+Switching between IMAP folders is not so bad, you can quickly display all
+folders by <code>c&lt;Tab&gt;&lt;Tab&gt;</code> or simply <code>y</code></p>
+
+<h4>Offlineimap</h4>
+
+<p>This is probably best program to synchronize your emails with local storage. It
+also has feature that allow synchronization between different IMAP servers but
+I&rsquo;m not using it. Few things are crucial when using <code>offlineimap</code>:</p>
+
+<ul>
+<li>probably easiest way to keep passwords secret is using python hooks for gnome-keyring,
+detailed description how to integrate it with <code>offlineimap</code> is
+<a href="http://www.clasohm.com/blog/one-entry?entry_id=90957">here</a>. Debian name of
+<code>gnome-python2-gnomekeyring</code> is different: <code>python-gnomekeyring</code>.</li>
+<li>Use meaningful <code>localfolders</code> because you will use it in <code>mutt</code> configuration</li>
+</ul>
+
+
+<p>Typical configuration of <code>$HOME/.offlineimaprc</code>:
+```
+[mbnames]
+enabled = yes
+filename = ~/.mutt/muttrc.mailboxes
+header = &ldquo;mailboxes &rdquo;
+peritem = &ldquo;+%(accountname)s/%(foldername)s&rdquo;
+sep = &ldquo; &rdquo;
+footer = &ldquo;\n&rdquo;</p>
+
+<p>[general]
+metadata = ~/.offlineimap
+maxsyncaccounts = 5
+maxconnections = 2
+accounts = account1, account2
+status_backend = sqlite
+pythonfile = ~/.mutt/offlineimap.py</p>
+
+<p>[Account account1]
+autorefresh = 3
+localrepository = acc1_local
+remoterepository = acc1_remote</p>
+
+<p>[Repository acc1_local]
+type = Maildir
+localfolders = ~/.mail/account1</p>
+
+<p>[Repository acc2_remote]
+type = Gmail
+remoteusereval = get_username(&ldquo;account1&rdquo;)
+remotepasseval = get_password(&ldquo;account1&rdquo;)
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt</p>
+
+<p>[Account account2]
+autorefresh = 3
+localrepository = acc2_local
+remoterepository = acc2_remote</p>
+
+<p>[Repository acc2_local]
+type = Maildir
+localfolders = ~/.mail/account2</p>
+
+<p>[Repository acc2_remote]
+type = Gmail
+remoteusereval = get_username(&ldquo;account2&rdquo;)
+remotepasseval = get_password(&ldquo;account2&rdquo;)
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+```</p>
+
+<p>What this means by section:</p>
+
+<ul>
+<li><code>[mbnames]</code> &ndash; automatically create mailboxes folders according to your
+configuration on IMAP server</li>
+<li><code>[general]</code> &ndash; most important things here are self explanatory accounts
+variable and <code>max{syncaccounts,connections}</code>, first said how many accounts
+should be synchronized and second how many simultaneous connections should be
+used</li>
+<li><code>[Account *]</code> &ndash; contain sync refresh time in minutes (<code>autorefresh</code>) and link
+to local and remote repository definitions (<code>localrepository</code> and
+<code>remoterepository</code>)</li>
+<li><code>[Repository *]</code> &ndash; for local folder and its type and for remote gnome-keyring
+configuration</li>
+</ul>
+
+
+<h4>Multiple account configuration</h4>
+
+<p>To simplify multiple accounts configuration I added two things:</p>
+
+<ul>
+<li>separated account files configuration &ndash; in my case placed in <code>$HOME/.mutt/accounts</code>
+<code>
+set postponed   = +account1@server.com/Drafts
+set spoolfile   = +account1@server.com/INBOX
+set record      = +account1@server.com/Sent
+set from        = 'account1@server.com'
+set realname    = 'My Name'
+set smtp_url    = smtps://acc1@smtp.server.com:587
+set smtp_pass   = $my_pass
+set signature   = "~/.mutt/signature.example"
+</code></li>
+<li>folder hooks for particular account &ndash; it cause automatic loading of
+configurations when folder was changed (in <code>$HOME/muttrc</code>):
+<code>
+folder-hook 'account1@server.com' 'source $HOME/.mutt/accounts/account1'
+</code></li>
+</ul>
+
+
+<h4>Separate mailing list file</h4>
+
+<p>I keep my mailing list configuration file separated and source it in my
+<code>$HOME/.muttrc</code>. I&rsquo;m not mailing list advanced user, so right now I have manually
+created IMAP folders and Gmail filters to move mails from mailing list to this
+folders. On the mutt side I use <code>subscribe</code> command to indicate that particular
+mail id is a mailing list.</p>
+
+<h3>Personal informations</h3>
+
+<p>Some informations in my configuration files shouldn&rsquo;t be available for all. I
+mean my email account configuration, my todo list, passwords and things like
+that. To store this informations I use additional private git repository and use
+it as a submodule for my workspace configuration. I wrote post about keeping
+configuration using git
+<a href="/blog/2012/02/19/improve-productivity-by-tracking-work">here</a> and
+<a href="/blog/2012/02/20/improve-productivity-by-tracking-work_20">here</a>.</p>
+
+<h3>Taskwarrior and vit</h3>
+
+<p>I really like <code>taskwarrior</code> as a GTD tool but I was tired of writing everything
+every time I wanted to change sth. I found <code>vit</code>. Vit is a vi-like interface
+to task list generated by <code>taskwarrior</code> it works really great. Mostly it is
+written in perl and there is no official repository for its code base but latest
+version is from April 2013. I use lot of <code>project:</code> and <code>+flag</code> to update my
+TODO list. I prefer <code>long</code> filter.</p>
+
+<h4>My taskwarrior projects and flags</h4>
+
+<p>I have few ongoing projects like <code>blog</code>, <code>productivity</code> and <code>ideas</code>. In addition I use
+few flags like <code>ideas</code>, <code>finish</code>, <code>enhancement</code>, <code>fix</code> or <code>bug</code>. So when I
+connect project and flag I get few categories like:</p>
+
+<ul>
+<li><code>blog ideas</code> for new articles ideas</li>
+<li><code>blog finish</code> for articles that should be finished ASAP</li>
+<li><code>blog bug/fix</code> for articles that have to be changed for some reason</li>
+<li><code>productivity bug/fix</code> for productivity tools configuration improvements</li>
+<li><code>productivity ideas</code> for new improvements</li>
+</ul>
+
+
+<h3>Summary</h3>
+
+<p>I think this is enough for first post from this series. Hope it was helpful. If
+yes then please share, if no then comment what I should improve. Thanks for
+reading.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Tmux as screen replacement and productivity accelerator]]></title>
     <link href="http://pietrushnic.github.io/blog/2013/04/06/tmux/"/>
     <updated>2013-04-06T05:29:00+02:00</updated>
     <id>http://pietrushnic.github.io/blog/2013/04/06/tmux</id>
     <content type="html"><![CDATA[<p>As I wrote in <a href="/blog/2013/03/19/debian-switching-to-unstable">previous post</a> I
 switched from GNU screen to <a href="http://tmux.sourceforge.net">tmux</a>. I use it for a
-few moths and have to said that I'm really impressed by simplicity, performance
+few moths and have to said that I&rsquo;m really impressed by simplicity, performance
 and community support in this project. In this post I want to discuss my
 configuration and useful additions for it like tmuxinator, session logging,
 colors or status bar configuration.</p>
@@ -40,19 +245,19 @@ some annoying situations but after few days everything should back to normal.</p
 <p>Most used keybiddings:</p>
 
 <ul>
-<li><code>C-b c</code> - create new window</li>
-<li><code>C-b ,</code> - rename current window</li>
-<li><code>C-b n</code> - next window</li>
-<li><code>C-b p</code> - previous window</li>
-<li><code>C-b l</code> - last window</li>
-<li><code>C-b d</code> - disconnect</li>
-<li><code>C-b k</code> - kill current window</li>
-<li><code>C-b K</code> - kill tmux server</li>
-<li><code>C-b [</code> - enter copy mode</li>
-<li><code>C-b ]</code> - paste last copied buffer</li>
-<li><code>C-b :</code> - tmux command line</li>
-<li><code>C-b w</code> - windows list</li>
-<li><code>C-b ?</code> - help</li>
+<li><code>C-b c</code> &ndash; create new window</li>
+<li><code>C-b ,</code> &ndash; rename current window</li>
+<li><code>C-b n</code> &ndash; next window</li>
+<li><code>C-b p</code> &ndash; previous window</li>
+<li><code>C-b l</code> &ndash; last window</li>
+<li><code>C-b d</code> &ndash; disconnect</li>
+<li><code>C-b k</code> &ndash; kill current window</li>
+<li><code>C-b K</code> &ndash; kill tmux server</li>
+<li><code>C-b [</code> &ndash; enter copy mode</li>
+<li><code>C-b ]</code> &ndash; paste last copied buffer</li>
+<li><code>C-b :</code> &ndash; tmux command line</li>
+<li><code>C-b w</code> &ndash; windows list</li>
+<li><code>C-b ?</code> &ndash; help</li>
 </ul>
 
 
@@ -101,7 +306,7 @@ bind-key -n C-left prev</p>
 
 <h1>wm window title string (uses statusbar variables)</h1>
 
-<p>set -g set-titles-string "tmux.#I.#W"</p>
+<p>set -g set-titles-string &ldquo;tmux.#I.#W&rdquo;</p>
 
 <h1>statusbar</h1>
 
@@ -155,7 +360,7 @@ To make solarized colors work on my setup was quite challenging, because there
 are many things to set (vim, terminal, putty etc.). If you need any advice I can
 write something about this. Right now it is beyond the scope of this post.</p>
 
-<p>At the end of my tmux configuration I've some fancy status bar:
+<p>At the end of my tmux configuration I&rsquo;ve some fancy status bar:
 ```</p>
 
 <h1>clock</h1>
@@ -170,11 +375,11 @@ write something about this. Right now it is beyond the scope of this post.</p>
 
 <h1>outside of Xorg, otherwise dwm statusbar shows these already</h1>
 
-<p>set -g status-right ""
-set -g status-left ""
-if '[ -z "$DISPLAY" ]' 'set -g status-left "[#[fg=green] #H ][#[default]]"'
-if '[ -z "$DISPLAY" ]' 'set -g status-right "[ #[fg=magenta]#(cat /proc/loadavg | cut -d \" \" -f 1,2,3)#[default] ][ #[fg=cyan,bright]%a %Y-%m-%d %H:%M #[default]]"'
-if '[ -z "$DISPLAY" ]' 'set -g status-right-length 50'
+<p>set -g status-right &ldquo;&rdquo;
+set -g status-left &ldquo;&rdquo;
+if &lsquo;[ -z &ldquo;$DISPLAY&rdquo; ]&rsquo; &lsquo;set -g status-left &ldquo;[#[fg=green] #H ][#[default]]&rdquo;&rsquo;
+if &lsquo;[ -z &ldquo;$DISPLAY&rdquo; ]&rsquo; &lsquo;set -g status-right &ldquo;[ #[fg=magenta]#(cat /proc/loadavg | cut -d \&rdquo; \&ldquo; -f 1,2,3)#[default] ][ #[fg=cyan,bright]%a %Y-%m-%d %H:%M #[default]]&rdquo;&rsquo;
+if &lsquo;[ -z &ldquo;$DISPLAY&rdquo; ]&rsquo; &lsquo;set -g status-right-length 50&rsquo;
 ```
 I think that mostly this is self explanatory. This how it look in work:
 <a href="/assets/images/tmux-screen.png"><img class="center" src="/assets/images/tmux-screen.png" width="300" height="400"></a></p>
@@ -218,15 +423,15 @@ valuable. Comment if you think id needs improvements. Thank you for reading.</p>
 experience.</p>
 
 <ol>
-<li><a href="www.pandora.com">www.pandora.com</a> - really great radio station, choose your
+<li><a href="www.pandora.com">www.pandora.com</a> &ndash; really great radio station, choose your
 genre or artist and it will lead you through all variety of this type.
 unfortunately if you are fan of Iron Maiden, Blind Guardian, prog rock or
 irish folk you will be bored after 2 hours or less. Sadly not available in
-Poland :( - maybe some proxy will work but I wasn't able to find one.</li>
-<li><a href="http://www.kohina.com/">kohina/demo scene</a> - very good radio for long night
-coding sessions. I'm not big fan of demo scene but I appreciate what guys do
+Poland :( &ndash; maybe some proxy will work but I wasn&rsquo;t able to find one.</li>
+<li><a href="http://www.kohina.com/">kohina/demo scene</a> &ndash; very good radio for long night
+coding sessions. I&rsquo;m not big fan of demo scene but I appreciate what guys do
 and did. And somtimes you will hit Super Mario or Contra theme.</li>
-<li><a href="http://www.progarchives.com/subgenre.asp?style=32">post rock/math rock</a> - if you like any variety of prog rock you probably
+<li><a href="http://www.progarchives.com/subgenre.asp?style=32">post rock/math rock</a> &ndash; if you like any variety of prog rock you probably
 know <a href="http://www.progarchives.com/">ProgArchives</a>. It is really hard to find
 good prog rock radio where classics are well mixed with newcomers. I really
 like to listen guys like <a href="http://www.progarchives.com/subgenre.asp?style=32">God Is An Astronaut</a>,
@@ -234,15 +439,15 @@ like to listen guys like <a href="http://www.progarchives.com/subgenre.asp?style
 <a href="http://www.65daysofstatic.com/">65daysofstatic</a>, <a href="http://www.redsparowes.com/News.aspx">Red Sparowes</a> or even
 <a href="http://mogwai.sandbag.uk.com/lesrevenants/">Mogwai</a> or <a href="http://www.sigur-ros.co.uk/">Sigur Ros</a>.
 Very good for programming if you drink cofee/tea :)</li>
-<li>movie soundtracks - This one I use when really need to concentrate
-especially when working daylight hours. What's best here most of people will
+<li>movie soundtracks &ndash; This one I use when really need to concentrate
+especially when working daylight hours. What&rsquo;s best here most of people will
 agree that <a href="http://www.enniomorricone.it/uk/news.php">Ennio Moricone</a>, <a href="http://elsew.com/">Vangelis</a> and <a href="http://www.hans-zimmer.com/">Hans Zimmer</a>
 are famous one and most recognizable for my generation.</li>
-<li><a href="http://nsbradio.co.uk/content/">breakbeat</a> - this one reminds me some stories about mythical cyberpunk
+<li><a href="http://nsbradio.co.uk/content/">breakbeat</a> &ndash; this one reminds me some stories about mythical cyberpunk
 hackers, its usually noisy and help me isolate from environment and
 concentrate on my work. I will said that if you like freaked electronics than
 you can try this.</li>
-<li><a href="http://www.shoutcast.com/Internet-Radio/drum%20and%20base">dnb</a> - if
+<li><a href="http://www.shoutcast.com/Internet-Radio/drum%20and%20base">dnb</a> &ndash; if
 breakbeat is to hard for you try this :). This music tune me in channel of
 rhythmical work.</li>
 <li>When googling this topic I found <a href="http://musicforprogramming.net/">this site</a>
@@ -251,8 +456,8 @@ low tempo for me.</li>
 </ol>
 
 
-<p>I can also suggest some Irish Folk influenced stuff if don't have "The End is
-near" wallpaper on your desktop :) There was a time when I was listen a lot of
+<p>I can also suggest some Irish Folk influenced stuff if don&rsquo;t have &ldquo;The End is
+near&rdquo; wallpaper on your desktop :) There was a time when I was listen a lot of
 psybient, but it is really hard to find good psychodelic ambient radio and this
 music is for me more like movie soundtracks I cannot listen it at night.
 Hope it will give some kind of direction. Let me know what you listen when coding.
@@ -294,7 +499,7 @@ call pathogen#incubate() in $HOME/.vimrc fix the problem.
     <link href="http://pietrushnic.github.io/blog/2012/04/21/vim-as-blogger-editor_21/"/>
     <updated>2012-04-21T12:55:00+02:00</updated>
     <id>http://pietrushnic.github.io/blog/2012/04/21/vim-as-blogger-editor_21</id>
-    <content type="html"><![CDATA[<p>  <a href="https://github.com/ujihisa/blogger.vim">Blogger.vim</a> is a vim plugin for interfacing with Google's Blogger. Below I will use my workspace git <a href="https://github.com/pietrushnic/workspace">repository</a>. To use this plugin we need pretty new ruby >= 1.9.2 and gems nokogiri and net-https-wrapper. Let's install latest possible ruby for Debian, before that make sure you have latest updates:</p>
+    <content type="html"><![CDATA[<p>  <a href="https://github.com/ujihisa/blogger.vim">Blogger.vim</a> is a vim plugin for interfacing with Google&rsquo;s Blogger. Below I will use my workspace git <a href="https://github.com/pietrushnic/workspace">repository</a>. To use this plugin we need pretty new ruby >= 1.9.2 and gems nokogiri and net-https-wrapper. Let&rsquo;s install latest possible ruby for Debian, before that make sure you have latest updates:</p>
 
 <p>sudo apt-get update sudo apt-get upgrade sudo apt-get dist-upgrade And ruby:</p>
 
@@ -302,35 +507,17 @@ call pathogen#incubate() in $HOME/.vimrc fix the problem.
 
 <p>sudo apt-get install libxml2-dev libxslt1-dev Latest nokogiri 1.5.2 have some issues, so we need to use 1.5.0 which is stable:</p>
 
-<p>sudo gem install nokogiri --version 1.5.0 And the wrapper for https:</p>
+<p>sudo gem install nokogiri &mdash;version 1.5.0 And the wrapper for <a href="https:">https:</a></p>
 
 <p>sudo gem install net-https-wrapper Finally also pandoc will be neded to display web pages in vim:</p>
 
 <p>sudo apt-get install pandoc Right now we are able to run vim with blogger support. First we need to configure vim, add below lines to your $HOME/.vimrc file:</p>
 
-<p>let g:blogger_blogid = 'your_blogid_here' let g:blogger_email = 'your_email_here' let g:blogger_pass = 'your_blogger_password_here' Run vim and try to list your blogger posts by typing:</p>
+<p>let g:blogger_blogid = &lsquo;your_blogid_here&rsquo; let g:blogger_email = &lsquo;your_email_here&rsquo; let g:blogger_pass = &lsquo;your_blogger_password_here&rsquo; Run vim and try to list your blogger posts by typing:</p>
 
 <p>:e blogger:list If list of you see all your posts than it seems that plugin works good. Finally check writing feature. Create file with some text and type:</p>
 
-<p>:w blogger:create Few things doesn't work as it should. Meybe I will find enough time to fix it. This article was created by using blogger.vim script.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Splitting my personal repository]]></title>
-    <link href="http://pietrushnic.github.io/blog/2012/03/14/splitting-my-personal-repository/"/>
-    <updated>2012-03-14T23:26:00+01:00</updated>
-    <id>http://pietrushnic.github.io/blog/2012/03/14/splitting-my-personal-repository</id>
-    <content type="html"><![CDATA[<p>After writing a few posts in which my workspace scripts could be useful, I
-realized that I should split blog works from the scripts that can be useful to
-others. From now materials related to the blog I will track in a separate
-repository and I'll add them as submodule into my environment. This implies that
-if we intend to deliver something to a broader audience this should include only
-those things which the recipient is expected and which we say that we provide.
-Any additional items should be removed. We get a lot of unwanted stuff today, at
-every opportunity. From an economic point of view, it is known that very often
-margin value law is used here i.e. by hypermarkets, I will touch on this subject
-on another occasion, related to economics.</p>
+<p>:w blogger:create Few things doesn&rsquo;t work as it should. Meybe I will find enough time to fix it. This article was created by using blogger.vim script.</p>
 ]]></content>
   </entry>
   

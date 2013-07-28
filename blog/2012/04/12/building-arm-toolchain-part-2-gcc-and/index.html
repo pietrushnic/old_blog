@@ -70,6 +70,7 @@
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/projects">Projects</a></li>
   <li><a href="/about">About Me</a></li>
 </ul>
 
@@ -181,7 +182,7 @@ maintained in the official glibc source tree so we need to add it in this way:</
 
 <ol>
 <li>To produce libgcc_s.so we need libc.so, but only need its dummy version because
-we&#8217;ll never use it. It doesn&#8217;t matter what we will point as a libc.so we use /dev/null as C file.</li>
+we&rsquo;ll never use it. It doesn&rsquo;t matter what we will point as a libc.so we use /dev/null as C file.</li>
 </ol>
 
 
@@ -315,7 +316,7 @@ this post was 5b9a8c3:</li>
 
 
 <ol>
-<li>Compile and install chrpath - this is useful tool to remove the rpath or runpath setting from binary.</li>
+<li>Compile and install chrpath &ndash; this is useful tool to remove the rpath or runpath setting from binary.</li>
 </ol>
 
 
@@ -427,24 +428,24 @@ $TARGET/arm-x-tools/bin/arm-unknown-linux-gnueabi-readelf -hl c++-hello</p>
 <p>ELF Header:
   Magic: 7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
   Class: ELF32
-  Data: 2&#8217;s complement, little endian
+  Data: 2&rsquo;s complement, little endian
   Version: 1 (current)
-  OS/ABI: UNIX - System V ABI
+  OS/ABI: UNIX &ndash; System V ABI
   Version: 0
   Type: EXEC (Executable file)
   Machine: ARM
-  (&#8230;)
+  (&hellip;)
   Flags: 0x5000002, has entry point, Version5 EABI
-  (&#8230;)
+  (&hellip;)
   Program Headers:
-  (&#8230;)
+  (&hellip;)
   INTERP 0x000134 0x00008134 0x00008134 0x00013 0x00013 R 0x1</p>
 
 <pre><code>  [Requesting program interpreter: /lib/ld-linux.so.3]
 </code></pre>
 
 <p>  LOAD 0x000000 0x00008000 0x00008000 0x004b8 0x004b8 R E 0x8000
-  (&#8230;)
+  (&hellip;)
   &#8220;`</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -471,7 +472,7 @@ $TARGET/arm-x-tools/bin/arm-unknown-linux-gnueabi-readelf -hl c++-hello</p>
 
 <p>I hope you find above manual useful. If you need more detailed descriptions it
 can be found <a href="http://www.eglibc.org/cgi-bin/viewvc.cgi/trunk/libc/EGLIBC.cross-building?view=markup">here</a>.
-Also don&#8217;t bother to ask me by comment below.</p>
+Also don&rsquo;t bother to ask me by comment below.</p>
 </div>
 
 
@@ -538,7 +539,7 @@ Also don&#8217;t bother to ask me by comment below.</p>
 
 <aside class="sidebar">
   
-    <section>
+    Included file 'custom/asides/projects.html' not found in _includes directory<section>
   <h1>About Me</h1>
   <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I'm a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
   </p>
@@ -548,23 +549,23 @@ Also don&#8217;t bother to ask me by comment below.</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/04/06/tmux/">Tmux as screen replacement and productivity accelerator</a>
+        <a href="/blog/2013/06/07/root-file-system-for-embedded-system/">0x6: Root file system for embedded system</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi/">Yet another quick build of arm-unknown-linux-gnueabi</a>
+        <a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board/">0x5: Qemu network configuration and tftp for Virtual Development Board</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/01/-democracy-the-god-that-failed-hans-hermann-hoppe/">"Democracy: The God That Failed" Hans-Hermann Hoppe</a>
+        <a href="/blog/2013/06/07/linux-kernel-for-embedded-system/">0x4: Linux kernel for embedded system</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/03/30/music-for-programming/">Music for programming</a>
+        <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/03/19/debian-switching-to-unstable/">tmux multiplexer and vi-like keys in copy-mode</a>
+        <a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a>
       </li>
     
   </ul>

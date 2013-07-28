@@ -70,6 +70,7 @@
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/projects">Projects</a></li>
   <li><a href="/about">About Me</a></li>
 </ul>
 
@@ -113,11 +114,11 @@
 <p>flashrom -Vr bios_bckp.bin
 And write it by:</p>
 
-<p>flashrom -Vw bios_bckp.bin At the end I&#8217;ve got VERIFIED message but when I look carefully inside the log there was something like this:</p>
+<p>flashrom -Vw bios_bckp.bin At the end I&rsquo;ve got VERIFIED message but when I look carefully inside the log there was something like this:</p>
 
-<p>Erasing and writing flash chip&#8230; Trying erase function 0&#8230; 0x000000-0x01ffff:S, 0x020000-0x037fff:S, 0x038000-0x039fff:S, 0x03a000-0x03bfff:S, 0x03c000-0x03ffff:S Erase/write done. Verifying flash&#8230; VERIFIED. This means that these addresses have not been overwritten but skipped, becuse the fact that the data which were to be overridden were identical with what we wanted to write. So if we found such output to properly verify flashrom we need to clear our memory and write it again with BIOS backup. Correct output should look like this:</p>
+<p>Erasing and writing flash chip&hellip; Trying erase function 0&hellip; 0x000000-0x01ffff:S, 0x020000-0x037fff:S, 0x038000-0x039fff:S, 0x03a000-0x03bfff:S, 0x03c000-0x03ffff:S Erase/write done. Verifying flash&hellip; VERIFIED. This means that these addresses have not been overwritten but skipped, becuse the fact that the data which were to be overridden were identical with what we wanted to write. So if we found such output to properly verify flashrom we need to clear our memory and write it again with BIOS backup. Correct output should look like this:</p>
 
-<p>Erasing and writing flash chip&#8230; Trying erase function 0&#8230; 0x000000-0x01ffff:W, 0x020000-0x037fff:W, 0x038000-0x039fff:W, 0x03a000-0x03bfff:W, 0x03c000-0x03ffff:W Erase/write done. Verifying flash&#8230; VERIFIED.</p>
+<p>Erasing and writing flash chip&hellip; Trying erase function 0&hellip; 0x000000-0x01ffff:W, 0x020000-0x037fff:W, 0x038000-0x039fff:W, 0x03a000-0x03bfff:W, 0x03c000-0x03ffff:W Erase/write done. Verifying flash&hellip; VERIFIED.</p>
 
 <p>Next post I will try to familiarize you with the process of debugging coreboot using <a href="http://wiki.qemu.org/Main_Page">QEMU</a>.</p>
 </div>
@@ -186,7 +187,7 @@ And write it by:</p>
 
 <aside class="sidebar">
   
-    <section>
+    Included file 'custom/asides/projects.html' not found in _includes directory<section>
   <h1>About Me</h1>
   <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I'm a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
   </p>
@@ -196,23 +197,23 @@ And write it by:</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/04/06/tmux/">Tmux as screen replacement and productivity accelerator</a>
+        <a href="/blog/2013/06/07/root-file-system-for-embedded-system/">0x6: Root file system for embedded system</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi/">Yet another quick build of arm-unknown-linux-gnueabi</a>
+        <a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board/">0x5: Qemu network configuration and tftp for Virtual Development Board</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/01/-democracy-the-god-that-failed-hans-hermann-hoppe/">"Democracy: The God That Failed" Hans-Hermann Hoppe</a>
+        <a href="/blog/2013/06/07/linux-kernel-for-embedded-system/">0x4: Linux kernel for embedded system</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/03/30/music-for-programming/">Music for programming</a>
+        <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/03/19/debian-switching-to-unstable/">tmux multiplexer and vi-like keys in copy-mode</a>
+        <a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a>
       </li>
     
   </ul>

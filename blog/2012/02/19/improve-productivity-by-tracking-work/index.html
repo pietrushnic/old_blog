@@ -9,7 +9,9 @@
   <meta name="author" content="pietrushnic">
 
   
-  <meta name="description" content="Below is first post from series in which I want to describe my experience gained in attempt to enhance my productivity by using git to control the &hellip;">
+  <meta name="description" content="Update: My repository is available
+here. Below is first post from series in which I want to describe my experience gained
+in attempt to enhance my &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,6 +72,7 @@
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/projects">Projects</a></li>
   <li><a href="/about">About Me</a></li>
 </ul>
 
@@ -104,17 +107,41 @@
   </header>
 
 
-<div class="entry-content"><p>Below is first post from series in which I want to describe my experience gained in attempt to enhance my productivity by using git to control the contents of some files in my home directory. The first step to improve the productivity is good organization of working environment. It happens very often that I work on multiple machines both physical and virtual. Therefore I need a good mechanism to share knowledge, experience, code, configuration and many other things. Configuration described below is only an example that actually fits my way of working.<br/>
-First of all simple concept of directory structure is needed. Let&#8217;s start with:</p>
+<div class="entry-content"><p><em>Update</em>: My repository is available
+<a href="https://github.com/pietrushnic/workspace.git">here</a>.</p>
 
-<p>$HOME/workspace         |- dotfiles         |- blog
-mkdir -p $HOME/workspace/blog;mkdir -p $HOME/workspace/dotfiles
-cd workspace Write some files (i.e. for your blog) with your favourite editor, initialize repository and prepare first commit</p>
+<p>Below is first post from series in which I want to describe my experience gained
+in attempt to enhance my productivity by using git to control the contents of
+some files in my home directory. The first step to improve the productivity
+is good organization of working environment. It happens very often that I work
+on multiple machines both physical and virtual. Therefore I need a
+good mechanism to share knowledge, experience, code, configuration and many
+other things. Configuration described below is only an example that actually
+fits my way of working.  First of all simple concept of directory structure is
+needed. Let&rsquo;s start with:</p>
 
-<p>git init
-git add .;git commit -m &#8220;Initial commit for environment tracking&#8221; To avoid information about untracked vim swp files add $HOME/workspace/.gitignore with following content:</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir -p $HOME/workspace/blog;mkdir -p $HOME/workspace/dotfiles
+</span><span class='line'>cd workspace </span></code></pre></td></tr></table></div></figure>
 
-<p>.gitignore *.swp</p>
+
+<p>Write some files (i.e. for your blog) with your favourite editor, initialize
+repository and prepare first commit</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git init
+</span><span class='line'>git add .;git commit -m "Initial commit for environment tracking" </span></code></pre></td></tr></table></div></figure>
+
+
+<p>To avoid information about untracked vim swp files add $HOME/workspace/.gitignore with following content:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.gitignore
+</span><span class='line'>*.swp</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 
@@ -181,7 +208,7 @@ git add .;git commit -m &#8220;Initial commit for environment tracking&#8221; To
 
 <aside class="sidebar">
   
-    <section>
+    Included file 'custom/asides/projects.html' not found in _includes directory<section>
   <h1>About Me</h1>
   <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I'm a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
   </p>
@@ -191,23 +218,23 @@ git add .;git commit -m &#8220;Initial commit for environment tracking&#8221; To
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/04/06/tmux/">Tmux as screen replacement and productivity accelerator</a>
+        <a href="/blog/2013/06/07/root-file-system-for-embedded-system/">0x6: Root file system for embedded system</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi/">Yet another quick build of arm-unknown-linux-gnueabi</a>
+        <a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board/">0x5: Qemu network configuration and tftp for Virtual Development Board</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/01/-democracy-the-god-that-failed-hans-hermann-hoppe/">"Democracy: The God That Failed" Hans-Hermann Hoppe</a>
+        <a href="/blog/2013/06/07/linux-kernel-for-embedded-system/">0x4: Linux kernel for embedded system</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/03/30/music-for-programming/">Music for programming</a>
+        <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/03/19/debian-switching-to-unstable/">tmux multiplexer and vi-like keys in copy-mode</a>
+        <a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a>
       </li>
     
   </ul>

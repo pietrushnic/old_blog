@@ -4,7 +4,7 @@
   <title><![CDATA[Category: uefi | pietrushnic's world]]></title>
   <link href="http://pietrushnic.github.io/blog/categories/uefi/atom.xml" rel="self"/>
   <link href="http://pietrushnic.github.io/"/>
-  <updated>2013-04-21T07:27:22+02:00</updated>
+  <updated>2013-07-28T06:36:17+02:00</updated>
   <id>http://pietrushnic.github.io/</id>
   <author>
     <name><![CDATA[pietrushnic]]></name>
@@ -18,9 +18,9 @@
     <link href="http://pietrushnic.github.io/blog/2012/01/15/another-interesting-topic-with-which-i/"/>
     <updated>2012-01-15T23:04:00+01:00</updated>
     <id>http://pietrushnic.github.io/blog/2012/01/15/another-interesting-topic-with-which-i</id>
-    <content type="html"><![CDATA[<p>Another interesting topic with which I am dealing with recently is the <a href="http://www.uefi.org/home/">UEFI</a>. As we read on wikipedia: "The Unified Extensible Firmware Interface (UEFI) is a specification that defines a software interface between an operating system and platform firmware.". The purpose of this specification is to create something what in the future fully replace the BIOS.</p>
+    <content type="html"><![CDATA[<p>Another interesting topic with which I am dealing with recently is the <a href="http://www.uefi.org/home/">UEFI</a>. As we read on wikipedia: &ldquo;The Unified Extensible Firmware Interface (UEFI) is a specification that defines a software interface between an operating system and platform firmware.&rdquo;. The purpose of this specification is to create something what in the future fully replace the BIOS.</p>
 
-<p>Of course, as always in such a situation, I wonder what OpenSource and Linux gurus have to say. A brief googling and I found <a href="http://kerneltrap.org/node/6884">this</a>. On the one hand are noticeable advantages: better design, formalized structure of the code, the C programming language, but you can feel that community fears and feared that the "standard" will be used in an inappropriate manner. Therefore, I regularly read <a href="http://lwn.net/">LWN</a> RSS feeds, and it seems that on the horizon you can see already the first ideas on how to use UEFI to limit freedom. You can read about it in this article: <a href="http://lwn.net/Articles/475359/">"SFLC: Microsoft confirms UEFI fears, locks down ARM devices"</a>.</p>
+<p>Of course, as always in such a situation, I wonder what OpenSource and Linux gurus have to say. A brief googling and I found <a href="http://kerneltrap.org/node/6884">this</a>. On the one hand are noticeable advantages: better design, formalized structure of the code, the C programming language, but you can feel that community fears and feared that the &ldquo;standard&rdquo; will be used in an inappropriate manner. Therefore, I regularly read <a href="http://lwn.net/">LWN</a> RSS feeds, and it seems that on the horizon you can see already the first ideas on how to use UEFI to limit freedom. You can read about it in this article: <a href="http://lwn.net/Articles/475359/">&ldquo;SFLC: Microsoft confirms UEFI fears, locks down ARM devices&rdquo;</a>.</p>
 
 <p>Personally, I really do not like it, because I believe that everyone who buys the equipment has the right to exploit its capabilities in such a manner it deems appropriate.</p>
 
