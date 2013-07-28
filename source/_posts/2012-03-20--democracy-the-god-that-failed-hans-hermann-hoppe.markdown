@@ -3,7 +3,7 @@ layout: post
 title: "\"Democracy: The God That Failed\" Hans-Hermann Hoppe"
 date: 2012-03-20T21:16:00+01:00
 categories: books
-published: false
+published: true
 keywords: politics,Hoppe,libertarianism,thoughts,freedom
 description: Some thoughts about Hoppe's book Democracy - The God That Failed
 ---
