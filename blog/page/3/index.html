@@ -9,10 +9,13 @@
   <meta name="author" content="pietrushnic">
 
   
-  <meta name="description" content="Preface
-First question: How to start ?
-Virtual Development Board &ndash; table of contents
-Kudos Preface There are many reasons why ambitious &hellip;">
+  <meta name="description" content="Table of contents Introduction
+What is toolchain ?
+Why we need cross-toolchain ?
+How to create toolchain ?
+Emdebian path
+Summary
+Kudos Introduction &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +85,334 @@ Kudos Preface There are many reasons why ambitious &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-07T08:42:00+02:00" pubdate data-updated="true">Jun 7<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Table of contents</h2>
+
+<ul>
+<li><a href="/blog/2013/06/07/toolchain-for-virtual-development-board/#intro">Introduction</a></li>
+<li><a href="/blog/2013/06/07/toolchain-for-virtual-development-board/#what-is-toolchain">What is toolchain ?</a></li>
+<li><a href="/blog/2013/06/07/toolchain-for-virtual-development-board/#why-we-need-cross-toolchain">Why we need cross-toolchain ?</a></li>
+<li><a href="/blog/2013/06/07/toolchain-for-virtual-development-board/#how-to-create-toolchain">How to create toolchain ?</a></li>
+<li><a href="/blog/2013/06/07/toolchain-for-virtual-development-board/#emdebian-path">Emdebian path</a></li>
+<li><a href="/blog/2013/06/07/toolchain-for-virtual-development-board/#summary">Summary</a></li>
+<li><a href="/blog/2013/06/07/toolchain-for-virtual-development-board/#kudos">Kudos</a></li>
+</ul>
+
+
+<p><a id="intro"></a></p>
+
+<h3>Introduction</h3>
+
+<p>This is probably the most complicated topic of all related to embedded
+development but we need to deal with it at the beginning. I read a lot about
+toolchains but still don&rsquo;t know enough to explain details. I think that best
+answers are in crosstool-ng <a href="http://crosstool-ng.org/hg/crosstool-ng/file/0fc56e62cecf/docs">documentation</a>.</p>
+
+<p><a id="what-is-toolchain"></a></p>
+
+<h3>What is toolchain ?</h3>
+
+<p><em>Toolchain</em> as the name said is a set of tools chained together, so output of
+one tool is the input for different tool. This is well known concept in
+Linux (eg. pipes). In embedded environment toolchain is called cross-toolchain or
+cross-compiler, because usually it compiles on one architecture and generate
+code for another (eg. it compiles on x86 and generate code for arm)<a href="http://elinux.org/Toolchains">[1]</a>.</p>
+
+<p><a id="why-we-need-cross-toolchain"></a></p>
+
+<h3>Why we need cross-toolchain ?</h3>
+
+<p>I suspect that your laptop/PC is not based on ARM processor, most probably it based on
+x86 architecture so you cannot simply compile code and run it in our
+virtual-arm-based environment. To prepare operating system and tools for it we
+need cross-toolchain.</p>
+
+<p><a id="how-to-create-toolchain"></a></p>
+
+<h3>How to create toolchain ?</h3>
+
+<p>Process of creating cross-toolchain from scratch is not easy and takes some
+time. There are few other ways to get toolchain, than creating it from scratch.
+First we can use prebuilt toolchain providers like: <code>CodeSourcery</code>, <code>Linaro</code>, <code>DENX
+EDLK</code> or <code>Emdebian</code>. Second we can create toolchain using special building system like: <code>Buildroot</code>, <code>Crosstool-NG</code>
+or <code>Bitbake</code>. I will not deal with preparing toolchain in this series
+because procedure for creating it takes pretty long. So we have two options:</p>
+
+<ul>
+<li>read my article about <a href="/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi">Crosstool-NG arm-unknown-linux-gnueabi</a></li>
+<li>or install toolchain ready to use like <a href="http://www.emdebian.org/">Emdebian</a></li>
+</ul>
+
+
+<p><a id="emdebian-path"></a></p>
+
+<h4>Emdebian path</h4>
+
+<p>Add below lines to you <code>/etc/apt/sources.list</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>deb http://ftp.uk.debian.org/emdebian/toolchains unstable main
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Install Emdebian keys, update and install cross-compiler with all related
+packages:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install emdebian-archive-keyring
+</span><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get install gcc-4.7-arm-linux-gnueabi
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Dependency problems during installation</h5>
+
+<p>If above attempt to install cross-compiler ends with:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>pietrushnic@eglarest:~/src<span class="nv">$ </span>sudo apt-get install gcc-4.7-arm-linux-gnueabi
+</span><span class='line'>Reading package lists... Done
+</span><span class='line'>Building dependency tree
+</span><span class='line'>Reading state information... Done
+</span><span class='line'>Some packages could not be installed. This may mean that you have
+</span><span class='line'>requested an impossible situation or <span class="k">if </span>you are using the unstable
+</span><span class='line'>distribution that some required packages have not yet been created
+</span><span class='line'>or been moved out of Incoming.
+</span><span class='line'>The following information may <span class="nb">help </span>to resolve the situation:
+</span><span class='line'>
+</span><span class='line'>The following packages have unmet dependencies:
+</span><span class='line'> gcc-4.7-arm-linux-gnueabi : Depends: libgomp1-armel-cross <span class="o">(</span>&gt;<span class="o">=</span> 4.7.2-5<span class="o">)</span> but it
+</span><span class='line'> is not going to be installed
+</span><span class='line'> E: Unable to correct problems, you have held broken packages.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This means that Debian ustable cross-compiler is not available for you
+configuration. You can read more about that
+<a href="http://lists.debian.org/debian-embedded/2011/05/msg00029.html">here</a>.
+To fix that issue simply change emdebian toochain repository to testing in
+<code>/etc/apt/source.list</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>deb http://ftp.uk.debian.org/emdebian/toolchains testing main
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Emdebian toolchain configuration</h5>
+
+<p>Check where <code>arm-linux-eabi-gcc-4.7</code> was installed:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>whereis arm-linux-gnueabi-gcc-4.7
+</span><span class='line'>arm-linux-gnueabi-gcc-4: /usr/bin/arm-linux-gnueabi-gcc-4.7 /usr/bin/X11/arm-linux-gnueabi-gcc-4.7
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It is not linked to <code>arm-linux-gnueabi-gcc</code>, so we cannot give its prefix as <code>CROSS_COMPILE</code>
+variable value, which is needed for bootloader and kernel compilation. We have to link
+it to <code>arm-linux-gnueabi-gcc</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo ln -s /usr/bin/arm-linux-gnueabi-gcc-4.7 /usr/bin/arm-linux-gnueabi-gcc
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Toolchain is ready to use.</p>
+
+<p><em>Note</em>: I tried <code>CodeSourcery</code> toolchain <code>arm-2012.09-64-arm-none-linux-gnueabi.bin</code>,
+but it contain <code>binutils</code> defect that not allow correctly build kernel. If you see
+something like this in log:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Error: selected processor does not support ARM mode <span class="sb">`</span>ldralt lr,<span class="o">[</span>r1<span class="o">]</span>,#4<span class="err">&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That means you experience same thing, please use <code>Emdebian</code> or <code>Crosstool-NG</code> toolchain.</p>
+
+<p><em>Note 2</em>: If you&rsquo;re <code>Ubuntu</code> user I have to suggest experiments with toolchain
+build by your own, because I get really hard times trying to go through this
+tutorial with Ubuntu/Linaro cross compiler provided in repository. Finally I
+used <a href="/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi">this</a>
+to push things forward. U-boot compiled with Ubuntu/Linaro toolchain had problem
+with <code>__udivsi3</code> instruction. This cause loop in initialization process.</p>
+
+<p><a id="summary"></a></p>
+
+<h3>Summary</h3>
+
+<p>If you take effort of creating toolchain using <code>Crosstool-NG</code> than
+congratulations.  But for simplifying whole <a href="/blog/2013/06/07/intro-to-virtual-development-board-building"><strong>Virtual Development Board</strong></a>
+series I will use <code>Emdebian</code> toolchain in further posts. Of course you can use
+your brand new <code>Crosstool-NG</code> toolchain by simply remember that tools prefixes are
+different. <code>Emdebian</code> uses <code>arm-linux-gnueabi-</code> and <code>Crosstool-NG</code> was created with
+<code>arm-unknown-linux-gnueabi-</code>. Replace one with another every time when needed.
+In <a href="/blog/2013/06/07/embedded-board-bootloader">next post</a> we will deal with
+bootloader.</p>
+
+<p><a id="kudos"></a></p>
+
+<h3>Kudos</h3>
+
+<p>[1] <a href="http://elinux.org/Toolchains">Toolchains</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/07/qemu-as-an-environment-for-embedded-board-emulation/">0x1: Qemu as an environment for embedded board emulation</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-07T08:27:00+02:00" pubdate data-updated="true">Jun 7<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Table of contents</h2>
+
+<ul>
+<li><a href="/blog/2013/06/07/qemu-as-an-environment-for-embedded-board-emulation/#intro">Introduction</a></li>
+<li><a href="/blog/2013/06/07/qemu-as-an-environment-for-embedded-board-emulation/#compilation">Compilation</a></li>
+<li><a href="/blog/2013/06/07/qemu-as-an-environment-for-embedded-board-emulation/#kudos">Kudos</a></li>
+</ul>
+
+
+<p><a id="intro"></a></p>
+
+<h3>Introduction</h3>
+
+<p>QEMU is a CPU emulator using dynamic binary translation to convert guest CPU
+instructions into host CPU instructions<a href="http://infoscience.epfl.ch/record/149975/files/x86-llvm-translator-chipounov_2.pdf">[1]</a>. It supports many architectures from
+x86, through ARM and MIPS, to MicroBlaze. According to compilation configuration
+target list QEMU targets 26 different softmmu types.  Only for ARM it supports
+33 machines (like ARM Versatile/PB (ARM926EJ-S) or Samsung NURI board
+(Exynos4210)) and 28 CPUs (with cortex-a9 and pxa270). It gives access to
+network, storage, video, usb, serial and other peripheral, also user defined. It
+is developed under GNU GPL, so everybody are free to make modifications, improve
+and extend it. This properties makes QEMU very good candidate for virtual board
+emulator.</p>
+
+<p><a id="compilation"></a></p>
+
+<h3>Compilation</h3>
+
+<p>Let&rsquo;s start creating our Virtual Development Board. As usually I will use latest
+greatest version from git:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone http://git.qemu.org/git/qemu.git
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Compile it and install. Right now I will use only <code>arm-softmmu</code> target because it
+will emulate whole arm system for me. ARM right now dominated big part of
+embedded market but we will see if situation won&rsquo;t change in feature.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd </span>qemu
+</span><span class='line'>./configure --target-list<span class="o">=</span>arm-softmmu
+</span><span class='line'>make
+</span><span class='line'>make install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>During configuration process you can encounter lack of <code>pixman</code>, just accept qemu
+offer to initialize it as a submodule.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git submodule update --init pixman
+</span><span class='line'>make <span class="c"># restart compilation process</span>
+</span><span class='line'>make install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If compilation ends without problem than our first component is ready to use.
+Right now we can emulate our ARM based board with many types of CPUs. List of
+all available can be retrieved by running command <code>qemu-system-arm -cpu ?</code>, list
+of emulated machines by <code>-M ?</code>. Now, let&rsquo;s talk about <a href="/blog/2013/06/07/toolchain-for-virtual-development-board">toolchains</a>.</p>
+
+<p><a id="kudos"></a></p>
+
+<h3>Kudos</h3>
+
+<p>[1] <a href="http://infoscience.epfl.ch/record/149975/files/x86-llvm-translator-chipounov_2.pdf">Dynamically Translating x86 to LLVM using QEMU</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -190,360 +521,6 @@ to stick link for further reading.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/16/octopress-depoying-problem-after-migrating-to-star-dot-github-dot-io/">Octopress depoying problem after migrating to *.github.io</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-16T22:20:00+02:00" pubdate data-updated="true">May 16<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>My story was that I migrate to new environment and want to recover my octopress
-setup. I thought that it will be as simple as cloning my blog github repository
-and start to work.</p>
-
-<p>First problem that I experienced was lack of octopress repository as a remote
-branch &ndash; it is required to update your ocotpress blog to latest code. Fix was
-simple:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git remote add octopress git://github.com/imathis/octopress.git</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After updating my blog I tried to deploy new article and I get:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>## Pushing generated _deploy website
-</span><span class='line'>ERROR: Repository not found.
-</span><span class='line'>fatal: The remote end hung up unexpectedly</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I figured out that my github pages were incorrectly set, so I run <code>rake
-setup_github_pages</code>. If you&rsquo;re user of github pages long enough you know that
-few weeks ago github decide to migrate domain from <code>*.github.com</code> to
-<code>*.github.io</code>. So I followed instructions in setup process and used <code>io</code> domain,
-this is incorrect. If you have github repository for your pages with <code>com</code> in
-name you should use your orginal repository address. Repository was not changed.
-This is obvious but I lost few minutes to figure out whats going on.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/16/workflow-imporovement-with-open-source-tools/">Workflow imporovement with Open Source tools - part 1</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-16T22:16:00+02:00" pubdate data-updated="true">May 16<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>Introduction</h3>
-
-<p>I want to start a series of articles to describe how I improve my workflow with
-geeky Open Source applications. I will concentrate on terminal applications that
-I try to use in my GTD process.</p>
-
-<h3>Terminal</h3>
-
-<h4>Solarized gnome-terminal</h4>
-
-<p>If you already don&rsquo;t know what solarized color scheme is then please take a look
-at <a href="http://ethanschoonover.com/solarized">this page</a>. To install solarized
-colorscheme in gnome-terminal simply follow instruction from this <a href="https://github.com/sigurdga/gnome-terminal-colors-solarized">git repository</a>.</p>
-
-<h3>Mutt again</h3>
-
-<p>During last days I spent a lot of time to tweak my mutt configuration. Here I
-will give you few hints about things that I learned.</p>
-
-<h4>Solarized mutt</h4>
-
-<p>To enable solarized colorscheme in mutt simply download one of scheme files from <a href="https://github.com/altercation/mutt-colors-solarized">github</a>. If you installed
-dark scheme for your gnome-terminal then I suggest <code>mutt-colors-solarized-dark-16.muttrc</code>.
-Copy this file for example to <code>$HOME/.mutt</code> and source it in muttrc file:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>source $HOME/.mutt/mutt-colors-solarized-dark-16.muttrc</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Width of From column</h4>
-
-<p>Usually from field in today&rsquo;s emails is longer than 19 characters. If this
-happens mutt by default will not display whole string. To change this behavior
-you can manipulate <code>index_format</code> variable. I set mine to 30:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>set index_format="%4C %Z %{%b %d} %-30.30L (%4l) %s"</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Sidebar</h4>
-
-<p>Finally I gave up sidebar for using latest code without annoying <code>tls_socket_read</code> error.
-Switching between IMAP folders is not so bad, you can quickly display all
-folders by <code>c&lt;Tab&gt;&lt;Tab&gt;</code> or simply <code>y</code></p>
-
-<h4>Offlineimap</h4>
-
-<p>This is probably best program to synchronize your emails with local storage. It
-also has feature that allow synchronization between different IMAP servers but
-I&rsquo;m not using it. Few things are crucial when using <code>offlineimap</code>:</p>
-
-<ul>
-<li>probably easiest way to keep passwords secret is using python hooks for gnome-keyring,
-detailed description how to integrate it with <code>offlineimap</code> is
-<a href="http://www.clasohm.com/blog/one-entry?entry_id=90957">here</a>. Debian name of
-<code>gnome-python2-gnomekeyring</code> is different: <code>python-gnomekeyring</code>.</li>
-<li>Use meaningful <code>localfolders</code> because you will use it in <code>mutt</code> configuration</li>
-</ul>
-
-
-<p>Typical configuration of <code>$HOME/.offlineimaprc</code>:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[mbnames]
-</span><span class='line'>enabled = yes
-</span><span class='line'>filename = ~/.mutt/muttrc.mailboxes
-</span><span class='line'>header = "mailboxes "
-</span><span class='line'>peritem = "+%(accountname)s/%(foldername)s"
-</span><span class='line'>sep = " "
-</span><span class='line'>footer = "\n"
-</span><span class='line'>
-</span><span class='line'>[general]
-</span><span class='line'>metadata = ~/.offlineimap
-</span><span class='line'>maxsyncaccounts = 5
-</span><span class='line'>maxconnections = 2
-</span><span class='line'>accounts = account1, account2
-</span><span class='line'>status_backend = sqlite
-</span><span class='line'>pythonfile = ~/.mutt/offlineimap.py
-</span><span class='line'>
-</span><span class='line'>[Account account1]
-</span><span class='line'>autorefresh = 3
-</span><span class='line'>localrepository = acc1_local
-</span><span class='line'>remoterepository = acc1_remote
-</span><span class='line'>
-</span><span class='line'>[Repository acc1_local]
-</span><span class='line'>type = Maildir
-</span><span class='line'>localfolders = ~/.mail/account1
-</span><span class='line'>
-</span><span class='line'>[Repository acc2_remote]
-</span><span class='line'>type = Gmail
-</span><span class='line'>remoteusereval = get_username("account1")
-</span><span class='line'>remotepasseval = get_password("account1")
-</span><span class='line'>sslcacertfile = /etc/ssl/certs/ca-certificates.crt
-</span><span class='line'>
-</span><span class='line'>[Account account2]
-</span><span class='line'>autorefresh = 3
-</span><span class='line'>localrepository = acc2_local
-</span><span class='line'>remoterepository = acc2_remote
-</span><span class='line'>
-</span><span class='line'>[Repository acc2_local]
-</span><span class='line'>type = Maildir
-</span><span class='line'>localfolders = ~/.mail/account2
-</span><span class='line'>
-</span><span class='line'>[Repository acc2_remote]
-</span><span class='line'>type = Gmail
-</span><span class='line'>remoteusereval = get_username("account2")
-</span><span class='line'>remotepasseval = get_password("account2")
-</span><span class='line'>sslcacertfile = /etc/ssl/certs/ca-certificates.crt</span></code></pre></td></tr></table></div></figure>
-
-
-<p>What this means by section:</p>
-
-<ul>
-<li><code>[mbnames]</code> &ndash; automatically create mailboxes folders according to your
-configuration on IMAP server</li>
-<li><code>[general]</code> &ndash; most important things here are self explanatory accounts
-variable and <code>max{syncaccounts,connections}</code>, first said how many accounts
-should be synchronized and second how many simultaneous connections should be
-used</li>
-<li><code>[Account *]</code> &ndash; contain sync refresh time in minutes (<code>autorefresh</code>) and link
-to local and remote repository definitions (<code>localrepository</code> and
-<code>remoterepository</code>)</li>
-<li><code>[Repository *]</code> &ndash; for local folder and its type and for remote gnome-keyring
-configuration</li>
-</ul>
-
-
-<h4>Multiple account configuration</h4>
-
-<p>To simplify multiple accounts configuration I added two things:</p>
-
-<ul>
-<li>separated account files configuration &ndash; in my case placed in <code>$HOME/.mutt/accounts</code></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>set postponed   = +account1@server.com/Drafts
-</span><span class='line'>set spoolfile   = +account1@server.com/INBOX
-</span><span class='line'>set record      = +account1@server.com/Sent
-</span><span class='line'>set from        = 'account1@server.com'
-</span><span class='line'>set realname    = 'My Name'
-</span><span class='line'>set smtp_url    = smtps://acc1@smtp.server.com:587
-</span><span class='line'>set smtp_pass   = $my_pass
-</span><span class='line'>set signature   = "~/.mutt/signature.example"</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>folder hooks for particular account &ndash; it cause automatic loading of
-configurations when folder was changed (in <code>$HOME/muttrc</code>):</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>folder-hook 'account1@server.com' 'source $HOME/.mutt/accounts/account1'</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Separate mailing list file</h4>
-
-<p>I keep my mailing list configuration file separated and source it in my
-<code>$HOME/.muttrc</code>. I&rsquo;m not mailing list advanced user, so right now I have manually
-created IMAP folders and Gmail filters to move mails from mailing list to this
-folders. On the mutt side I use <code>subscribe</code> command to indicate that particular
-mail id is a mailing list.</p>
-
-<h3>Personal informations</h3>
-
-<p>Some informations in my configuration files shouldn&rsquo;t be available for all. I
-mean my email account configuration, my todo list, passwords and things like
-that. To store this informations I use additional private git repository and use
-it as a submodule for my workspace configuration. I wrote post about keeping
-configuration using git
-<a href="/blog/2012/02/19/improve-productivity-by-tracking-work">here</a> and
-<a href="/blog/2012/02/20/improve-productivity-by-tracking-work_20">here</a>.</p>
-
-<h3>Taskwarrior and vit</h3>
-
-<p>I really like <code>taskwarrior</code> as a GTD tool but I was tired of writing everything
-every time I wanted to change sth. I found <code>vit</code>. Vit is a vi-like interface
-to task list generated by <code>taskwarrior</code> it works really great. Mostly it is
-written in perl and there is no official repository for its code base but latest
-version is from April 2013. I use lot of <code>project:</code> and <code>+flag</code> to update my
-TODO list. I prefer <code>long</code> filter.</p>
-
-<h4>My taskwarrior projects and flags</h4>
-
-<p>I have few ongoing projects like <code>blog</code>, <code>productivity</code> and <code>ideas</code>. In addition I use
-few flags like <code>ideas</code>, <code>finish</code>, <code>enhancement</code>, <code>fix</code> or <code>bug</code>. So when I
-connect project and flag I get few categories like:</p>
-
-<ul>
-<li><code>blog ideas</code> for new articles ideas</li>
-<li><code>blog finish</code> for articles that should be finished ASAP</li>
-<li><code>blog bug/fix</code> for articles that have to be changed for some reason</li>
-<li><code>productivity bug/fix</code> for productivity tools configuration improvements</li>
-<li><code>productivity ideas</code> for new improvements</li>
-</ul>
-
-
-<h3>Summary</h3>
-
-<p>I think this is enough for first post from this series. Hope it was helpful. If
-yes then please share, if no then comment what I should improve. Thanks for
-reading.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -556,7 +533,7 @@ reading.</p>
 </div>
 <aside class="sidebar">
   
-    Included file &#8216;custom/asides/projects.html&#8217; not found in _includes directory<section>
+    <section>
   <h1>About Me</h1>
   <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I&#8217;m a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
   </p>
@@ -564,6 +541,14 @@ reading.</p>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/30/how-to-use-google-search-activity-to-improve-productivity/">Improve productivity with Goolge history using bookmarks and Chrome extensions</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/14/build-and-run-ovmf-under-qemu/">Build and run OVMF under Qemu</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/06/07/root-file-system-for-embedded-system/">0x6: Root file system for embedded system</a>
@@ -575,14 +560,6 @@ reading.</p>
     
       <li class="post">
         <a href="/blog/2013/06/07/linux-kernel-for-embedded-system/">0x4: Linux kernel for embedded system</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a>
       </li>
     
   </ul>

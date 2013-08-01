@@ -9,9 +9,7 @@
   <meta name="author" content="pietrushnic">
 
   
-  <meta name="description" content="First of all I use testing version of Debian &ndash; wheezy. Clone coreboot repository: 1
-2
-git clone http://review.coreboot.org/p/coreboot &hellip;">
+  <meta name="description" content="Therefore, I&rsquo;m leaving for the Easter holidays I wanted to download some lecture on embedded systems, which was presented at the 2012 Embedded &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,7 +85,7 @@ git clone http://review.coreboot.org/p/coreboot &hellip;">
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/03/12/debugging-coreboot-in-qemu-enviroment/">Debugging coreboot in qemu environment - part 1</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/04/06/therefore-im-leaving-for-easter/">How to download videos from videos.linux.com</a></h1>
     
     
       <p class="meta">
@@ -103,74 +101,286 @@ git clone http://review.coreboot.org/p/coreboot &hellip;">
   
 
 
-<time datetime="2012-03-12T21:30:00+01:00" pubdate data-updated="true">Mar 12<span>th</span>, 2012</time>
+<time datetime="2012-04-06T22:48:00+02:00" pubdate data-updated="true">Apr 6<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>First of all I use testing version of Debian &ndash; wheezy. Clone coreboot repository:</p>
+  <div class="entry-content"><p>Therefore, I&rsquo;m leaving for the Easter holidays I wanted to download some lecture on embedded systems, which was presented at the 2012 Embedded Linux Conference. Although I regret I found that I could not find as good quality copy in the network as on the Linux Foundation page. It is unfortunate that linux.com site does not have the possibility of direct downloading video files. But there is a workaround. Follow below tutorial:</p>
+
+<ol>
+<li>Go to page with video. For example:  <a href="http://video.linux.com/videos/to-provide-a-long-term-stable-linux-for-industry">http://video.linux.com/videos/to-provide-a-long-term-stable-linux-for-industry</a></li>
+<li><p>Click play on the video and if you using Chrome browser right click on player window and inspect this element. Result should look like that: 
+<img src="http://1.bp.blogspot.com/-ivNLyF3IFwc/T39S_IwbntI/AAAAAAAAAEg/mVgiu6CXqhs/s400/Untitled.png" alt="" /></p></li>
+<li><p>Expand div tag marked in red on screenshot above. If video was start you should see video tag which contain two links to video files mp4 and webm. Screen shot below shows hot it should look like:
+<img src="http://3.bp.blogspot.com/-waLmSIB4LAI/T39VlAF5P7I/AAAAAAAAAEo/7T9bUg5p-sw/s400/Untitled1.png" alt="" /></p></li>
+</ol>
+
+
+<p>These links are only temporary, so if you want to use them do it as soon as possible. The sad part of all is that the organization intended to promote one of the most libertarian solutions in software history does not provide materials for download.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/20/building-arm-toolchain-part-1-libs-and/">Building ARM toolchain - part 1: libs and binutils</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-20T23:25:00+01:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Searching the Internet for information on how to build arm toolchain from
+scratch I realize that it is very hard to find  information about this matter
+(and recent one even harder). I will try to fill this lack of information and
+try to build toolchain. My main goal is to use a component based on the GNU
+public license, and using them in as the newest version as it is possible.</p>
+
+<p>What is toolchain ? (according to wikipedia):</p>
+
+<blockquote><p>In software, a toolchain is the set of programming tools that are used to create a product (typically another computer program or system of programs). The tools may be used in a chain, so that the output of each tool becomes the input for the next, but the term is used widely to refer to any set of linked development tools.</p></blockquote>
+
+<h3>Requirements</h3>
+
+<ul>
+<li>Cross compiler, I create one using corsstool-ng and describe this process in 
+<a href="/blog/2012/03/14/quick-build-of-arm-unknown-linux">previous post</a>.
+I will use <code>arm-unknown-linux-gnueabi</code> as entry point compiler.</li>
+<li>$TARGET is defined as my destination directory:</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git clone http://review.coreboot.org/p/coreboot Conifigure:  
-</span><span class='line'>cd coreboot; make menuconfig Set:  </span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>export TARGET=/home/pietrushnic/sandbox/toolchain  </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Configure FILO as apayload and use its latest version:</p>
+<h3>Procedure</h3>
+
+<h4>Kernel header files</h4>
+
+<ol>
+<li>clone linux git repository</li>
+</ol>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Payload -&gt; Add a payload -&gt; FILO Payload -&gt; FILO version -&gt; HEAD</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Add verbose debugging messages:</p>
+<ol>
+<li>install headers $TARGET is home of our toolchain</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>make ARCH=arm INSTALL_HDR_PATH=$TARGET/usr headers_install</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Libraries (gmp, mpfr, mpc)</h4>
+
+<ol>
+<li>GMP (<em>GNU Multiple Precision Arithmetic Library</em>) &ndash; changeset used: 14765:0acae62fa162</li>
+<li>As I said before. I use &ldquo;latest greatest&rdquo; ;P version, and for gmp we can reach it using:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>hg clone http://gmplib.org:8000/gmp</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code> - create configuration files 
+</code></pre>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>./.bootstrap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>configure</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>./configure --prefix=$TARGET/arm-x-tools --enable-shared=n --enable-static</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>compile</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>make && make check && make install</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li> MPFR (<em>GNU Multiple Precision Floating-Point Reliably</em>) &ndash; version: r8103</li>
+<li>get latest version</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svn checkout svn://scm.gforge.inria.fr/svn/mpfr/trunk mpfr</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>create configuration file</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>autoreconf -i</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>configure</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>./configure --prefix=$TARGET/arm-x-tools --enable-thread-safe \ --with-gmp=$TARGET/arm-x-tools --disable-shared --enable-static</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>compile</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>make && make install</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li> MPC (<em>Multiple Precision Complex</em>)&ndash; version: r1146</li>
+<li>checkout svn</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svn checkout svn://scm.gforge.inria.fr/svnroot/mpc/trunk mpc</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>create configuration file</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>autoreconf -i</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>configure</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>./configure --prefix=$TARGET/arm-x-tools \ --with-gmp=$TARGET/arm-x-tools --with-mpfr=$TARGET/arm-x-tools \ --disable-shared --enable-static</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>compile</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>make && make install</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>Binutils &ndash; collection of a GNU binary tools:</li>
+<li>checkout version from anonymous cvs</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cvs -z 9 -d :pserver:anoncvs@sourceware.org:/cvs/src</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>login create directory for checkout</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir binutils</span></code></pre></td></tr></table></div></figure>
+
+
+<p>checkout sources</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cvs -z 9 -d :pserver:anoncvs@sourceware.org:/cvs/src co binutils</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>configure</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Debugging -&gt; Check PIRQ table consistency Debugging -&gt; Output verbose malloc debug messages
-</span><span class='line'>Debugging -&gt; Output verbose ACPI debug messages Debugging -&gt; Enable debug messages for option ROM execution
-</span><span class='line'>Debugging -&gt; Built-in low-level shell Debugging -&gt; Trace function calls</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>LDFLAGS="-Wl,-rpath -Wl,$TARGET/arm-x-tools/lib" ./configure \
+</span><span class='line'>--build=x86_64-pc-linux-gnu --host=x86_64-pc-linux-gnu \
+</span><span class='line'>--target=arm-unknown-linux-gnueabi --prefix=$TARGET/arm-x-tools \
+</span><span class='line'>--disable-nls --disable-multilib --disable-werror --with-float=soft \
+</span><span class='line'>--with-gmp=$TARGET/arm-x-tools --with-mpfr=$TARGET/arm-x-tools \
+</span><span class='line'>--with-mpc=$TARGET/arm-x-tools --with-sysroot=$TARGET</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Try to build:</p>
+<ul>
+<li>compile</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>make</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>make configure-host make make install</span></code></pre></td></tr></table></div></figure>
 
 
-<p>If everything builds correctly you can process. Sometimes there is need to use
-cross compiler. To build one:</p>
+<ul>
+<li>to check if everything was made correctly</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd util/crossgcc
-</span><span class='line'>./buildgcc</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ldd $TARGET/arm-x-tools/bin/arm-unknown-linux-gnueabi-ldd</span></code></pre></td></tr></table></div></figure>
 
 
-<p>To explore <code>coreboot</code> code effectively I suggest to create tags and cscope
-database for <code>coreboot</code>. In my personal workspace I&rsquo;ve got process that I go
-through before I start work (if you use my workspace configuration which
-is available <a href="https://github.com/pietrushnic/workspace">@github</a> you
-can follow below steps directly, if not adjust to your environment):</p>
+<p>it should show that it use library compiled previously by us:</p>
 
-<ol>
-<li>run vim ;)</li>
-<li><code>:cd /path/to/code</code></li>
-<li><code>s&lt;Tab&gt;</code> (fuzzyfinder &ndash;> bookmark dir)</li>
-<li><code>si</code> (fuzzyfinder &ndash;> change dir)</li>
-<li><code>sr</code> (run ctags to generate tags and cscope to build symbol database &ndash; <code>ctags -R;cscope -R -q -b -v</code>)</li>
-</ol>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>libz.so.1 =&gt; /home/pietrushnic/sandbox/toolchain/arm-x-tools/lib/libz.so.1 \ (0x00007f0086cc5000)</span></code></pre></td></tr></table></div></figure>
 
 
-<p>After steps above we can start work with code. Run vim in <code>coreboot</code> directory.
-Type:
-<code>:e src/cpu/x86/16bit/reset16.inc</code>
-Put cursor over <code>protected_start</code> and press <code>Ctrl-]</code>. If everything goes ok you
-should jump to <code>build/mainboard/emulation/qemu-x86/bootblock.s</code> line 537.</p>
-
-<p>In second article we dive into first phase of <code>coreboot</code> execution in emulated environment.</p>
+<p>This set gives us a solid base to build the compiler. However, it will be in the <a href="/blog/2012/04/12/building-arm-toolchain-part-2-gcc-and">next section</a>.</p>
 </div>
   
   
@@ -183,7 +393,7 @@ should jump to <code>build/mainboard/emulation/qemu-x86/bootblock.s</code> line 
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/03/07/human-action-ludwig-von-misess-work-by/">&#8220;Human Action&#8221; Ludwig von Mises</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/03/20/-democracy-the-god-that-failed-hans-hermann-hoppe/">&#8220;Democracy: The God That Failed&#8221; Hans-Hermann Hoppe</a></h1>
     
     
       <p class="meta">
@@ -199,52 +409,66 @@ should jump to <code>build/mainboard/emulation/qemu-x86/bootblock.s</code> line 
   
 
 
-<time datetime="2012-03-07T23:37:00+01:00" pubdate data-updated="true">Mar 7<span>th</span>, 2012</time>
+<time datetime="2012-03-20T21:16:00+01:00" pubdate data-updated="true">Mar 20<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>  <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Ludzkie_dzialanie_okladka.jpg/166px-Ludzkie_dzialanie_okladka.jpg" alt="" /></p>
+  <div class="entry-content"><p>I began this article last year. Until now I wonder if anyone could be interested
+in reading about book that I read. I saw great interesting in linux/embedded
+stuff but what about different things that we met every day. What about
+politics/economics and religion ? Don&rsquo;t know if you should start this but I will
+give it a try.</p>
 
-<p>&ldquo;Human Action&rdquo; Ludwig von Mises&rsquo;s work by some of called the pope of free market. IMHO is one of the best books on economics I read in my life. It is not easy, however, giving it time with certainly pays off. Allows to understand the basic laws which ruled the modern world of finance. Mises in a sensational way talk about the myths explaining what is inflation, why it has impact on our lives, what is and how works the supply of credit, and who depend most on the production of money without coverage (<em>fiat</em> money). I can say that until I read this book, I was lost in the dark. Thanks to it I received a weapon to overthrow ridiculous  world order concepts, absurd messages communicated in the media. I recommend:  <a href="http://mises.org/store/Human-Action-The-Scholars-Edition-P119.aspx">mises.org store &ndash; Human Action </a></p>
-</div>
-  
-  
+<p>I&rsquo;m argue a lot about politics/economics and religion. I don&rsquo;t have education in
+this matter but study by myself a little bit. So maybe this is good place for
+sharing ideas.</p>
 
+<p>So about a year ago I read a book <a href="http://www.amazon.com/Democracy-Economics-Politics-Monarchy-Natural/dp/0765808684">&ldquo;Democracy: The God That Failed&rdquo;</a>.
+I talk a lot about this book with mu colleagues and have to said that some ideas in it
+are very controversial. One thing is that Hoppe assume some economic facts that
+are not clear for most people &ndash; I agree with most of them, because it is
+libertarian point of view and right now I&rsquo;m trying to follow this ideas of
+freedom.</p>
 
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/07/blog-has-changed-slightly/">Nice small additions for my blog</a></h1>
-    
-    
-      <p class="meta">
-        
+<p>Hoppe shows that people democracy have to fail because leads to socialism.
+Increasing number of privileges and promoting average citizen to politics cause
+system inefficient. So most of this things in my environment are well known and
+discussion goes to details.</p>
 
+<p>Probably the most shocking for me was concept of totally private security system.
+Everyone can have guns, missiles, tanks or any other fight equipment he want.
+Hoppe is an anarcho-capitalist so he doesn&rsquo;t like state and it&rsquo;s monopoly on
+high end weapon. After rethinking twice this concept could be good but IMO
+through natural evolution we will get companies that would take care about
+security. Also today we can find some trends in this, many Polish citizen with
+high wages go to closed residential housing with security, protecting themselves
+against poor, beggars and drunk junkies.</p>
 
+<p>Second thing that heated debate was that state kills more than anarchy or not
+organized society. Discussion goes to question: When more people were killed
+during the Middle Ages, which took quite a long time, or in a few wars started
+by democratically ruled countries ?</p>
 
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-07T23:15:00+01:00" pubdate data-updated="true">Mar 7<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Blog has changed slightly. I&rsquo;ve added two new sections: social media and afk. In &ldquo;social media&rdquo; I will add links to my profiles on various social networking sites. You&rsquo;ll find my most recent development achievements ( <a href="https://github.com/pietrushnic">@github</a>) and twitts on topics of interest to me ( <a href="https://twitter.com/#!/pietrushnic">@twitter</a>). The second section, &ldquo;afk&rdquo; (away from keyboard) is intended for the information of life beyond the keyboard, which in my case is not too extensive. I will publish here information about the books we read, watched movies and many other interesting things, which can be passionate away from the keyboard.</p>
+<p>So if we look at wiki <a href="http://en.wikipedia.org/wiki/List_of_wars_and_disasters_by_death_toll">article</a>
+what we can see ? Biggest killers in history are Chinese and they did this in
+medieval. So not Europe with it Christian crusade and small contention between
+the principalities ? I will not count Mongolian and Tatar invasion because it took 200
+years, so this was not a simple war it was series of wars simply concatenated in
+one. Surprising data from China, they were able to kill 5-15% of world population
+three times during medieval. They didn&rsquo;t have atomic bomb, Ebola, chemical poisons
+and they did this. If you ever read something about China history you that it is
+one of the best organized society in the world (take a look at great wall).
+First administration exams, wheel base (width of road), language was standardized
+over 2k years ago. Very good organization of the state. So biggest wars and most
+killed battles came from well organized strong state. If you want peace you
+don&rsquo;t need &ldquo;New World Order&rdquo; or &ldquo;World Government&rdquo; you need weak state with
+power distributed to locally living people. Let them decide if they want
+conflict with town or village near them. Or maybe better live in peace, trade
+freely and make world better. Centralized systems are slow, inefficient and cost
+a lot. Distributed systems are those in which life of one man is important.</p>
 </div>
   
   
@@ -264,7 +488,7 @@ should jump to <code>build/mainboard/emulation/qemu-x86/bootblock.s</code> line 
 </div>
 <aside class="sidebar">
   
-    Included file &#8216;custom/asides/projects.html&#8217; not found in _includes directory<section>
+    <section>
   <h1>About Me</h1>
   <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I&#8217;m a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
   </p>
@@ -272,6 +496,14 @@ should jump to <code>build/mainboard/emulation/qemu-x86/bootblock.s</code> line 
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/30/how-to-use-google-search-activity-to-improve-productivity/">Improve productivity with Goolge history using bookmarks and Chrome extensions</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/14/build-and-run-ovmf-under-qemu/">Build and run OVMF under Qemu</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/06/07/root-file-system-for-embedded-system/">0x6: Root file system for embedded system</a>
@@ -283,14 +515,6 @@ should jump to <code>build/mainboard/emulation/qemu-x86/bootblock.s</code> line 
     
       <li class="post">
         <a href="/blog/2013/06/07/linux-kernel-for-embedded-system/">0x4: Linux kernel for embedded system</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a>
       </li>
     
   </ul>

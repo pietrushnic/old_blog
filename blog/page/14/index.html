@@ -9,7 +9,7 @@
   <meta name="author" content="pietrushnic">
 
   
-  <meta name="description" content="Another interesting topic with which I am dealing with recently is the UEFI. As we read on wikipedia: &ldquo;The Unified Extensible Firmware &hellip;">
+  <meta name="description" content="Many times happened that I spend time, during the installation of the new system, whether it be a virtual physical machine, wondering about it&rsquo; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,7 +85,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/01/15/another-interesting-topic-with-which-i/">UEFI from Linux enthusiast perspective</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/02/20/hostname-generator/">Hostname generator</a></h1>
     
     
       <p class="meta">
@@ -101,20 +101,16 @@
   
 
 
-<time datetime="2012-01-15T23:04:00+01:00" pubdate data-updated="true">Jan 15<span>th</span>, 2012</time>
+<time datetime="2012-02-20T20:58:00+01:00" pubdate data-updated="true">Feb 20<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Another interesting topic with which I am dealing with recently is the <a href="http://www.uefi.org/home/">UEFI</a>. As we read on wikipedia: &ldquo;The Unified Extensible Firmware Interface (UEFI) is a specification that defines a software interface between an operating system and platform firmware.&rdquo;. The purpose of this specification is to create something what in the future fully replace the BIOS.</p>
+  <div class="entry-content"><p>Many times happened that I spend time, during the installation of the new system, whether it be a virtual physical machine, wondering about it&rsquo;s hostname. One day I asked myself the trouble searching for host name generator. Best I could find (currently second in the results of google) is rospo.net. It gives you the choice of category for the host name. My favorite, as a fan of fantasy is &ldquo;Characters from Tolkien&rdquo;. Although the category name does not reflect the truth, because in addition also includes a set of known sites in middlearth and more. So I recommend:</p>
 
-<p>Of course, as always in such a situation, I wonder what OpenSource and Linux gurus have to say. A brief googling and I found <a href="http://kerneltrap.org/node/6884">this</a>. On the one hand are noticeable advantages: better design, formalized structure of the code, the C programming language, but you can feel that community fears and feared that the &ldquo;standard&rdquo; will be used in an inappropriate manner. Therefore, I regularly read <a href="http://lwn.net/">LWN</a> RSS feeds, and it seems that on the horizon you can see already the first ideas on how to use UEFI to limit freedom. You can read about it in this article: <a href="http://lwn.net/Articles/475359/">&ldquo;SFLC: Microsoft confirms UEFI fears, locks down ARM devices&rdquo;</a>.</p>
-
-<p>Personally, I really do not like it, because I believe that everyone who buys the equipment has the right to exploit its capabilities in such a manner it deems appropriate.</p>
-
-<p>Of course, as usual, I change the subject. I wanted to write about the project <a href="http://sourceforge.net/apps/mediawiki/tianocore/index.php?title=Welcome">TianoCore</a>, which is an open source implementation of UEFI implemented by Intel. When you do not have the strength nor the resources to fight the system, use the system to gather strength and resources, and then start fighting. So in the next post I will try to describe my first experience with <a href="http://sourceforge.net/apps/mediawiki/tianocore/index.php?title=EDK2">EDKII</a> in emulated environment of QEMU.</p>
+<p>  <a href="http://rospo.net/webproducts/name/index.php">http://rospo.net/webproducts/name/index.php</a></p>
 </div>
   
   
@@ -127,7 +123,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/01/09/my-view-for-silver-perspective/">My view for silver perspective</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/02/19/improve-productivity-by-tracking-work/">Improve productivity by tracking work environment with git - preparation</a></h1>
     
     
       <p class="meta">
@@ -143,20 +139,48 @@
   
 
 
-<time datetime="2012-01-09T22:31:00+01:00" pubdate data-updated="true">Jan 9<span>th</span>, 2012</time>
+<time datetime="2012-02-19T21:12:00+01:00" pubdate data-updated="true">Feb 19<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>In the morning when reading RSS feeds (I should think about placing its list somewhere on the blog) from several sources the information came to me that silver is highly underrated recent times. I try to carefully analyze such information, despite the fact that I use more of niche sources of information and what is in them is served rather carefully selected. Although I looked at this subject a little closer.</p>
+  <div class="entry-content"><p><em>Update</em>: My repository is available
+<a href="https://github.com/pietrushnic/workspace.git">here</a>.</p>
 
-<p>One of the factors that should be taken into account is the silver to gold ratio. It is said that historically it was 16, or 16 ounces of silver buys one ounce of gold. In view of the massive derivatives trading, selling certificates based on complex rules (that basically said &ldquo;do not try to take this physical&rdquo;), the silver market manipulation and the like rip accounting, the ratio is 3-4 times higher. After reading information about undervalued silver I looked at my favorite website provides charts <a href="http://stockcharts.com/h-sc/ui">stockcharts.com</a> and yesterday I checked, this ratio it was 56 and today fallen slightly due to movements in silver. Six months ago this ratio was below 40. What I learn until now silver reacts slower than gold and gold is taking action now. When I check stockcharts before New Year I found out that price per kilogram of gold was about 38 000 euro. Right now it is 41 100 and seems still rise. Silver seemed to wondering all the moves, and this morning took off. At the same time when I check gold silver became the shockingly low price of 663 euros per kilo. The new year saw a jump to level 730 and it looks like that this morning go after gold and now cost 760.</p>
+<p>Below is first post from series in which I want to describe my experience gained
+in attempt to enhance my productivity by using git to control the contents of
+some files in my home directory. The first step to improve the productivity
+is good organization of working environment. It happens very often that I work
+on multiple machines both physical and virtual. Therefore I need a
+good mechanism to share knowledge, experience, code, configuration and many
+other things. Configuration described below is only an example that actually
+fits my way of working.  First of all simple concept of directory structure is
+needed. Let&rsquo;s start with:</p>
 
-<p>We&rsquo;ll see how strong it will move. From a technical point of view, per half year MACD is narrow, and the RSI is equal to 54 and is far from the area to buy. Moving averages of 50 and 200 are to each other in nearly parallel position and technically in the next few months should not be anything happening. The three-year term MACD lines have not yet crossed, RSI is less than 50 recent declines lasted too short to harm long distance running averages of 50 and 200 on a 3-year chart.</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir -p $HOME/workspace/blog;mkdir -p $HOME/workspace/dotfiles
+</span><span class='line'>cd workspace </span></code></pre></td></tr></table></div></figure>
 
-<p>Precisely because there is little evidence for any event you may receive move. Of course, seriously people know that long-term perspective and fundamental considerations leave no doubt that the bull will have long reigned in the areas of commodity. While speculation is paper, and this can lead astray careless player.</p>
+
+<p>Write some files (i.e. for your blog) with your favourite editor, initialize
+repository and prepare first commit</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git init
+</span><span class='line'>git add .;git commit -m "Initial commit for environment tracking" </span></code></pre></td></tr></table></div></figure>
+
+
+<p>To avoid information about untracked vim swp files add $HOME/workspace/.gitignore with following content:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.gitignore
+</span><span class='line'>*.swp</span></code></pre></td></tr></table></div></figure>
+
 </div>
   
   
@@ -169,7 +193,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/01/09/ideas-for-development/">Ideas for development</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/02/15/set-irssi-under-debian-to-use-freenode/">Set irssi under debian to use freenode server</a></h1>
     
     
       <p class="meta">
@@ -185,23 +209,33 @@
   
 
 
-<time datetime="2012-01-09T22:24:00+01:00" pubdate data-updated="true">Jan 9<span>th</span>, 2012</time>
+<time datetime="2012-02-15T20:25:00+01:00" pubdate data-updated="true">Feb 15<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>All the time come to my mind new ideas about what could be added to the blog and what information to post. I&rsquo;m interested in so many things that many of the ideas are killed before reaching the plane of the keyboard and has no chance to be introduced even as a draft to the blog. It seems that for myself I should store ideas for development in order to easily return to them when ripe.</p>
+  <div class="entry-content"><p>Very short manual on how to set up irssi to work with freenode servers.<br/>
+Fist, install irssi:</p>
 
-<ol>
-<li>I want occasionally write something about the commodity markets, however, I&rsquo;m interested in it very briefly, because only about a year it seems to me that sometimes I have something to say.</li>
-<li>I begin learning about the <a href="http://www.uefi.org/home/">UEFI</a> environment and, therefore, that I am an advocate of freedom in the broad sense of the word, I would like to refer to this solution. I also want to understand the advantages and disadvantages of this solution in the context of freedom and relate them to other solutions such as <a href="http://www.coreboot.org/Welcome_to_coreboot">coreboot</a>.</li>
-<li>I would also like to implement a section that could be titled &ldquo;what I&rsquo;m interested now ?&rdquo;, &ldquo;what I read now?&rdquo; and &ldquo;what was last seen?&rdquo;</li>
-</ol>
+<p>sudo apt-get install irssi Run:</p>
 
+<p>irssi For freenode write:</p>
 
-<p>I would like to set a specific time for blogging during the week, what with certainty contribute to faster realization of these ideas.</p>
+<p>/connect holmes.freenode.net Send register command for youe {nickname} and add information about your {e-mail}:</p>
+
+<p>/msg nickserv register {nickname} {e-mail} Copy and paste line, which you get from freenode registration server to your mailbox, to irssi. After that add freenode network:</p>
+
+<p>/network add freenode Add what should be automaticali send to server after connecting, remeber to correctly write your {nickname} and {password}, password will be stored in plain text:</p>
+
+<p>/network add -autosendcmd &lsquo;^nick {nickname};/msg nickserv identify {password}&rsquo; freenode Auto-connect everytime when irssi will be run:</p>
+
+<p>/server ADD -auto -network freenode holmes.freenode.net 6667 Channel autologin:</p>
+
+<p>/channel ADD -auto #debian freenode After all we should save settings:</p>
+
+<p>/save That&rsquo;s all, enjoy!</p>
 </div>
   
   
@@ -221,7 +255,7 @@
 </div>
 <aside class="sidebar">
   
-    Included file &#8216;custom/asides/projects.html&#8217; not found in _includes directory<section>
+    <section>
   <h1>About Me</h1>
   <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I&#8217;m a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
   </p>
@@ -229,6 +263,14 @@
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/30/how-to-use-google-search-activity-to-improve-productivity/">Improve productivity with Goolge history using bookmarks and Chrome extensions</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/14/build-and-run-ovmf-under-qemu/">Build and run OVMF under Qemu</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/06/07/root-file-system-for-embedded-system/">0x6: Root file system for embedded system</a>
@@ -240,14 +282,6 @@
     
       <li class="post">
         <a href="/blog/2013/06/07/linux-kernel-for-embedded-system/">0x4: Linux kernel for embedded system</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a>
       </li>
     
   </ul>

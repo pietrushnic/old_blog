@@ -4,7 +4,7 @@
   <title><![CDATA[Category: productivity | pietrushnic's world]]></title>
   <link href="http://pietrushnic.github.io/blog/categories/productivity/atom.xml" rel="self"/>
   <link href="http://pietrushnic.github.io/"/>
-  <updated>2013-07-28T09:19:59+02:00</updated>
+  <updated>2013-08-01T04:50:51+02:00</updated>
   <id>http://pietrushnic.github.io/</id>
   <author>
     <name><![CDATA[pietrushnic]]></name>
@@ -12,6 +12,154 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Improve productivity with Goolge history using bookmarks and Chrome extensions]]></title>
+    <link href="http://pietrushnic.github.io/blog/2013/07/30/how-to-use-google-search-activity-to-improve-productivity/"/>
+    <updated>2013-07-30T02:40:00+02:00</updated>
+    <id>http://pietrushnic.github.io/blog/2013/07/30/how-to-use-google-search-activity-to-improve-productivity</id>
+    <content type="html"><![CDATA[<h2>Introduction</h2>
+
+<p>The idea of this post is very simple (as usually)  and I wonder why I didn&rsquo;t thought
+about it earlier. The point is to use history of your Google queries to improve
+productivity. Most of things that we google can be replaced for example by browser
+extensions, bookmarks or rss feeds. Thats how we can gain few additional free seconds on
+each google-type-click cycle.</p>
+
+<h2>Statistics</h2>
+
+<p>Depending on different factors we spend a lot of time in browser. I cannot find
+statistics for desktops but for mobile <a href="http://blog.flurry.com/bid/95723/Flurry-Five-Year-Report-It-s-an-App-World-The-Just-Web-Lives-in-It">Flurry</a>
+researches are probably relevant enough. Simplifying this statistics and assuming that desktop market
+is similar (it is probably to big simplification for some of you but IMHO it is
+good for reflections on this blog):</p>
+
+<ul>
+<li>access Facebook, social networks (+18%, +6%)</li>
+<li>play some games (<a href="http://allthingsd.com/20130325/a-look-ahead-at-gdc-its-mobile-vs-consoles-in-fight-for-game-developers-attention/">lets say 30%</a> of our 32% from Flurry report +13%)</li>
+<li>web browsing time (+20%)</li>
+<li>entertain</li>
+<li>read news</li>
+<li>use productivity tools</li>
+</ul>
+
+
+<p>We have at least 60 percent of our time in web browser. That&rsquo;s explain Google&rsquo;s
+ideas about ChromOS and competition on browser market. Of course if take look a
+this in short therm it look ridiculous but in long term it may be true. Even if this estimation
+not match your behavior than ask yourself what percentage of time spent in
+browser proves that improving productivity using google queries data does not
+make sense ? Especially when doing this will not consume lot of your time.</p>
+
+<h2>Productivity improvements based on my google history</h2>
+
+<p>Below I will show how I improve my productivity using top queries and top sites
+from <a href="https://history.google.com/history/">google history</a>. These are my results
+that I found after choosing <code>Show more trends</code>:</p>
+
+<h3>Top queries</h3>
+
+<ol>
+<li><code>ztm gdańsk</code>          &ndash; public transportation in my home town</li>
+<li><code>usdpln</code>              &ndash; Polish Zloty to US Dollar rate</li>
+<li><code>rozkład jazdy pkp</code>   &ndash; Polish state railways schedule</li>
+<li><code>intc</code>                &ndash; Intel Corporation stocks rate</li>
+<li><code>radio polska stacja</code> &ndash; Polish Internet radio station</li>
+</ol>
+
+
+<p>First of all I was surprised that I googled these things so many times. Especially
+for point 5 :). To improve my daily routine with these data I use following
+applications:</p>
+
+<h4>Public transporation</h4>
+
+<p>I used well known Polish application for public transpiration in biggest cities
+&ndash; <a href="http://jakdojade.pl/">jakdojade.pl</a>. If you register on their page they give
+you possibility to save travel directions, so I used it to save my common
+destinations. Of course I put it on my bookmark bar as it is one of the most
+used links.</p>
+
+<h4>Currency ratio</h4>
+
+<p>After thinking a while I realize that few requirements have to be met for me.
+I need below fields:</p>
+
+<ul>
+<li>USD/PLN rate</li>
+<li>EUR/PLN rate</li>
+<li>gold ounce in US Dollars or XAUUSD</li>
+<li>silver ounce in US Dollars or XAGUSD</li>
+</ul>
+
+
+<p>Unfortunately I was unhappy with choice presented on Chrome extension site
+because I find that it is not easy to met my expectations &ndash; this is probably
+market niche to explore. For today I choose <a href="https://chrome.google.com/webstore/detail/currency-converter/lncdobdbibdgoiohgnflmjajfphcnakg">Currency Converter</a>.
+It has pretty good rate 4.5 star/444 opinions. One thing I don&rsquo;t like is that I
+cannot set every field as I wish. Ratio always relate to recent changed position.
+I also cannot display stock rate. That&rsquo;s why I will have to use one another
+extension.</p>
+
+<h4>Railways schedule</h4>
+
+<p>Right now there is nothing I can do for this one than adding to bookmark bar as
+a recently visited site.</p>
+
+<h4>Stocks ticker</h4>
+
+<p>There are plenty of extensions for Chrome and not a lot of really good one. I
+found <a href="https://chrome.google.com/webstore/detail/stock-tracker/gphdmnilpmjaioploikmbpgkjfbagidf">Stock Tracker</a>
+useful because it shows price in the icon on toolbar. But it is not free from
+small bugs, for example INTC price is 4 digit with dot (00.00) and inadequate
+font size selection causing that last digit is visible only in half, which cause
+it hard to read. Good thing is that after pushing extension button on toolbar I
+get stock chart and can see the trend.</p>
+
+<h3>Top sites</h3>
+
+<ol>
+<li><code>stackoverflow.com</code></li>
+<li><code>en.wikipedia.org</code></li>
+<li><code>github.com</code></li>
+<li><code>www.chessgames.com</code></li>
+<li><code>pl.wikipedia.org</code></li>
+</ol>
+
+
+<p>Probably most of this pages are well known for you. What we can do with this
+information ?</p>
+
+<p>For
+<a href="https://chrome.google.com/webstore/detail/lookup-companion-for-wiki/dhgpkiiipkgmckicafkhcihkcldbdeej">wiki</a> and <a href="https://chrome.google.com/webstore/detail/search-stackoverflow/gmdolelhfhbldobljhbhdgljbajhfilj">stackoverflow</a> there are extensions that help get search engine of
+those sites. I found that usually google +stockoverflow works better than this
+extension but it is worth a try. Wiki works without any problem and only our
+habits can stop us by using it.</p>
+
+<p>I use a lot of <a href="http://www.chess.com">chess.com</a> what I found useful with this
+is <a href="https://chrome.google.com/webstore/detail/chesscom-notifier/khihkgdcfbjdnfgalkjnimbmofnhhpho">Chess.com Notifier</a>
+it change color when some pending move in my games. Unfortunately I get to
+<a href="http://www.chessgames.com">www.chessgames.com</a> though google looking for
+particular position in game &ndash; right now I can&rsquo;t find easy way to improve this
+other than paying for access to good database with defined interface or using my
+own database.</p>
+
+<p>I&rsquo;m sure that you have some clues how to improve your productivity using Google
+history or you will find application for suggested plugins. Anyway, I whish you
+good luck.</p>
+
+<h2>At the end &ndash; the hard thing</h2>
+
+<p>Switching our behaviors to something different is really hard thing. If we
+always go to google and type well know query and trying to switch to something
+new like replacing this behavior with clicking link or running extension could
+be hard. This new action at the begging can be even slower than old. That&rsquo;s why
+people resign after few tries. Most people also don&rsquo;t like changes as adage said
+&ldquo;better the devil you know&rdquo;. However only those who try to change something in
+their lives can reach success. And as story of Thomas Edison proves you have to
+try.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Workflow imporovement with Open Source tools - part 1]]></title>
@@ -491,33 +639,6 @@ with:
 <code>bash
 call pathogen#incubate() in $HOME/.vimrc fix the problem.
 </code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Vim as a Blogger editor]]></title>
-    <link href="http://pietrushnic.github.io/blog/2012/04/21/vim-as-blogger-editor_21/"/>
-    <updated>2012-04-21T12:55:00+02:00</updated>
-    <id>http://pietrushnic.github.io/blog/2012/04/21/vim-as-blogger-editor_21</id>
-    <content type="html"><![CDATA[<p>  <a href="https://github.com/ujihisa/blogger.vim">Blogger.vim</a> is a vim plugin for interfacing with Google&rsquo;s Blogger. Below I will use my workspace git <a href="https://github.com/pietrushnic/workspace">repository</a>. To use this plugin we need pretty new ruby >= 1.9.2 and gems nokogiri and net-https-wrapper. Let&rsquo;s install latest possible ruby for Debian, before that make sure you have latest updates:</p>
-
-<p>sudo apt-get update sudo apt-get upgrade sudo apt-get dist-upgrade And ruby:</p>
-
-<p>sudo apt-get install ruby1.9.3 Before we install gems , we need to resolve some dependencies:</p>
-
-<p>sudo apt-get install libxml2-dev libxslt1-dev Latest nokogiri 1.5.2 have some issues, so we need to use 1.5.0 which is stable:</p>
-
-<p>sudo gem install nokogiri &mdash;version 1.5.0 And the wrapper for <a href="https:">https:</a></p>
-
-<p>sudo gem install net-https-wrapper Finally also pandoc will be neded to display web pages in vim:</p>
-
-<p>sudo apt-get install pandoc Right now we are able to run vim with blogger support. First we need to configure vim, add below lines to your $HOME/.vimrc file:</p>
-
-<p>let g:blogger_blogid = &lsquo;your_blogid_here&rsquo; let g:blogger_email = &lsquo;your_email_here&rsquo; let g:blogger_pass = &lsquo;your_blogger_password_here&rsquo; Run vim and try to list your blogger posts by typing:</p>
-
-<p>:e blogger:list If list of you see all your posts than it seems that plugin works good. Finally check writing feature. Create file with some text and type:</p>
-
-<p>:w blogger:create Few things doesn&rsquo;t work as it should. Meybe I will find enough time to fix it. This article was created by using blogger.vim script.</p>
 ]]></content>
   </entry>
   
