@@ -7,7 +7,8 @@ sharing: true
 footer: true
 ---
 ### Preface ###
-Below I want to describe few projects that I'm or I was involved.
+Below I want to describe few projects that I'm or I was involved. This is work 
+in progress page, so please be kind :).
 
 ### Bonbonier ###
 **_Description:_** [Bonbonier](https://play.google.com/store/apps/details?id=pl.bonbonier&feature=search_result#?t=W251bGwsMSwxLDEsInBsLmJvbmJvbmllciJd) 
