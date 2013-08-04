@@ -19,13 +19,13 @@ create own blog.
 </br>
 #### Where you can find me ? ####
 
-* [G+](https://plus.google.com/u/0/115979497998056410813/posts)
-* [Twitter](https://twitter.com/pietrushnic)
-* [Twitter.pl](https://twitter.com/pietrushnic_pl)
-* [linked.in](http://www.linkedin.com/profile/view?id=173373465&trk=tab_pro)
-* [github](https://github.com/pietrushnic)
-* [Blogger](http://pietrushnic.blogspot.com/) - Old profile
-* [e-mail](mailto:pietrushnic@gmail.com)
+[<img src="/assets/images/icons/glyphicons_social_02_google_plus.png">](https://plus.google.com/u/0/115979497998056410813/posts)
+[<img src="/assets/images/icons/glyphicons_social_31_twitter.png">](https://twitter.com/pietrushnic)
+[<img src="/assets/images/icons/glyphicons_social_31_twitter.png">](https://twitter.com/pietrushnic_pl)
+[<img src="/assets/images/icons/glyphicons_social_17_linked_in.png" >](http://www.linkedin.com/in/krolpiotr)
+[<img src="/assets/images/icons/glyphicons_social_21_github.png" >](https://github.com/pietrushnic)
+[<img src="/assets/images/icons/glyphicons_social_05_blogger.png" >](http://pietrushnic.blogspot.com/)
+[<img src="/assets/images/icons/glyphicons_social_39_e-mail.png">](mailto:pietrushnic@gmail.com)
 
 #### Why I write blog ? ####
 This idea born when I realize that I have to repeat some things because my 
