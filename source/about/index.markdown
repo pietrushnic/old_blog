@@ -19,13 +19,14 @@ create own blog.
 </br>
 #### Where you can find me ? ####
 
-[<img src="/assets/images/icons/glyphicons_social_02_google_plus.png">](https://plus.google.com/u/0/115979497998056410813/posts)
-[<img src="/assets/images/icons/glyphicons_social_31_twitter.png">](https://twitter.com/pietrushnic)
-[<img src="/assets/images/icons/glyphicons_social_31_twitter.png">](https://twitter.com/pietrushnic_pl)
-[<img src="/assets/images/icons/glyphicons_social_17_linked_in.png" >](http://www.linkedin.com/in/krolpiotr)
-[<img src="/assets/images/icons/glyphicons_social_21_github.png" >](https://github.com/pietrushnic)
-[<img src="/assets/images/icons/glyphicons_social_05_blogger.png" >](http://pietrushnic.blogspot.com/)
-[<img src="/assets/images/icons/glyphicons_social_39_e-mail.png">](mailto:pietrushnic@gmail.com)
+[<img src="/assets/images/icons/glyphicons_social_02_google_plus.png" title="G+">](https://plus.google.com/u/0/115979497998056410813/posts)
+[<img src="/assets/images/icons/glyphicons_social_31_twitter.png" title="Twitter">](https://twitter.com/pietrushnic)
+[<img src="/assets/images/icons/glyphicons_social_31_twitter.png" title="Twitter PL">](https://twitter.com/pietrushnic_pl)
+[<img src="/assets/images/icons/glyphicons_social_17_linked_in.png" title="LinkedIn">](http://www.linkedin.com/in/krolpiotr)
+[<img src="/assets/images/icons/glyphicons_social_21_github.png" title="Github">](https://github.com/pietrushnic)
+[<img src="/assets/images/icons/glyphicons_social_22_youtube.png" title="Youtube">](http://www.youtube.com/user/pietrushnic)
+[<img src="/assets/images/icons/glyphicons_social_05_blogger.png" title="Blogger">](http://pietrushnic.blogspot.com/)
+[<img src="/assets/images/icons/glyphicons_social_39_e-mail.png" title="e-mail">](mailto:pietrushnic@gmail.com)
 
 #### Why I write blog ? ####
 This idea born when I realize that I have to repeat some things because my 
