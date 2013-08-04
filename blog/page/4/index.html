@@ -9,8 +9,8 @@
   <meta name="author" content="pietrushnic">
 
   
-  <meta name="description" content="My story was that I migrate to new environment and want to recover my octopress
-setup. I thought that it will be as simple as cloning my blog github &hellip;">
+  <meta name="description" content="Introduction I want to start a series of articles to describe how I improve my workflow with
+geeky Open Source applications. I will concentrate on &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,70 +80,6 @@ setup. I thought that it will be as simple as cloning my blog github &hellip;">
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/16/octopress-depoying-problem-after-migrating-to-star-dot-github-dot-io/">Octopress depoying problem after migrating to *.github.io</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-16T22:20:00+02:00" pubdate data-updated="true">May 16<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>My story was that I migrate to new environment and want to recover my octopress
-setup. I thought that it will be as simple as cloning my blog github repository
-and start to work.</p>
-
-<p>First problem that I experienced was lack of octopress repository as a remote
-branch &ndash; it is required to update your ocotpress blog to latest code. Fix was
-simple:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git remote add octopress git://github.com/imathis/octopress.git</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After updating my blog I tried to deploy new article and I get:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>## Pushing generated _deploy website
-</span><span class='line'>ERROR: Repository not found.
-</span><span class='line'>fatal: The remote end hung up unexpectedly</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I figured out that my github pages were incorrectly set, so I run <code>rake
-setup_github_pages</code>. If you&rsquo;re user of github pages long enough you know that
-few weeks ago github decide to migrate domain from <code>*.github.com</code> to
-<code>*.github.io</code>. So I followed instructions in setup process and used <code>io</code> domain,
-this is incorrect. If you have github repository for your pages with <code>com</code> in
-name you should use your orginal repository address. Repository was not changed.
-This is obvious but I lost few minutes to figure out whats going on.</p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -579,6 +515,285 @@ productivity using open source tools.</p>
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/06/tmux/">Tmux as screen replacement and productivity accelerator</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-06T05:29:00+02:00" pubdate data-updated="true">Apr 6<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>As I wrote in <a href="/blog/2013/03/19/debian-switching-to-unstable">previous post</a> I
+switched from GNU screen to <a href="http://tmux.sourceforge.net">tmux</a>. I use it for a
+few moths and have to said that I&rsquo;m really impressed by simplicity, performance
+and community support in this project. In this post I want to discuss my
+configuration and useful additions for it like tmuxinator, session logging,
+colors or status bar configuration.</p>
+
+<h3>Basics</h3>
+
+<p>Debian contain <code>tmux</code> package but for stable and testing release it is pretty
+old version. Personally I use <code>unstable</code> version where <code>tmux</code> was delivered in
+<code>1.7~svn2819-1</code> version.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install tmux</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To start session simply type <code>tmux</code>. Tmux uses <code>C-b</code>/ <code>Ctrl-b</code> as a prefix for
+commands. If you switch from GNU screen then at the beginning you can experience
+some annoying situations but after few days everything should back to normal.</p>
+
+<p>Most used keybiddings:</p>
+
+<ul>
+<li><code>C-b c</code> &ndash; create new window</li>
+<li><code>C-b ,</code> &ndash; rename current window</li>
+<li><code>C-b n</code> &ndash; next window</li>
+<li><code>C-b p</code> &ndash; previous window</li>
+<li><code>C-b l</code> &ndash; last window</li>
+<li><code>C-b d</code> &ndash; disconnect</li>
+<li><code>C-b k</code> &ndash; kill current window</li>
+<li><code>C-b K</code> &ndash; kill tmux server</li>
+<li><code>C-b [</code> &ndash; enter copy mode</li>
+<li><code>C-b ]</code> &ndash; paste last copied buffer</li>
+<li><code>C-b :</code> &ndash; tmux command line</li>
+<li><code>C-b w</code> &ndash; windows list</li>
+<li><code>C-b ?</code> &ndash; help</li>
+</ul>
+
+
+<p>Full list can be found <a href="http://www.openbsd.org/cgi-bin/man.cgi?query=tmux&amp;sektion=1#KEY+BINDINGS">here</a>.</p>
+
+<h3>Configuration</h3>
+
+<p>Tmux keeps its configuration in <code>$HOME/.tmux.conf</code>. My configuration mixes
+some tmux examples with code that I found in the net. This file can be found on
+my github repository <a href="https://github.com/pietrushnic/workspace/blob/master/dotfiles/tmux.conf">here</a>. First section contain some general configuration:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># confirm before killing a window or the server
+</span><span class='line'>bind-key k confirm kill-window
+</span><span class='line'>bind-key K confirm kill-server
+</span><span class='line'>
+</span><span class='line'># toggle statusbar
+</span><span class='line'>bind-key b set-option status
+</span><span class='line'>
+</span><span class='line'># ctrl+left/right cycles thru windows
+</span><span class='line'>bind-key -n C-right next
+</span><span class='line'>bind-key -n C-left prev
+</span><span class='line'>
+</span><span class='line'># scrollback buffer n lines
+</span><span class='line'>set -g history-limit 10000
+</span><span class='line'>
+</span><span class='line'># listen for activity on all windows
+</span><span class='line'>set -g bell-action any
+</span><span class='line'>
+</span><span class='line'># on-screen time for display-panes in ms
+</span><span class='line'>set -g display-panes-time 2000
+</span><span class='line'>
+</span><span class='line'># start window indexing at one instead of zero
+</span><span class='line'>set -g base-index 1
+</span><span class='line'>
+</span><span class='line'># enable wm window titles
+</span><span class='line'>set -g set-titles on
+</span><span class='line'>
+</span><span class='line'># wm window title string (uses statusbar variables)
+</span><span class='line'>set -g set-titles-string "tmux.#I.#W"
+</span><span class='line'>
+</span><span class='line'># statusbar 
+</span><span class='line'>set -g display-time 2000</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After that I have implemented <a href="http://ethanschoonover.com/solarized">solarized</a> colors (dark theme):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>### COLOUR (Solarized dark)
+</span><span class='line'>
+</span><span class='line'># default statusbar colors
+</span><span class='line'>set-option -g status-bg black #base02
+</span><span class='line'>set-option -g status-fg yellow #yellow
+</span><span class='line'>set-option -g status-attr default
+</span><span class='line'>
+</span><span class='line'># default window title colors
+</span><span class='line'>set-window-option -g window-status-fg brightblue #base0
+</span><span class='line'>set-window-option -g window-status-bg default
+</span><span class='line'>#set-window-option -g window-status-attr dim
+</span><span class='line'>
+</span><span class='line'># active window title colors
+</span><span class='line'>set-window-option -g window-status-current-fg brightred #orange
+</span><span class='line'>set-window-option -g window-status-current-bg default
+</span><span class='line'>#set-window-option -g window-status-current-attr bright
+</span><span class='line'>
+</span><span class='line'># use vi-like keys
+</span><span class='line'>setw -g mode-keys vi
+</span><span class='line'>
+</span><span class='line'># pane border
+</span><span class='line'>set-option -g pane-border-fg black #base02
+</span><span class='line'>set-option -g pane-active-border-fg brightgreen #base01
+</span><span class='line'>
+</span><span class='line'># message text
+</span><span class='line'>set-option -g message-bg black #base02
+</span><span class='line'>set-option -g message-fg brightred #orange
+</span><span class='line'>
+</span><span class='line'># pane number display
+</span><span class='line'>set-option -g display-panes-active-colour blue #blue
+</span><span class='line'>set-option -g display-panes-colour brightred #orange</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To make solarized colors work on my setup was quite challenging, because there
+are many things to set (vim, terminal, putty etc.). If you need any advice I can
+write something about this. Right now it is beyond the scope of this post.</p>
+
+<p>At the end of my tmux configuration I&rsquo;ve some fancy status bar:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># clock
+</span><span class='line'>set-window-option -g clock-mode-colour green #green
+</span><span class='line'>
+</span><span class='line'># center align the window list
+</span><span class='line'>set -g status-justify centre
+</span><span class='line'>
+</span><span class='line'># show some useful stats but only when tmux is started 
+</span><span class='line'># outside of Xorg, otherwise dwm statusbar shows these already
+</span><span class='line'>set -g status-right ""
+</span><span class='line'>set -g status-left ""
+</span><span class='line'>if '[ -z "$DISPLAY" ]' 'set -g status-left "[#[fg=green] #H ][#[default]]"'
+</span><span class='line'>if '[ -z "$DISPLAY" ]' 'set -g status-right "[ #[fg=magenta]#(cat /proc/loadavg | cut -d \" \" -f 1,2,3)#[default] ][ #[fg=cyan,bright]%a %Y-%m-%d %H:%M #[default]]"'
+</span><span class='line'>if '[ -z "$DISPLAY" ]' 'set -g status-right-length 50'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I think that mostly this is self explanatory. This how it look in work:
+<a href="/assets/images/tmux-screen.png"><img class="center" src="/assets/images/tmux-screen.png" width="300" height="400"></a></p>
+
+<h3>tmuxinator</h3>
+
+<p>I spend some time to realize what is the best way of managing windows and panes
+in tmux. Especially I was interested in setting some windows at tmux startup.
+Finally I found <a href="https://github.com/aziz/tmuxinator">tmuxinator</a> small but useful
+project delivered through <code>gem</code> system. Follow tmuxinator page to set it up
+correctly. If you want to see my primitive configuration it is also available on
+my github in <a href="https://github.com/pietrushnic/workspace/blob/master/dotfiles/tmux.conf">werkspace project</a>.</p>
+
+<h3>Window logging</h3>
+
+<p>Last hint I found on this
+<a href="http://0xfeedface.org/blog/lattera/2012-03-19/using-tmux-screencasting-tool">blog</a>.
+How to log your work in console for example to write a blog post :) ? There is a
+universal method for piping all console output to our program of choice. For
+example run command like this (command mode available under <code>C-b :</code>):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pipe-pane -o 'cat &gt;&gt; ~/tmuxcast.#h.#T'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will give you file with logged session output (all curses windows, editor
+windows and so on). Curses output can be unreadable because of control escape
+sequences. Use <code>cat</code> it will interpret escape sequences in terminal.</p>
+
+<p>As always I hope hints were useful. Please share this content if think its
+valuable. Comment if you think id needs improvements. Thank you for reading.</p>
+
+<p>P.S. I should probably create a footer with last paragraph :)</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -593,8 +808,19 @@ productivity using open source tools.</p>
   
     <section>
   <h1>About Me</h1>
-  <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I&#8217;m a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
+  <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król
+  by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland.
+  I&#8217;m a freedom and liberty enthusiast with broad range of interests begining 
+  with linux, through austrian economics and ending with bridge. If you want to 
+  read more extroverted idle talk about me take a look <a href=/about >here</a>.
   </p>
+  <a href="https://plus.google.com/u/0/115979497998056410813/posts/p/pub"><img src="/assets/images/icons/glyphicons_social_02_google_plus.png" title="G+"></a>
+  <a href="https://twitter.com/pietrushnic"><img src="/assets/images/icons/glyphicons_social_31_twitter.png"  title="Twitter"></a>
+  <a href="http://pietrushnic.blogspot.com/"><img src="/assets/images/icons/glyphicons_social_05_blogger.png"  title="Blogger"></a>
+  <a href="https://github.com/pietrushnic"><img src="/assets/images/icons/glyphicons_social_21_github.png"  title="Github"></a>
+  <a href="http://www.youtube.com/user/pietrushnic"><img src="/assets/images/icons/glyphicons_social_22_youtube.png"  title="Youtube"></a>
+  <a href="http://www.linkedin.com/in/krolpiotr"><img src="/assets/images/icons/glyphicons_social_17_linked_in.png"  title="LinkedIn"></a>
+  <a href="mailto:pietrushnic@gmail.com"><img src="/assets/images/icons/glyphicons_social_39_e-mail.png" title="e-mail"></a>
 </section>
 <section>
   <h1>Recent Posts</h1>
@@ -602,10 +828,6 @@ productivity using open source tools.</p>
     
       <li class="post">
         <a href="/blog/2013/07/30/how-to-use-google-search-activity-to-improve-productivity/">Improve productivity with Goolge history using bookmarks and Chrome extensions</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/14/build-and-run-ovmf-under-qemu/">Build and run OVMF under Qemu</a>
       </li>
     
       <li class="post">
@@ -618,6 +840,10 @@ productivity using open source tools.</p>
     
       <li class="post">
         <a href="/blog/2013/06/07/linux-kernel-for-embedded-system/">0x4: Linux kernel for embedded system</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
       </li>
     
   </ul>
@@ -653,16 +879,62 @@ productivity using open source tools.</p>
 </section>
 
 
+<section class="lastfm">
+<h1>Recently Scrobbled</h1>
+<style type="text/css">
+  #lastfmList li{ text-align: left; }
+</style>
+<ul id="lastfmList">
+  <li class="loading">Updating tracks&#8230;</li>
+</ul>
+<script lang="Javascript">
+    /*
+     * JavaScript Pretty Date
+     * Copyright (c) 2011 John Resig (ejohn.org)
+     * Licensed under the MIT and GPL licenses.
+     */
 
-<section class="googleplus">
-  <h1>
-    <a href="https://plus.google.com/pietrushnic@gmail.com?rel=author">
-      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
-      Google+
-    </a>
-  </h1>
+    // Takes an ISO time and returns a string representing how
+    // long ago the date represents.
+    function prettyDate(time){
+        diff = ((new Date()).getTime()/1000 - time),
+        day_diff = Math.floor(diff / 86400);
+
+      if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
+        return;
+
+/*      return day_diff == 0 && (
+          diff < 60 && "just now" ||
+          diff < 120 && "1 minute" ||
+          diff < 3600 && Math.floor( diff / 60 ) + " minutes" ||
+          diff < 7200 && "1 hour" ||
+          diff < 86400 && Math.floor( diff / 3600 ) + " hours") ||
+        day_diff == 1 && "Yesterday" ||
+        day_diff < 7 && day_diff + " days" ||
+        day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks";
+        */
+      return "just now"
+      }
+</script>
+<script lang="Javascript">
+    function showLastfmFeed(json){
+        if(json.recenttracks == 'undefined'){
+            return
+        }
+
+        var tracklist = document.getElementById('lastfmList'),
+            content = '';
+
+        $.each(json.recenttracks.track, function(i, track){
+            var interval = prettyDate(track.date['uts']);
+            content += '<li id="lastfmItem_'+i+'"><a href="'+ track.url + '">' + track.name +'</a> by '+ track.artist['#text'] + '<span class="date"> ' + interval  + ( interval == 'just now' ? '' :' ago') + '</span></li>';
+        });
+
+        tracklist.innerHTML = content;
+    }
+</script>
+<script lang="Javascript" src="http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=cl4sh&limit=5&api_key=caffa61565e03c9fc347fa409e20778f&format=json&callback=showLastfmFeed"></script>
 </section>
-
 
 
   

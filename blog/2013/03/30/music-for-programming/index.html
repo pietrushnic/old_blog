@@ -113,7 +113,7 @@ experience.</p>
 genre or artist and it will lead you through all variety of this type.
 unfortunately if you are fan of Iron Maiden, Blind Guardian, prog rock or
 irish folk you will be bored after 2 hours or less. Sadly not available in
-Poland :( &ndash; maybe some proxy will work but I wasn&rsquo;t able to find one.</li>
+Poland <i class='emoji disappointed'></i> &ndash; maybe some proxy will work but I wasn&rsquo;t able to find one.</li>
 <li><a href="http://www.kohina.com/">kohina/demo scene</a> &ndash; very good radio for long night
 coding sessions. I&rsquo;m not big fan of demo scene but I appreciate what guys do
 and did. And somtimes you will hit Super Mario or Contra theme.</li>
@@ -124,7 +124,7 @@ like to listen guys like <a href="http://www.progarchives.com/subgenre.asp?style
 <a href="http://www.explosionsinthesky.com/">Explosions In The Sky</a>, <a href="http://twdy.tumblr.com/">This Will Destroy You</a>,
 <a href="http://www.65daysofstatic.com/">65daysofstatic</a>, <a href="http://www.redsparowes.com/News.aspx">Red Sparowes</a> or even
 <a href="http://mogwai.sandbag.uk.com/lesrevenants/">Mogwai</a> or <a href="http://www.sigur-ros.co.uk/">Sigur Ros</a>.
-Very good for programming if you drink cofee/tea :)</li>
+Very good for programming if you drink cofee/tea <i class='emoji smile'></i></li>
 <li>movie soundtracks &ndash; This one I use when really need to concentrate
 especially when working daylight hours. What&rsquo;s best here most of people will
 agree that <a href="http://www.enniomorricone.it/uk/news.php">Ennio Moricone</a>, <a href="http://elsew.com/">Vangelis</a> and <a href="http://www.hans-zimmer.com/">Hans Zimmer</a>
@@ -134,7 +134,7 @@ hackers, its usually noisy and help me isolate from environment and
 concentrate on my work. I will said that if you like freaked electronics than
 you can try this.</li>
 <li><a href="http://www.shoutcast.com/Internet-Radio/drum%20and%20base">dnb</a> &ndash; if
-breakbeat is to hard for you try this :). This music tune me in channel of
+breakbeat is to hard for you try this <i class='emoji smile'></i>. This music tune me in channel of
 rhythmical work.</li>
 <li>When googling this topic I found <a href="http://musicforprogramming.net/">this site</a>
 it was worth to check. Some links are broken. Most of those playlists have too
@@ -143,7 +143,7 @@ low tempo for me.</li>
 
 
 <p>I can also suggest some Irish Folk influenced stuff if don&rsquo;t have &ldquo;The End is
-near&rdquo; wallpaper on your desktop :) There was a time when I was listen a lot of
+near&rdquo; wallpaper on your desktop <i class='emoji smile'></i> There was a time when I was listen a lot of
 psybient, but it is really hard to find good psychodelic ambient radio and this
 music is for me more like movie soundtracks I cannot listen it at night.
 Hope it will give some kind of direction. Let me know what you listen when coding.
@@ -210,8 +210,19 @@ Maybe I will discover new universe.</p>
   
     <section>
   <h1>About Me</h1>
-  <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I'm a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
+  <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król
+  by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland.
+  I'm a freedom and liberty enthusiast with broad range of interests begining 
+  with linux, through austrian economics and ending with bridge. If you want to 
+  read more extroverted idle talk about me take a look <a href=/about >here</a>.
   </p>
+  <a href="https://plus.google.com/u/0/115979497998056410813/posts/p/pub"><img src="/assets/images/icons/glyphicons_social_02_google_plus.png" title="G+"></a>
+  <a href="https://twitter.com/pietrushnic"><img src="/assets/images/icons/glyphicons_social_31_twitter.png"  title="Twitter"></a>
+  <a href="http://pietrushnic.blogspot.com/"><img src="/assets/images/icons/glyphicons_social_05_blogger.png"  title="Blogger"></a>
+  <a href="https://github.com/pietrushnic"><img src="/assets/images/icons/glyphicons_social_21_github.png"  title="Github"></a>
+  <a href="http://www.youtube.com/user/pietrushnic"><img src="/assets/images/icons/glyphicons_social_22_youtube.png"  title="Youtube"></a>
+  <a href="http://www.linkedin.com/in/krolpiotr"><img src="/assets/images/icons/glyphicons_social_17_linked_in.png"  title="LinkedIn"></a>
+  <a href="mailto:pietrushnic@gmail.com"><img src="/assets/images/icons/glyphicons_social_39_e-mail.png" title="e-mail"></a>
 </section>
 <section>
   <h1>Recent Posts</h1>
@@ -270,16 +281,62 @@ Maybe I will discover new universe.</p>
 </section>
 
 
+<section class="lastfm">
+<h1>Recently Scrobbled</h1>
+<style type="text/css">
+  #lastfmList li{ text-align: left; }
+</style>
+<ul id="lastfmList">
+  <li class="loading">Updating tracks...</li>
+</ul>
+<script lang="Javascript">
+    /*
+     * JavaScript Pretty Date
+     * Copyright (c) 2011 John Resig (ejohn.org)
+     * Licensed under the MIT and GPL licenses.
+     */
 
-<section class="googleplus">
-  <h1>
-    <a href="https://plus.google.com/pietrushnic@gmail.com?rel=author">
-      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
-      Google+
-    </a>
-  </h1>
+    // Takes an ISO time and returns a string representing how
+    // long ago the date represents.
+    function prettyDate(time){
+        diff = ((new Date()).getTime()/1000 - time),
+        day_diff = Math.floor(diff / 86400);
+
+      if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
+        return;
+
+/*      return day_diff == 0 && (
+          diff < 60 && "just now" ||
+          diff < 120 && "1 minute" ||
+          diff < 3600 && Math.floor( diff / 60 ) + " minutes" ||
+          diff < 7200 && "1 hour" ||
+          diff < 86400 && Math.floor( diff / 3600 ) + " hours") ||
+        day_diff == 1 && "Yesterday" ||
+        day_diff < 7 && day_diff + " days" ||
+        day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks";
+        */
+      return "just now"
+      }
+</script>
+<script lang="Javascript">
+    function showLastfmFeed(json){
+        if(json.recenttracks == 'undefined'){
+            return
+        }
+
+        var tracklist = document.getElementById('lastfmList'),
+            content = '';
+
+        $.each(json.recenttracks.track, function(i, track){
+            var interval = prettyDate(track.date['uts']);
+            content += '<li id="lastfmItem_'+i+'"><a href="'+ track.url + '">' + track.name +'</a> by '+ track.artist['#text'] + '<span class="date"> ' + interval  + ( interval == 'just now' ? '' :' ago') + '</span></li>';
+        });
+
+        tracklist.innerHTML = content;
+    }
+</script>
+<script lang="Javascript" src="http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=cl4sh&limit=5&api_key=caffa61565e03c9fc347fa409e20778f&format=json&callback=showLastfmFeed"></script>
 </section>
-
 
 
   

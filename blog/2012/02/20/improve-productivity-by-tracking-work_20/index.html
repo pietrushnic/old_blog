@@ -325,8 +325,19 @@ lines to .vimrc (9 = black)</li>
   
     <section>
   <h1>About Me</h1>
-  <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I'm a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
+  <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król
+  by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland.
+  I'm a freedom and liberty enthusiast with broad range of interests begining 
+  with linux, through austrian economics and ending with bridge. If you want to 
+  read more extroverted idle talk about me take a look <a href=/about >here</a>.
   </p>
+  <a href="https://plus.google.com/u/0/115979497998056410813/posts/p/pub"><img src="/assets/images/icons/glyphicons_social_02_google_plus.png" title="G+"></a>
+  <a href="https://twitter.com/pietrushnic"><img src="/assets/images/icons/glyphicons_social_31_twitter.png"  title="Twitter"></a>
+  <a href="http://pietrushnic.blogspot.com/"><img src="/assets/images/icons/glyphicons_social_05_blogger.png"  title="Blogger"></a>
+  <a href="https://github.com/pietrushnic"><img src="/assets/images/icons/glyphicons_social_21_github.png"  title="Github"></a>
+  <a href="http://www.youtube.com/user/pietrushnic"><img src="/assets/images/icons/glyphicons_social_22_youtube.png"  title="Youtube"></a>
+  <a href="http://www.linkedin.com/in/krolpiotr"><img src="/assets/images/icons/glyphicons_social_17_linked_in.png"  title="LinkedIn"></a>
+  <a href="mailto:pietrushnic@gmail.com"><img src="/assets/images/icons/glyphicons_social_39_e-mail.png" title="e-mail"></a>
 </section>
 <section>
   <h1>Recent Posts</h1>
@@ -385,16 +396,62 @@ lines to .vimrc (9 = black)</li>
 </section>
 
 
+<section class="lastfm">
+<h1>Recently Scrobbled</h1>
+<style type="text/css">
+  #lastfmList li{ text-align: left; }
+</style>
+<ul id="lastfmList">
+  <li class="loading">Updating tracks...</li>
+</ul>
+<script lang="Javascript">
+    /*
+     * JavaScript Pretty Date
+     * Copyright (c) 2011 John Resig (ejohn.org)
+     * Licensed under the MIT and GPL licenses.
+     */
 
-<section class="googleplus">
-  <h1>
-    <a href="https://plus.google.com/pietrushnic@gmail.com?rel=author">
-      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
-      Google+
-    </a>
-  </h1>
+    // Takes an ISO time and returns a string representing how
+    // long ago the date represents.
+    function prettyDate(time){
+        diff = ((new Date()).getTime()/1000 - time),
+        day_diff = Math.floor(diff / 86400);
+
+      if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
+        return;
+
+/*      return day_diff == 0 && (
+          diff < 60 && "just now" ||
+          diff < 120 && "1 minute" ||
+          diff < 3600 && Math.floor( diff / 60 ) + " minutes" ||
+          diff < 7200 && "1 hour" ||
+          diff < 86400 && Math.floor( diff / 3600 ) + " hours") ||
+        day_diff == 1 && "Yesterday" ||
+        day_diff < 7 && day_diff + " days" ||
+        day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks";
+        */
+      return "just now"
+      }
+</script>
+<script lang="Javascript">
+    function showLastfmFeed(json){
+        if(json.recenttracks == 'undefined'){
+            return
+        }
+
+        var tracklist = document.getElementById('lastfmList'),
+            content = '';
+
+        $.each(json.recenttracks.track, function(i, track){
+            var interval = prettyDate(track.date['uts']);
+            content += '<li id="lastfmItem_'+i+'"><a href="'+ track.url + '">' + track.name +'</a> by '+ track.artist['#text'] + '<span class="date"> ' + interval  + ( interval == 'just now' ? '' :' ago') + '</span></li>';
+        });
+
+        tracklist.innerHTML = content;
+    }
+</script>
+<script lang="Javascript" src="http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=cl4sh&limit=5&api_key=caffa61565e03c9fc347fa409e20778f&format=json&callback=showLastfmFeed"></script>
 </section>
-
 
 
   

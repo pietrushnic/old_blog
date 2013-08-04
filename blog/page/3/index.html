@@ -10,12 +10,8 @@
 
   
   <meta name="description" content="Table of contents Introduction
-What is toolchain ?
-Why we need cross-toolchain ?
-How to create toolchain ?
-Emdebian path
-Summary
-Kudos Introduction &hellip;">
+Compilation
+Kudos Introduction QEMU is a CPU emulator using dynamic binary translation to convert guest CPU &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,226 +81,6 @@ Kudos Introduction &hellip;">
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/07/toolchain-for-virtual-development-board/">0x2: Toolchain for Virtual Development Board</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-07T08:42:00+02:00" pubdate data-updated="true">Jun 7<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Table of contents</h2>
-
-<ul>
-<li><a href="/blog/2013/06/07/toolchain-for-virtual-development-board/#intro">Introduction</a></li>
-<li><a href="/blog/2013/06/07/toolchain-for-virtual-development-board/#what-is-toolchain">What is toolchain ?</a></li>
-<li><a href="/blog/2013/06/07/toolchain-for-virtual-development-board/#why-we-need-cross-toolchain">Why we need cross-toolchain ?</a></li>
-<li><a href="/blog/2013/06/07/toolchain-for-virtual-development-board/#how-to-create-toolchain">How to create toolchain ?</a></li>
-<li><a href="/blog/2013/06/07/toolchain-for-virtual-development-board/#emdebian-path">Emdebian path</a></li>
-<li><a href="/blog/2013/06/07/toolchain-for-virtual-development-board/#summary">Summary</a></li>
-<li><a href="/blog/2013/06/07/toolchain-for-virtual-development-board/#kudos">Kudos</a></li>
-</ul>
-
-
-<p><a id="intro"></a></p>
-
-<h3>Introduction</h3>
-
-<p>This is probably the most complicated topic of all related to embedded
-development but we need to deal with it at the beginning. I read a lot about
-toolchains but still don&rsquo;t know enough to explain details. I think that best
-answers are in crosstool-ng <a href="http://crosstool-ng.org/hg/crosstool-ng/file/0fc56e62cecf/docs">documentation</a>.</p>
-
-<p><a id="what-is-toolchain"></a></p>
-
-<h3>What is toolchain ?</h3>
-
-<p><em>Toolchain</em> as the name said is a set of tools chained together, so output of
-one tool is the input for different tool. This is well known concept in
-Linux (eg. pipes). In embedded environment toolchain is called cross-toolchain or
-cross-compiler, because usually it compiles on one architecture and generate
-code for another (eg. it compiles on x86 and generate code for arm)<a href="http://elinux.org/Toolchains">[1]</a>.</p>
-
-<p><a id="why-we-need-cross-toolchain"></a></p>
-
-<h3>Why we need cross-toolchain ?</h3>
-
-<p>I suspect that your laptop/PC is not based on ARM processor, most probably it based on
-x86 architecture so you cannot simply compile code and run it in our
-virtual-arm-based environment. To prepare operating system and tools for it we
-need cross-toolchain.</p>
-
-<p><a id="how-to-create-toolchain"></a></p>
-
-<h3>How to create toolchain ?</h3>
-
-<p>Process of creating cross-toolchain from scratch is not easy and takes some
-time. There are few other ways to get toolchain, than creating it from scratch.
-First we can use prebuilt toolchain providers like: <code>CodeSourcery</code>, <code>Linaro</code>, <code>DENX
-EDLK</code> or <code>Emdebian</code>. Second we can create toolchain using special building system like: <code>Buildroot</code>, <code>Crosstool-NG</code>
-or <code>Bitbake</code>. I will not deal with preparing toolchain in this series
-because procedure for creating it takes pretty long. So we have two options:</p>
-
-<ul>
-<li>read my article about <a href="/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi">Crosstool-NG arm-unknown-linux-gnueabi</a></li>
-<li>or install toolchain ready to use like <a href="http://www.emdebian.org/">Emdebian</a></li>
-</ul>
-
-
-<p><a id="emdebian-path"></a></p>
-
-<h4>Emdebian path</h4>
-
-<p>Add below lines to you <code>/etc/apt/sources.list</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>deb http://ftp.uk.debian.org/emdebian/toolchains unstable main
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Install Emdebian keys, update and install cross-compiler with all related
-packages:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install emdebian-archive-keyring
-</span><span class='line'>sudo apt-get update
-</span><span class='line'>sudo apt-get install gcc-4.7-arm-linux-gnueabi
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>Dependency problems during installation</h5>
-
-<p>If above attempt to install cross-compiler ends with:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>pietrushnic@eglarest:~/src<span class="nv">$ </span>sudo apt-get install gcc-4.7-arm-linux-gnueabi
-</span><span class='line'>Reading package lists... Done
-</span><span class='line'>Building dependency tree
-</span><span class='line'>Reading state information... Done
-</span><span class='line'>Some packages could not be installed. This may mean that you have
-</span><span class='line'>requested an impossible situation or <span class="k">if </span>you are using the unstable
-</span><span class='line'>distribution that some required packages have not yet been created
-</span><span class='line'>or been moved out of Incoming.
-</span><span class='line'>The following information may <span class="nb">help </span>to resolve the situation:
-</span><span class='line'>
-</span><span class='line'>The following packages have unmet dependencies:
-</span><span class='line'> gcc-4.7-arm-linux-gnueabi : Depends: libgomp1-armel-cross <span class="o">(</span>&gt;<span class="o">=</span> 4.7.2-5<span class="o">)</span> but it
-</span><span class='line'> is not going to be installed
-</span><span class='line'> E: Unable to correct problems, you have held broken packages.
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This means that Debian ustable cross-compiler is not available for you
-configuration. You can read more about that
-<a href="http://lists.debian.org/debian-embedded/2011/05/msg00029.html">here</a>.
-To fix that issue simply change emdebian toochain repository to testing in
-<code>/etc/apt/source.list</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>deb http://ftp.uk.debian.org/emdebian/toolchains testing main
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>Emdebian toolchain configuration</h5>
-
-<p>Check where <code>arm-linux-eabi-gcc-4.7</code> was installed:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>whereis arm-linux-gnueabi-gcc-4.7
-</span><span class='line'>arm-linux-gnueabi-gcc-4: /usr/bin/arm-linux-gnueabi-gcc-4.7 /usr/bin/X11/arm-linux-gnueabi-gcc-4.7
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It is not linked to <code>arm-linux-gnueabi-gcc</code>, so we cannot give its prefix as <code>CROSS_COMPILE</code>
-variable value, which is needed for bootloader and kernel compilation. We have to link
-it to <code>arm-linux-gnueabi-gcc</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo ln -s /usr/bin/arm-linux-gnueabi-gcc-4.7 /usr/bin/arm-linux-gnueabi-gcc
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Toolchain is ready to use.</p>
-
-<p><em>Note</em>: I tried <code>CodeSourcery</code> toolchain <code>arm-2012.09-64-arm-none-linux-gnueabi.bin</code>,
-but it contain <code>binutils</code> defect that not allow correctly build kernel. If you see
-something like this in log:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>Error: selected processor does not support ARM mode <span class="sb">`</span>ldralt lr,<span class="o">[</span>r1<span class="o">]</span>,#4<span class="err">&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That means you experience same thing, please use <code>Emdebian</code> or <code>Crosstool-NG</code> toolchain.</p>
-
-<p><em>Note 2</em>: If you&rsquo;re <code>Ubuntu</code> user I have to suggest experiments with toolchain
-build by your own, because I get really hard times trying to go through this
-tutorial with Ubuntu/Linaro cross compiler provided in repository. Finally I
-used <a href="/blog/2013/04/03/yet-another-quick-build-of-arm-unknown-linux-gnueabi">this</a>
-to push things forward. U-boot compiled with Ubuntu/Linaro toolchain had problem
-with <code>__udivsi3</code> instruction. This cause loop in initialization process.</p>
-
-<p><a id="summary"></a></p>
-
-<h3>Summary</h3>
-
-<p>If you take effort of creating toolchain using <code>Crosstool-NG</code> than
-congratulations.  But for simplifying whole <a href="/blog/2013/06/07/intro-to-virtual-development-board-building"><strong>Virtual Development Board</strong></a>
-series I will use <code>Emdebian</code> toolchain in further posts. Of course you can use
-your brand new <code>Crosstool-NG</code> toolchain by simply remember that tools prefixes are
-different. <code>Emdebian</code> uses <code>arm-linux-gnueabi-</code> and <code>Crosstool-NG</code> was created with
-<code>arm-unknown-linux-gnueabi-</code>. Replace one with another every time when needed.
-In <a href="/blog/2013/06/07/embedded-board-bootloader">next post</a> we will deal with
-bootloader.</p>
-
-<p><a id="kudos"></a></p>
-
-<h3>Kudos</h3>
-
-<p>[1] <a href="http://elinux.org/Toolchains">Toolchains</a></p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -521,6 +297,70 @@ to stick link for further reading.</p>
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/16/octopress-depoying-problem-after-migrating-to-star-dot-github-dot-io/">Octopress depoying problem after migrating to *.github.io</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-16T22:20:00+02:00" pubdate data-updated="true">May 16<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>My story was that I migrate to new environment and want to recover my octopress
+setup. I thought that it will be as simple as cloning my blog github repository
+and start to work.</p>
+
+<p>First problem that I experienced was lack of octopress repository as a remote
+branch &ndash; it is required to update your ocotpress blog to latest code. Fix was
+simple:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git remote add octopress git://github.com/imathis/octopress.git</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After updating my blog I tried to deploy new article and I get:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>## Pushing generated _deploy website
+</span><span class='line'>ERROR: Repository not found.
+</span><span class='line'>fatal: The remote end hung up unexpectedly</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I figured out that my github pages were incorrectly set, so I run <code>rake
+setup_github_pages</code>. If you&rsquo;re user of github pages long enough you know that
+few weeks ago github decide to migrate domain from <code>*.github.com</code> to
+<code>*.github.io</code>. So I followed instructions in setup process and used <code>io</code> domain,
+this is incorrect. If you have github repository for your pages with <code>com</code> in
+name you should use your orginal repository address. Repository was not changed.
+This is obvious but I lost few minutes to figure out whats going on.</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -535,8 +375,19 @@ to stick link for further reading.</p>
   
     <section>
   <h1>About Me</h1>
-  <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I&#8217;m a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
+  <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król
+  by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland.
+  I&#8217;m a freedom and liberty enthusiast with broad range of interests begining 
+  with linux, through austrian economics and ending with bridge. If you want to 
+  read more extroverted idle talk about me take a look <a href=/about >here</a>.
   </p>
+  <a href="https://plus.google.com/u/0/115979497998056410813/posts/p/pub"><img src="/assets/images/icons/glyphicons_social_02_google_plus.png" title="G+"></a>
+  <a href="https://twitter.com/pietrushnic"><img src="/assets/images/icons/glyphicons_social_31_twitter.png"  title="Twitter"></a>
+  <a href="http://pietrushnic.blogspot.com/"><img src="/assets/images/icons/glyphicons_social_05_blogger.png"  title="Blogger"></a>
+  <a href="https://github.com/pietrushnic"><img src="/assets/images/icons/glyphicons_social_21_github.png"  title="Github"></a>
+  <a href="http://www.youtube.com/user/pietrushnic"><img src="/assets/images/icons/glyphicons_social_22_youtube.png"  title="Youtube"></a>
+  <a href="http://www.linkedin.com/in/krolpiotr"><img src="/assets/images/icons/glyphicons_social_17_linked_in.png"  title="LinkedIn"></a>
+  <a href="mailto:pietrushnic@gmail.com"><img src="/assets/images/icons/glyphicons_social_39_e-mail.png" title="e-mail"></a>
 </section>
 <section>
   <h1>Recent Posts</h1>
@@ -544,10 +395,6 @@ to stick link for further reading.</p>
     
       <li class="post">
         <a href="/blog/2013/07/30/how-to-use-google-search-activity-to-improve-productivity/">Improve productivity with Goolge history using bookmarks and Chrome extensions</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/14/build-and-run-ovmf-under-qemu/">Build and run OVMF under Qemu</a>
       </li>
     
       <li class="post">
@@ -560,6 +407,10 @@ to stick link for further reading.</p>
     
       <li class="post">
         <a href="/blog/2013/06/07/linux-kernel-for-embedded-system/">0x4: Linux kernel for embedded system</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
       </li>
     
   </ul>
@@ -595,16 +446,62 @@ to stick link for further reading.</p>
 </section>
 
 
+<section class="lastfm">
+<h1>Recently Scrobbled</h1>
+<style type="text/css">
+  #lastfmList li{ text-align: left; }
+</style>
+<ul id="lastfmList">
+  <li class="loading">Updating tracks&#8230;</li>
+</ul>
+<script lang="Javascript">
+    /*
+     * JavaScript Pretty Date
+     * Copyright (c) 2011 John Resig (ejohn.org)
+     * Licensed under the MIT and GPL licenses.
+     */
 
-<section class="googleplus">
-  <h1>
-    <a href="https://plus.google.com/pietrushnic@gmail.com?rel=author">
-      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
-      Google+
-    </a>
-  </h1>
+    // Takes an ISO time and returns a string representing how
+    // long ago the date represents.
+    function prettyDate(time){
+        diff = ((new Date()).getTime()/1000 - time),
+        day_diff = Math.floor(diff / 86400);
+
+      if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
+        return;
+
+/*      return day_diff == 0 && (
+          diff < 60 && "just now" ||
+          diff < 120 && "1 minute" ||
+          diff < 3600 && Math.floor( diff / 60 ) + " minutes" ||
+          diff < 7200 && "1 hour" ||
+          diff < 86400 && Math.floor( diff / 3600 ) + " hours") ||
+        day_diff == 1 && "Yesterday" ||
+        day_diff < 7 && day_diff + " days" ||
+        day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks";
+        */
+      return "just now"
+      }
+</script>
+<script lang="Javascript">
+    function showLastfmFeed(json){
+        if(json.recenttracks == 'undefined'){
+            return
+        }
+
+        var tracklist = document.getElementById('lastfmList'),
+            content = '';
+
+        $.each(json.recenttracks.track, function(i, track){
+            var interval = prettyDate(track.date['uts']);
+            content += '<li id="lastfmItem_'+i+'"><a href="'+ track.url + '">' + track.name +'</a> by '+ track.artist['#text'] + '<span class="date"> ' + interval  + ( interval == 'just now' ? '' :' ago') + '</span></li>';
+        });
+
+        tracklist.innerHTML = content;
+    }
+</script>
+<script lang="Javascript" src="http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=cl4sh&limit=5&api_key=caffa61565e03c9fc347fa409e20778f&format=json&callback=showLastfmFeed"></script>
 </section>
-
 
 
   

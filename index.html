@@ -261,77 +261,6 @@ try.</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/06/14/build-and-run-ovmf-under-qemu/">Build and run OVMF under Qemu</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-14T23:22:00+02:00" pubdate data-updated="true">Jun 14<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>What the OVMF is ?</h3>
-
-<p><strong>OVMF</strong> (<em>Open Virtual Machine Firmware</em>) is a firmware actively developed as a
-<strong>EDK2</strong>(<em>EFI Developer Kit</em>) package. It is a packed that aims to support
-firmware for virtual machines like Qemu.</p>
-
-<h3>Simplified build process</h3>
-
-<p>First of all lets get latest version of the code. For some time <a href="http://sourceforge.net/apps/mediawiki/tianocore/index.php?title=Welcome">EFI and
-Framework Open Source
-Community</a> share edk2 code also on <a href="https://github.com/tianocore/edk2">github</a> mirror.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git clone https://github.com/tianocore/edk2.git</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Building process was simplified by OvmfPkg contributors. But I found that
-toolchain for latest gcc compilers is not ready in main repository. So I suggest
-to remove <code>BaseTools</code> directory and clone up to date git repository in this
-place:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd edk2
-</span><span class='line'>rm -rf BaseTools
-</span><span class='line'>git clone https://github.com/tianocore/buildtools-BaseTools.git BaseTools
-</span><span class='line'>. edksetup.sh</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So to build firmware we need only one command:
-&#8220;`</p>
-
-<p><code>``
-You may need some additional packages like</code>uuid-dev<code>,</code>iasl<code>or</code>g++`.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/blog/2013/06/07/root-file-system-for-embedded-system/">0x6: Root file system for embedded system</a></h1>
     
     
@@ -1022,6 +951,448 @@ please share it, if somethings wrong please comment I will try to help if can.</
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board/">0x5: Qemu network configuration and tftp for Virtual Development Board</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-07T10:36:00+02:00" pubdate data-updated="true">Jun 7<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Table of contents</h2>
+
+<ul>
+<li><a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board/#intro">Introduction</a></li>
+<li><a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board/#setup-tftpd">Setup tftpd</a></li>
+<li><a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board/#qemu-networking">QEMU networking</a></li>
+<li><a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board/#verify-qemu-with-tftp">Verify all components of Virtual Development Platform</a></li>
+<li><a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board/#what-next">What next ?</a></li>
+</ul>
+
+
+<p><a id="intro"></a></p>
+
+<h3>Introduction</h3>
+
+<p>This was not trivial task to me. As usual <code>google is your friend</code> and <code>RTFM</code> works.
+First we will set tftp which we use to download modified kernel for U-Boot.
+Second I will show how to setup bridged network for QEMU needs and finally we
+will perform some basic test of our setup. Let&rsquo;s go.</p>
+
+<p><a id="setup-tftpd"></a></p>
+
+<h3>Setup tftpd</h3>
+
+<p>First install:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install tftpd tftp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Make sure that <code>/srv/tftp</code> is writable for your user. If directory doesn&rsquo;t exist
+create it and give needed privileges. If you want to change some server options
+edit <code>/etc/inetd.conf</code>. Copy or link our kernel to tftp server
+directory.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd</span> /path/to/kernel/arch/arm/boot
+</span><span class='line'>ln -s <span class="nv">$PWD</span>/uImage /srv/tftp/uImage
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Verify if everything works correctly:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd</span>             <span class="c"># go to home or any other directory different than arch/arm/boot</span>
+</span><span class='line'>tftp 127.0.0.1 <span class="c"># connect to localhost tftp server</span>
+</span><span class='line'>get uImage     <span class="c"># get kernel file</span>
+</span><span class='line'>q              <span class="c"># quit tftp</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Check if kernel file is in current directory. If yes than you tftp server is
+configured correctly, if not then google or ask me a question in comments
+section.
+<em>Note</em>: For Ubuntu follow instructions from
+<a href="http://www.davidsudjiman.info/2006/03/27/installing-and-setting-tftpd-in-ubuntu/">here</a>.</p>
+
+<p><a id="qemu-networking"></a></p>
+
+<h3>QEMU networking</h3>
+
+<p><em>Update</em>: For Ubuntu users please read <a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board/#ubuntu-issues">this section</a></p>
+
+<p>I mixed <a href="http://toast.djw.org.uk/qemu.html">this</a> BKM and few other resources
+that I found in the net. Setting up network depend a lot on your configuration.
+I will briefly describe my situation. It is quite possible that this won&rsquo;t fit
+yours.</p>
+
+<p>I&rsquo;ve <code>eth0</code> with ip <code>10.0.2.15</code>. What I want to do is create another interface <code>tap0</code> and
+bridge <code>br0</code> that will connect <code>eth0</code> and <code>tap0</code>. To do this I need few things:</p>
+
+<ul>
+<li><code>brctl</code> is provided in Debian by <code>bridge-utils</code></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install bridge-utils
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>check if TUN module was installed</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>grep <span class="nv">CONFIG_TUN</span><span class="o">=</span> /boot/config-<span class="sb">`</span>uname -r<span class="sb">`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>you should get <code>y</code> or <code>m</code>, if it is <code>m</code> than <code>modprobe tun</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo modprobe tun
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>create tun device</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo mknod /dev/net/tun c 10 200
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>update <code>/etc/network/interfaces</code>:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># This file describes the network interfaces available on your system</span>
+</span><span class='line'><span class="c"># and how to activate them. For more information, see interfaces(5).</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># The loopback network interface</span>
+</span><span class='line'>auto lo
+</span><span class='line'>iface lo inet loopback
+</span><span class='line'>
+</span><span class='line'><span class="c"># add br0 configuration</span>
+</span><span class='line'>auto br0
+</span><span class='line'>iface br0 inet dhcp
+</span><span class='line'>bridge_ports eth0 <span class="c"># do not forget to attach eth0 to br0</span>
+</span><span class='line'>bridge_fd 9
+</span><span class='line'>bridge_hello 2
+</span><span class='line'>bridge_maxage 12
+</span><span class='line'>bridge_stp off
+</span><span class='line'>
+</span><span class='line'><span class="c"># The primary network interface</span>
+</span><span class='line'>allow-hotplug eth0     <span class="c"># comment this</span>
+</span><span class='line'>iface eth0 inet dhcp   <span class="c"># and this</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>use <code>/etc/qemu-ifup</code> script to bring up your network:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Executing /etc/qemu-ifup&quot;</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Bringing up $1 for bridged mode...&quot;</span>
+</span><span class='line'>sudo /sbin/ifconfig <span class="nv">$1</span> 0.0.0.0 promisc up
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Adding $1 to br0...&quot;</span>
+</span><span class='line'>sudo /sbin/brctl addif br0 <span class="nv">$1</span>
+</span><span class='line'>sleep 2
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Give executable permissions for this file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo chmod +x /etc/qemu-ifup
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Restart networking services locally:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo service networking restart
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This should prepare you environment for tftp booting in qemu.</p>
+
+<p><a id="ubuntu-issues"></a></p>
+
+<h4>Ubuntu issues</h4>
+
+<p>I had experienced few problems with my Ubuntu 12.04.</p>
+
+<ul>
+<li><p>First thing was defect that cause looping u-boot during emulation in
+qemu-system-arm. I checked latest qemu and version delivered in distro
+repository but qemu wasn&rsquo;t issue. I tried debug problem with gdb and qemu
+<code>-s -S</code> switches and find out that u-boot crashes at <code>__udivsi3</code> instruction
+in <code>serial_init</code>. I tried to google this issue but found only one comment
+about this on <a href="http://balau82.wordpress.com/2010/04/12/booting-linux-with-u-boot-on-qemu-arm/">Balau blog</a>:
+<blockquote><p>For anyone trying to reproduce this, at least on a recent Ubuntu host, you may need to pass “-cpu all” or “-cpu cortex-a8″ to qemu. The libgcc that gets linked to u-boot appears to be compiled with thumb2 instructions which are not implemented in the Versatile cpu. I don’t get any u-boot console output without this flag, and using gdb I can see that the cpu takes an exception during <code>__udivsi3()</code> called from serial_init().</p><footer><strong>[Grant Likely]</strong></footer></blockquote>
+Problem is at least 2-years old and still occurs. Unfortunately Grant&rsquo;s tricks
+didn&rsquo;t help. I move to toolchain built by my own and problem was fixed. So the
+moral of the story is: DO NOT USE TOOLCHAIN PROVIDED BY UBUNTU at least in
+12.04.</p></li>
+<li><p>Second thing also involve a lot of debugging time and when I found workaround
+it was accidentally. I saw that using procedure correct for Debian on Ubuntu I
+was unable to obtain any packet inside U-Boot. Network traffic analysis show
+that U-Boot correctly send DHCP discovery and server reply with DHCP offer,
+but bootloader behaves like no packet was received.  Static configuration also
+didn&rsquo;t work. Finally I get to information how to capture traffic from inside
+of emulated setup (parameter <code>-net dump,file=/path/to/file.pcap</code> do the
+thing). Surprisingly for some reason adding dump param fix problem and U-Boot
+received DHCP Offer and ACK. I will try to narrow down this problem for
+further reading please take a look <a href="http://lists.nongnu.org/archive/html/qemu-discuss/2013-05/msg00013.html">qemu</a>
+and <a href="">u-boot</a> mailing list thread.</p></li>
+</ul>
+
+
+<p><a id="verify-qemu-with-tftp"></a></p>
+
+<h4>Verify all components of Virtual Development Platform</h4>
+
+<p>So right now we should have built <a href="/blog/2013/06/07/linux-kernel-for-embedded-system">kernel uImage</a>, <a href="/blog/2013/06/07/embedded-board-bootloader">U-Boot image</a>,
+<a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board/#qemu-networking">configured qemu network</a> and <a href="/blog/2013/06/07/qemu-network-configuration-and-tftp-for-virtual-development-board/#setup-tftpd">tftp server</a>. With all this components we can
+verify if our kernel booting on emulated <code>versatilepb</code>.</p>
+
+<p>Run your qemu with network using U-Boot image as a kernel.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo qemu-system-arm -kernel /path/to/u-boot/u-boot -net nic,vlan<span class="o">=</span>0 -net tap,vlan<span class="o">=</span>0,ifname<span class="o">=</span>tap0,script<span class="o">=</span>/etc/qemu-ifup -nographic -M versatilepb
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>NOTE</em>: We want to use u-boot file instead of u-boot.bin. First is ELF binary
+image and second is raw binary. Raw binary image can be used with <code>-bios</code>
+parameter for qemu. If you try to give raw binary as a kernel parameter it will result with error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>qemu: fatal: Trying to execute code outside RAM or ROM at 0x08000000
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>NOTE 2</em>: We have to specify <code>versatilepb</code> machine. If we forget it we will get
+error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>qemu: hardware error: integratorcm_read: Unimplemented offset 0x1e0000
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Right now we have u-boot booted. Let&rsquo;s set ip addresses to boot uImage from our
+tftp server. For verification needs we don&rsquo;t want to <code>autoload</code> downloaded
+image, so we disable this through environment variable.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>setenv autoload no
+</span><span class='line'>dhcp
+</span><span class='line'>setenv serverip 192.168.1.2
+</span><span class='line'>setenv bootfile uImage
+</span><span class='line'>tftpboot
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Set addresses according to your configuration. For some reason I was unable to
+use u-boot <code>dhcp</code> feature. It assign me address that exist in the network.</p>
+
+<p>We can take a close look on out downloaded image with <code>iminfo</code> command.
+<code>tftpboot</code> and <code>iminfo</code> should looks like that:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>VersatilePB <span class="c"># tftpboot</span>
+</span><span class='line'>SMC91111: PHY auto-negotiate timed out
+</span><span class='line'>SMC91111: MAC 52:54:00:12:34:56
+</span><span class='line'>Using SMC91111-0 device
+</span><span class='line'>TFTP from server 10.0.2.15; our IP address is 10.0.2.16
+</span><span class='line'>Filename <span class="s1">&#39;uImage&#39;</span>.
+</span><span class='line'>Load address: 0x7fc0
+</span><span class='line'>Loading: <span class="c">#################################################################</span>
+</span><span class='line'>         <span class="c">#################################################################</span>
+</span><span class='line'>         <span class="c">#################################################################</span>
+</span><span class='line'>         <span class="c">#################################################################</span>
+</span><span class='line'>         <span class="c">#################################################################</span>
+</span><span class='line'>         <span class="c">##############################################</span>
+</span><span class='line'>         0 Bytes/s
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>Bytes <span class="nv">transferred</span> <span class="o">=</span>
+</span><span class='line'>1895064 <span class="o">(</span>1cea98 hex<span class="o">)</span>
+</span><span class='line'>VersatilePB <span class="c"># iminfo</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">## Checking Image at </span>
+</span><span class='line'>00007fc0 ...
+</span><span class='line'>    Legacy image found
+</span><span class='line'>    Image Name:   Linux-3.9.0-rc8
+</span><span class='line'>    Image Type:   ARM Linux Kernel Image <span class="o">(</span>uncompressed<span class="o">)</span>
+</span><span class='line'>    Data Size:    1895000 <span class="nv">Bytes</span> <span class="o">=</span> 1.8 MiB
+</span><span class='line'>    Load Address: 00008000
+</span><span class='line'>    Entry Point:  00008000
+</span><span class='line'>    Verifying Checksum ... OK
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So, that what we want to see. Pretty new kernel <code>3.9.0-rc8</code> compiled as ARM
+image. We can try to boot it but we will end with kernel panic because lack of
+filesystem.</p>
+
+<p><em>NOTE 3</em>: If you want to see anything after booting this image with <code>bootm</code> you
+have to pass to kernel additional boot argument with serial device that should
+be used as a console. Before <code>bootm</code> set:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>setenv bootargs <span class="nv">console</span><span class="o">=</span>ttyAMA0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You should get something similar to below log:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">(</span>...<span class="o">)</span>
+</span><span class='line'>eth0: SMC91C11xFD <span class="o">(</span>rev 1<span class="o">)</span> at c89c8000 IRQ 57 <span class="o">[</span>nowait<span class="o">]</span>
+</span><span class='line'>eth0: Ethernet addr: 52:54:00:12:34:56
+</span><span class='line'>mousedev: PS/2 mouse device common <span class="k">for </span>all mice
+</span><span class='line'>TCP: cubic registered
+</span><span class='line'>NET: Registered protocol family 17
+</span><span class='line'>VFP support v0.3: implementor 41 architecture 1 part 10 variant 9 rev 0
+</span><span class='line'>VFS: Cannot open root device <span class="s2">&quot;(null)&quot;</span> or unknown-block<span class="o">(</span>0,0<span class="o">)</span>: error -6
+</span><span class='line'>Please append a correct <span class="s2">&quot;root=&quot;</span> boot option; here are the available partitions:
+</span><span class='line'>1f00           65536 mtdblock0  <span class="o">(</span>driver?<span class="o">)</span>
+</span><span class='line'>Kernel panic - not syncing: VFS: Unable to mount root fs on unknown-block<span class="o">(</span>0,0<span class="o">)</span>
+</span><span class='line'><span class="o">[</span>&lt;c0018afc&gt;<span class="o">]</span> <span class="o">(</span>unwind_backtrace+0x0/0xf0<span class="o">)</span> from <span class="o">[</span>&lt;c027af8c&gt;<span class="o">]</span> <span class="o">(</span>panic+0x80/0x1d0<span class="o">)</span>
+</span><span class='line'><span class="o">[</span>&lt;c027af8c&gt;<span class="o">]</span> <span class="o">(</span>panic+0x80/0x1d0<span class="o">)</span> from <span class="o">[</span>&lt;c0343c64&gt;<span class="o">]</span> <span class="o">(</span>mount_block_root+0x1a0/0x258<span class="o">)</span>
+</span><span class='line'><span class="o">[</span>&lt;c0343c64&gt;<span class="o">]</span> <span class="o">(</span>mount_block_root+0x1a0/0x258<span class="o">)</span> from <span class="o">[</span>&lt;c0343f08&gt;<span class="o">]</span> <span class="o">(</span>mount_root+0xf0/0x118<span class="o">)</span>
+</span><span class='line'><span class="o">[</span>&lt;c0343f08&gt;<span class="o">]</span> <span class="o">(</span>mount_root+0xf0/0x118<span class="o">)</span> from <span class="o">[</span>&lt;c0344090&gt;<span class="o">]</span> <span class="o">(</span>prepare_namespace+0x160/0x1b4<span class="o">)</span>
+</span><span class='line'><span class="o">[</span>&lt;c0344090&gt;<span class="o">]</span> <span class="o">(</span>prepare_namespace+0x160/0x1b4<span class="o">)</span> from <span class="o">[</span>&lt;c03438ec&gt;<span class="o">]</span> <span class="o">(</span>kernel_init_freeable+0x168/0x1ac<span class="o">)</span>
+</span><span class='line'><span class="o">[</span>&lt;c03438ec&gt;<span class="o">]</span> <span class="o">(</span>kernel_init_freeable+0x168/0x1ac<span class="o">)</span> from <span class="o">[</span>&lt;c027a074&gt;<span class="o">]</span> <span class="o">(</span>kernel_init+0x8/0xe4<span class="o">)</span>
+</span><span class='line'><span class="o">[</span>&lt;c027a074&gt;<span class="o">]</span> <span class="o">(</span>kernel_init+0x8/0xe4<span class="o">)</span> from <span class="o">[</span>&lt;c0013df0&gt;<span class="o">]</span> <span class="o">(</span>ret_from_fork+0x14/0x24<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is expected result.</p>
+
+<p><a id="what-next"></a></p>
+
+<h3>What next ?</h3>
+
+<p>We happily built basic virtual development, what we need right now is some
+<a href="/blog/2013/06/07/root-file-system-for-embedded-system">initial filesystem</a>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1034,8 +1405,19 @@ please share it, if somethings wrong please comment I will try to help if can.</
   
     <section>
   <h1>About Me</h1>
-  <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland. I&#8217;m a freedom and liberty enthusiast with broad range of interests begining with linux, through austrian economics and ending with bridge. If you want to read more extroverted idle talk about me take a look <a href=/about >here</a>.
+  <p><img class="left" src="/assets/images/profile_photo.png" width="100" height="50">My name is Piotr Król
+  by some known as pietrushnic. I live in Gdansk, Pomeranian District of Poland.
+  I&#8217;m a freedom and liberty enthusiast with broad range of interests begining 
+  with linux, through austrian economics and ending with bridge. If you want to 
+  read more extroverted idle talk about me take a look <a href=/about >here</a>.
   </p>
+  <a href="https://plus.google.com/u/0/115979497998056410813/posts/p/pub"><img src="/assets/images/icons/glyphicons_social_02_google_plus.png" title="G+"></a>
+  <a href="https://twitter.com/pietrushnic"><img src="/assets/images/icons/glyphicons_social_31_twitter.png"  title="Twitter"></a>
+  <a href="http://pietrushnic.blogspot.com/"><img src="/assets/images/icons/glyphicons_social_05_blogger.png"  title="Blogger"></a>
+  <a href="https://github.com/pietrushnic"><img src="/assets/images/icons/glyphicons_social_21_github.png"  title="Github"></a>
+  <a href="http://www.youtube.com/user/pietrushnic"><img src="/assets/images/icons/glyphicons_social_22_youtube.png"  title="Youtube"></a>
+  <a href="http://www.linkedin.com/in/krolpiotr"><img src="/assets/images/icons/glyphicons_social_17_linked_in.png"  title="LinkedIn"></a>
+  <a href="mailto:pietrushnic@gmail.com"><img src="/assets/images/icons/glyphicons_social_39_e-mail.png" title="e-mail"></a>
 </section>
 <section>
   <h1>Recent Posts</h1>
@@ -1043,10 +1425,6 @@ please share it, if somethings wrong please comment I will try to help if can.</
     
       <li class="post">
         <a href="/blog/2013/07/30/how-to-use-google-search-activity-to-improve-productivity/">Improve productivity with Goolge history using bookmarks and Chrome extensions</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/14/build-and-run-ovmf-under-qemu/">Build and run OVMF under Qemu</a>
       </li>
     
       <li class="post">
@@ -1059,6 +1437,10 @@ please share it, if somethings wrong please comment I will try to help if can.</
     
       <li class="post">
         <a href="/blog/2013/06/07/linux-kernel-for-embedded-system/">0x4: Linux kernel for embedded system</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/07/embedded-board-bootloader/">0x3: Embedded board bootloader</a>
       </li>
     
   </ul>
@@ -1094,16 +1476,62 @@ please share it, if somethings wrong please comment I will try to help if can.</
 </section>
 
 
+<section class="lastfm">
+<h1>Recently Scrobbled</h1>
+<style type="text/css">
+  #lastfmList li{ text-align: left; }
+</style>
+<ul id="lastfmList">
+  <li class="loading">Updating tracks&#8230;</li>
+</ul>
+<script lang="Javascript">
+    /*
+     * JavaScript Pretty Date
+     * Copyright (c) 2011 John Resig (ejohn.org)
+     * Licensed under the MIT and GPL licenses.
+     */
 
-<section class="googleplus">
-  <h1>
-    <a href="https://plus.google.com/pietrushnic@gmail.com?rel=author">
-      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
-      Google+
-    </a>
-  </h1>
+    // Takes an ISO time and returns a string representing how
+    // long ago the date represents.
+    function prettyDate(time){
+        diff = ((new Date()).getTime()/1000 - time),
+        day_diff = Math.floor(diff / 86400);
+
+      if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
+        return;
+
+/*      return day_diff == 0 && (
+          diff < 60 && "just now" ||
+          diff < 120 && "1 minute" ||
+          diff < 3600 && Math.floor( diff / 60 ) + " minutes" ||
+          diff < 7200 && "1 hour" ||
+          diff < 86400 && Math.floor( diff / 3600 ) + " hours") ||
+        day_diff == 1 && "Yesterday" ||
+        day_diff < 7 && day_diff + " days" ||
+        day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks";
+        */
+      return "just now"
+      }
+</script>
+<script lang="Javascript">
+    function showLastfmFeed(json){
+        if(json.recenttracks == 'undefined'){
+            return
+        }
+
+        var tracklist = document.getElementById('lastfmList'),
+            content = '';
+
+        $.each(json.recenttracks.track, function(i, track){
+            var interval = prettyDate(track.date['uts']);
+            content += '<li id="lastfmItem_'+i+'"><a href="'+ track.url + '">' + track.name +'</a> by '+ track.artist['#text'] + '<span class="date"> ' + interval  + ( interval == 'just now' ? '' :' ago') + '</span></li>';
+        });
+
+        tracklist.innerHTML = content;
+    }
+</script>
+<script lang="Javascript" src="http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=cl4sh&limit=5&api_key=caffa61565e03c9fc347fa409e20778f&format=json&callback=showLastfmFeed"></script>
 </section>
-
 
 
   
