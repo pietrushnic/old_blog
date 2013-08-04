@@ -903,7 +903,7 @@ valuable. Comment if you think id needs improvements. Thank you for reading.</p>
       if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
         return;
 
-/*      return day_diff == 0 && (
+      return day_diff == 0 && (
           diff < 60 && "just now" ||
           diff < 120 && "1 minute" ||
           diff < 3600 && Math.floor( diff / 60 ) + " minutes" ||
@@ -912,9 +912,7 @@ valuable. Comment if you think id needs improvements. Thank you for reading.</p>
         day_diff == 1 && "Yesterday" ||
         day_diff < 7 && day_diff + " days" ||
         day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks";
-        */
-      return "just now"
-      }
+    }
 </script>
 <script lang="Javascript">
     function showLastfmFeed(json){
