@@ -37,6 +37,10 @@ body > header h1 {
     padding-left:3em;
 }
 
+.basic-alignment {
+  &.center { display:block; margin: 1em auto 1.5em; }
+}
+
 article {
   ol, ul {
     padding-left: 3em;
