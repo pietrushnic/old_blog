@@ -7,15 +7,15 @@ sharing: true
 footer: true
 ---
 
-{% img left /assets/images/profile_photo.png 190 400 %}
+{% img left /assets/images/photo.jpg 210 210 %}
 #### Who am I ? ####
 
 I will answer like _well trained_ corporate worker: `Very good question!`
 In this situation it means _hard question_.
 
 I'm probably another linux enthusiast with extrovert tendencies who decide to
-create own blog.
-
+create own blog. My name is Piotr Król  by some known as pietrushnic. I live in
+Gdansk, Pomeranian District of Poland.
 </br>
 #### Where you can find me ? ####
 
