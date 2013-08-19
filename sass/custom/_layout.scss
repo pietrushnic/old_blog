@@ -22,24 +22,30 @@ $header-font-family: "Courier", monospace;
 //$sidebar-width-wide: 300px;
 
 body > header[role="banner"] {
-    background-image: url(/images/header_bg2_1200x168.png);
-    background-repeat: no-repeat;
+  background-image: url(/images/header_bg2_1200x168.png);
+  background-repeat: no-repeat;
 }
 
 body > header h2 {
-    position:relative;
-    padding-left:6.6em;
+  position:relative;
+  padding-left:6.6em;
 }
 
 body > header h1 {
-    font-weight:bold;
-    position:relative;
-    padding-left:3em;
+  font-weight:bold;
+  position:relative;
+  padding-left:3em;
 }
 
 .basic-alignment {
   &.center { display:block; margin: 1em auto 1.5em; }
 }
+
+article header p.meta {
+  position:relative;
+  padding-top: 1em;
+}
+
 
 article {
   ol, ul {
@@ -51,5 +57,30 @@ article {
   p > a > img {
     border: 0em;
   }
-}
+  img.center {
+    margin: 0em 0em 0em;
+    border-radius: 0;
+    box-shadow: none;
+    display: inline-block;
+    border: none;
+  }
+  span.word-count {
+    padding-left: 5em;
+    padding-right: 5em;
+  }
 
+  header p.meta {
+    a {
+      display: inline-block;
+      text-transform: none;
+    }
+    img.comment-icon {
+      margin: 0em 0em 0em;
+      border-radius: 0;
+      box-shadow: none;
+      display: inline-block;
+      border: none;
+      margin-left: 5em;
+    }
+  }
+}
